@@ -233,9 +233,10 @@
     { title: 'Bracelets', cat: 'Collections', url: 'collections.html#bracelets' },
     { title: 'Bridal Jewellery', cat: 'Collections', url: 'collections.html#bridal' },
     { title: 'New Arrivals', cat: 'Discover', url: 'index.html#new-arrivals' },
-    { title: 'The Alif Pendant', cat: 'Signature', url: 'product.html' },
+    { title: 'Signature Piece', cat: 'Signature', url: 'product.html' },
     { title: 'The Art of Craftsmanship', cat: 'Atelier', url: 'about.html#craftsmanship' },
     { title: 'Our Story', cat: 'Atelier', url: 'about.html' },
+    { title: 'The Journal', cat: 'Stories', url: 'journal.html' },
     { title: 'Visit the Boutique', cat: 'Contact', url: 'contact.html' }
   ];
 
