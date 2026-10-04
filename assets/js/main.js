@@ -47,6 +47,7 @@
   if (preloader) {
     var seen = false;
     try { seen = sessionStorage.getItem('alm-seen') === '1'; } catch (e) {}
+    body.classList.add('is-locked');
     var countEl = $('.preloader__count');
     var barEl = $('.preloader__bar i');
     if (seen || reduceMotion) {
