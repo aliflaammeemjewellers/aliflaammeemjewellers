@@ -3,246 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Alif Laam Meem Jewellers - Exquisite Gold, Diamond & Platinum Jewelry">
-    <title>Alif Laam Meem Jewellers | Fine Jewelry Collection</title>
+    <meta name="description" content="Alif Laam Meem Jewellers — fine gold, diamond and platinum jewellery. BIS hallmarked, certified diamonds, bespoke bridal commissions and lifetime exchange.">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Alif Laam Meem Jewellers | Fine Jewellery Collection</title>
+
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Alif Laam Meem Jewellers | Fine Jewellery Collection">
+    <meta property="og:description" content="Exquisite gold, diamond and platinum jewellery — BIS hallmarked, certified and shaped by hand in our own atelier.">
+    <meta property="og:image" content="assets/hero-jewelry.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="assets/hero-jewelry.jpg">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+    <a class="skip-link" href="#collections">Skip to collections</a>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+    <!-- ============================================================ Nav === -->
+    <nav class="navbar" id="navbar" aria-label="Primary">
         <div class="container nav-container">
-            <a href="#" class="logo" aria-label="Alif Laam Meem Jewellers Home">
+            <a href="#home" class="logo" aria-label="Alif Laam Meem Jewellers — home">
                 <span class="logo-icon" aria-hidden="true">✦</span>
                 <span class="logo-text">Alif Laam Meem</span>
                 <span class="logo-sub">Jewellers</span>
             </a>
-            
+
             <div class="nav-links" id="navLinks">
                 <a href="#home" class="nav-link">Home</a>
                 <a href="#about" class="nav-link">About</a>
                 <a href="#collections" class="nav-link">Collections</a>
+                <a href="#process" class="nav-link">Atelier</a>
                 <a href="#appointment" class="nav-link btn-book">Book Appointment</a>
             </div>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu" aria-expanded="false">
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-controls="navLinks" aria-expanded="false">
                 <span class="hamburger"></span>
             </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- =========================================================== Hero === -->
     <section class="hero" id="home" aria-labelledby="hero-title">
         <div class="hero-bg" aria-hidden="true"></div>
+
         <div class="container hero-content">
             <div class="hero-text">
-                <span class="hero-badge" aria-hidden="true">Since 19XX</span>
+                <span class="hero-badge">Est. 1999 · BIS Certified</span>
                 <h1 id="hero-title">Timeless Elegance,<br>Crafted for You</h1>
-                <p class="hero-description">Discover exquisite gold, diamond, and platinum jewelry designed to celebrate life's most precious moments. Each piece tells a story of craftsmanship and heritage.</p>
+                <p class="hero-description">Exquisite gold, diamond and platinum jewellery, designed to mark life's most precious moments. Every piece is hallmarked, certified and shaped by hand in our own atelier.</p>
+
                 <div class="hero-actions">
                     <a href="#collections" class="btn btn-primary">Explore Collections</a>
                     <a href="#appointment" class="btn btn-secondary">Book Consultation</a>
                 </div>
-                <div class="hero-trust">
-                    <div class="trust-item">
-                        <span class="trust-icon" aria-hidden="true">🔸</span>
+
+                <div class="hero-trust" role="list">
+                    <div class="trust-item" role="listitem">
+                        <span class="trust-icon" data-icon="shield" aria-hidden="true"></span>
                         <span>BIS Hallmarked</span>
                     </div>
-                    <div class="trust-item">
-                        <span class="trust-icon" aria-hidden="true">💎</span>
+                    <div class="trust-item" role="listitem">
+                        <span class="trust-icon" data-icon="diamond" aria-hidden="true"></span>
                         <span>Certified Diamonds</span>
                     </div>
-                    <div class="trust-item">
-                        <span class="trust-icon" aria-hidden="true">🔄</span>
+                    <div class="trust-item" role="listitem">
+                        <span class="trust-icon" data-icon="exchange" aria-hidden="true"></span>
                         <span>Lifetime Exchange</span>
                     </div>
-                    <div class="trust-item">
-                        <span class="trust-icon" aria-hidden="true">🚚</span>
-                        <span>Free Shipping</span>
+                    <div class="trust-item" role="listitem">
+                        <span class="trust-icon" data-icon="truck" aria-hidden="true"></span>
+                        <span>Insured Shipping</span>
                     </div>
                 </div>
             </div>
-            <div class="hero-image" aria-hidden="true">
+
+            <div class="hero-image">
                 <div class="hero-image-inner">
-                    <div class="floating-card card-1">
-                        <span class="card-icon">💍</span>
-                        <span>Engagement Rings</span>
-                    </div>
-                    <div class="floating-card card-2">
-                        <span class="card-icon">📿</span>
-                        <span>Necklace Sets</span>
-                    </div>
-                    <div class="floating-card card-3">
-                        <span class="card-icon">💎</span>
-                        <span>Diamond Jewelry</span>
-                    </div>
-                    <div class="floating-card card-4">
-                        <span class="card-icon">✨</span>
-                        <span>Custom Design</span>
-                    </div>
+                    <img src="assets/hero-jewelry.jpg" alt="A diamond solitaire ring resting on dark silk, photographed in monochrome" width="768" height="1376" fetchpriority="high" decoding="async">
                 </div>
+                <div class="floating-card card-1"><span class="card-icon" data-icon="ring" aria-hidden="true"></span><span>Engagement Rings</span></div>
+                <div class="floating-card card-2"><span class="card-icon" data-icon="necklace" aria-hidden="true"></span><span>Necklace Sets</span></div>
+                <div class="floating-card card-3"><span class="card-icon" data-icon="diamond" aria-hidden="true"></span><span>Certified Solitaires</span></div>
+                <div class="floating-card card-4"><span class="card-icon" data-icon="sparkle" aria-hidden="true"></span><span>Bespoke Design</span></div>
             </div>
         </div>
+
         <div class="scroll-indicator" aria-hidden="true">
             <span class="scroll-mouse"></span>
             <span class="scroll-text">Scroll to Explore</span>
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- ========================================================= Ticker === -->
+    <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+            <span>BIS Hallmarked 916 &amp; 750</span>
+            <span>GIA &amp; IGI Certified Stones</span>
+            <span>Transparent Daily Gold Rate</span>
+            <span>Lifetime Exchange &amp; Buyback</span>
+            <span>In-House Atelier</span>
+            <span>BIS Hallmarked 916 &amp; 750</span>
+            <span>GIA &amp; IGI Certified Stones</span>
+            <span>Transparent Daily Gold Rate</span>
+            <span>Lifetime Exchange &amp; Buyback</span>
+            <span>In-House Atelier</span>
+        </div>
+    </div>
+
+    <!-- ========================================================== About === -->
     <section class="about" id="about" aria-labelledby="about-title">
         <div class="container">
             <div class="section-header" data-aos="fade-up">
                 <span class="section-tag">Our Story</span>
-                <h2 id="about-title">A Legacy of<br>Trust & Craftsmanship</h2>
+                <h2 id="about-title">A Legacy of<br>Trust &amp; Craftsmanship</h2>
             </div>
-            
+
             <div class="about-content">
                 <div class="about-image" data-aos="fade-right">
                     <div class="about-img-wrapper">
-                        <div class="about-img-placeholder" aria-hidden="true">
-                            <span class="placeholder-icon">🏪</span>
-                            <span>Our Showroom</span>
+                        <div class="about-media about-media--main">
+                            <img src="assets/showroom.jpg" alt="Interior of the Alif Laam Meem showroom with lit glass display cases" width="1408" height="768" loading="lazy" decoding="async">
                         </div>
-                        <div class="experience-badge" aria-label="Decades of experience">
+                        <div class="about-media about-media--inset">
+                            <img src="assets/craft.jpg" alt="A jeweller setting a stone into a ring at the workbench" width="1408" height="768" loading="lazy" decoding="async">
+                        </div>
+                        <div class="experience-badge" aria-label="Twenty five years of excellence">
                             <span class="exp-number">25+</span>
                             <span class="exp-text">Years of<br>Excellence</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="about-text" data-aos="fade-left">
-                    <p class="lead">Founded with a vision to bring exceptional jewelry to discerning clients, Alif Laam Meem Jewellers has been a trusted name in fine jewelry for over two decades.</p>
-                    <p>Our master craftsmen combine traditional techniques with contemporary designs, creating pieces that transcend trends. Every jewel undergoes rigorous quality checks, ensuring only the finest reaches your hands.</p>
-                    
+                    <p class="lead">Founded with a single showcase and a bench of two goldsmiths, Alif Laam Meem Jewellers has grown into a trusted name in fine jewellery across South India.</p>
+                    <p>Our master craftsmen combine traditional goldsmithing with contemporary design, creating pieces that outlast trends. Every jewel is weighed, graded and hallmarked in front of you — no claims, no guesswork, only what you can verify.</p>
+
                     <div class="about-values">
                         <div class="value-item">
-                            <div class="value-icon" aria-hidden="true">⚖️</div>
+                            <div class="value-icon" data-icon="scale" aria-hidden="true"></div>
                             <h3>Ethical Sourcing</h3>
-                            <p>Conflict-free diamonds and responsibly sourced precious metals</p>
+                            <p>Conflict-free stones and responsibly sourced precious metals, documented at purchase.</p>
                         </div>
                         <div class="value-item">
-                            <div class="value-icon" aria-hidden="true">🔨</div>
+                            <div class="value-icon" data-icon="hammer" aria-hidden="true"></div>
                             <h3>Master Craftsmanship</h3>
-                            <p>Handcrafted by artisans with generations of expertise</p>
+                            <p>Cast, set and polished in our own atelier by artisans with generations of expertise.</p>
                         </div>
                         <div class="value-item">
-                            <div class="value-icon" aria-hidden="true">🤝</div>
+                            <div class="value-icon" data-icon="heart" aria-hidden="true"></div>
                             <h3>Customer First</h3>
-                            <p>Personalized service and lifetime after-sales support</p>
+                            <p>Personal advisors, lifetime servicing and exchange terms stated in writing.</p>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats" role="list">
+                <div class="stat" role="listitem" data-aos="fade-up">
+                    <span class="stat-number"><span data-count="25" data-suffix="+">25+</span></span>
+                    <span class="stat-label">Years of Excellence</span>
+                </div>
+                <div class="stat" role="listitem" data-aos="fade-up">
+                    <span class="stat-number"><span data-count="12000" data-suffix="+">12,000+</span></span>
+                    <span class="stat-label">Families Served</span>
+                </div>
+                <div class="stat" role="listitem" data-aos="fade-up">
+                    <span class="stat-number"><span data-count="40" data-suffix="+">40+</span></span>
+                    <span class="stat-label">Master Artisans</span>
+                </div>
+                <div class="stat" role="listitem" data-aos="fade-up">
+                    <span class="stat-number"><span data-count="100" data-suffix="%">100%</span></span>
+                    <span class="stat-label">Hallmarked &amp; Certified</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Collections Section -->
+    <!-- ==================================================== Collections === -->
     <section class="collections" id="collections" aria-labelledby="collections-title">
         <div class="container">
             <div class="section-header" data-aos="fade-up">
                 <span class="section-tag">Our Collections</span>
                 <h2 id="collections-title">Discover Your Perfect Piece</h2>
             </div>
-            
-            <!-- Filter Tabs -->
+
             <div class="filter-tabs" role="tablist" aria-label="Filter collections by category">
-                <button class="filter-tab active" role="tab" aria-selected="true" data-filter="all">All</button>
+                <button class="filter-tab active" role="tab" aria-selected="true" data-filter="all">All Pieces</button>
                 <button class="filter-tab" role="tab" aria-selected="false" data-filter="type">By Type</button>
                 <button class="filter-tab" role="tab" aria-selected="false" data-filter="metal">By Metal</button>
                 <button class="filter-tab" role="tab" aria-selected="false" data-filter="occasion">By Occasion</button>
             </div>
-            
-            <!-- Sub-filters (hidden by default) -->
-            <div class="sub-filters" id="subFilters" aria-live="polite"></div>
-            
-            <!-- Products Grid -->
-            <div class="products-grid" id="productsGrid" role="list" aria-label="Jewelry products">
-                <!-- Products will be rendered by JavaScript -->
+
+            <div class="sub-filters" id="subFilters" aria-label="Refine selection"></div>
+
+            <p class="grid-count" aria-live="polite">Showing <strong id="productCount">8</strong> curated pieces</p>
+
+            <div class="products-grid" id="productsGrid" role="list" aria-label="Jewellery pieces">
+                <!-- rendered by script.js -->
             </div>
-            
+
             <div class="view-more" data-aos="fade-up">
                 <a href="#appointment" class="btn btn-outline">Schedule a Private Viewing</a>
             </div>
         </div>
     </section>
 
-    <!-- Appointment Booking Section -->
+    <!-- ======================================================== Process === -->
+    <section class="process" id="process" aria-labelledby="process-title">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">The Atelier</span>
+                <h2 id="process-title">From Sketch to Hallmark</h2>
+            </div>
+
+            <div class="process-grid">
+                <article class="step" data-aos="fade-up">
+                    <span class="step-num">01</span>
+                    <h3>Consultation</h3>
+                    <p>Share the occasion, budget and references. We advise on metal, stone grade and what will wear well over time.</p>
+                </article>
+                <article class="step" data-aos="fade-up">
+                    <span class="step-num">02</span>
+                    <h3>Design &amp; Selection</h3>
+                    <p>Choose from the vault or commission a sketch. Stones are shown loose under loupe before anything is set.</p>
+                </article>
+                <article class="step" data-aos="fade-up">
+                    <span class="step-num">03</span>
+                    <h3>Handcrafting</h3>
+                    <p>Cast, set and polished at our bench — typically three to five weeks, with progress photographs along the way.</p>
+                </article>
+                <article class="step" data-aos="fade-up">
+                    <span class="step-num">04</span>
+                    <h3>Certify &amp; Deliver</h3>
+                    <p>BIS hallmarking, independent diamond certification, insured delivery and lifetime servicing in writing.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================================================== Appointment === -->
     <section class="appointment" id="appointment" aria-labelledby="appointment-title">
         <div class="container">
             <div class="appointment-wrapper">
                 <div class="appointment-info" data-aos="fade-right">
                     <span class="section-tag">Book a Visit</span>
                     <h2 id="appointment-title">Personal Consultation</h2>
-                    <p>Experience our collection in person with a dedicated jewelry consultant. Whether you're selecting an engagement ring, designing a custom piece, or exploring investment jewelry, we'll guide you every step of the way.</p>
-                    
+                    <p>Experience the collection in person with a dedicated jewellery consultant. Whether you are choosing an engagement ring, commissioning a custom piece or reviewing investment gold, we will guide you at your pace.</p>
+
                     <div class="appointment-benefits">
-                        <div class="benefit">
-                            <span class="benefit-icon" aria-hidden="true">✓</span>
-                            <span>Private viewing room</span>
-                        </div>
-                        <div class="benefit">
-                            <span class="benefit-icon" aria-hidden="true">✓</span>
-                            <span>Expert guidance</span>
-                        </div>
-                        <div class="benefit">
-                            <span class="benefit-icon" aria-hidden="true">✓</span>
-                            <span>No obligation</span>
-                        </div>
-                        <div class="benefit">
-                            <span class="benefit-icon" aria-hidden="true">✓</span>
-                            <span>Complimentary refreshments</span>
-                        </div>
+                        <div class="benefit"><span class="benefit-icon" data-icon="check" aria-hidden="true"></span><span>Private viewing room</span></div>
+                        <div class="benefit"><span class="benefit-icon" data-icon="check" aria-hidden="true"></span><span>Expert guidance</span></div>
+                        <div class="benefit"><span class="benefit-icon" data-icon="check" aria-hidden="true"></span><span>No obligation</span></div>
+                        <div class="benefit"><span class="benefit-icon" data-icon="check" aria-hidden="true"></span><span>Complimentary refreshments</span></div>
                     </div>
-                    
+
                     <div class="contact-quick">
                         <h3>Prefer to connect directly?</h3>
                         <div class="quick-contacts">
-                            <a href="https://wa.me/91XXXXXXXXXX" class="quick-contact whatsapp" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-                                <span class="contact-icon" aria-hidden="true">💬</span>
+                            <a href="https://wa.me/91XXXXXXXXXX" class="quick-contact whatsapp" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+                                <span class="contact-icon" data-icon="chat" aria-hidden="true"></span>
                                 <div>
                                     <span class="contact-label">WhatsApp</span>
-                                    <span class="contact-value">+91 XXXXXXXXXX</span>
+                                    <span class="contact-value">+91 XXXXX XXXXX</span>
                                 </div>
                             </a>
                             <a href="tel:+91XXXXXXXXXX" class="quick-contact phone" aria-label="Call us">
-                                <span class="contact-icon" aria-hidden="true">📞</span>
+                                <span class="contact-icon" data-icon="phone" aria-hidden="true"></span>
                                 <div>
                                     <span class="contact-label">Call Us</span>
-                                    <span class="contact-value">+91 XXXXXXXXXX</span>
+                                    <span class="contact-value">+91 XXXXX XXXXX</span>
                                 </div>
                             </a>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="appointment-form-wrapper" data-aos="fade-left">
-                    <form class="appointment-form" id="appointmentForm" action="https://wa.me/91XXXXXXXXXX" method="GET" target="_blank">
+                    <form class="appointment-form" id="appointmentForm" novalidate>
                         <input type="hidden" name="text" id="whatsappMessage" value="">
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="name">Full Name *</label>
-                                <input type="text" id="name" name="name" required placeholder="Enter your name">
+                                <input type="text" id="name" name="name" required placeholder="Enter your name" autocomplete="name">
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone Number *</label>
-                                <input type="tel" id="phone" name="phone" required placeholder="+91 XXXXX XXXXX">
+                                <input type="tel" id="phone" name="phone" required placeholder="+91 XXXXX XXXXX" autocomplete="tel">
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="email">Email Address</label>
-                                <input type="email" id="email" name="email" placeholder="your@email.com">
+                                <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email">
                             </div>
                             <div class="form-group">
                                 <label for="purpose">Purpose of Visit *</label>
                                 <select id="purpose" name="purpose" required>
                                     <option value="">Select purpose</option>
-                                    <option value="engagement">Engagement / Wedding Jewelry</option>
+                                    <option value="engagement">Engagement / Wedding Jewellery</option>
                                     <option value="custom">Custom Design Consultation</option>
                                     <option value="investment">Gold / Diamond Investment</option>
                                     <option value="gifting">Gift Selection</option>
@@ -252,7 +318,7 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="date">Preferred Date *</label>
@@ -273,95 +339,97 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="message">Special Requirements / Message</label>
-                            <textarea id="message" name="message" rows="4" placeholder="Any specific designs, budget range, or requirements..."></textarea>
+                            <textarea id="message" name="message" rows="4" placeholder="Any specific designs, budget range or requirements..."></textarea>
                         </div>
-                        
+
                         <button type="submit" class="btn btn-primary btn-full" id="submitBooking">
                             <span class="btn-text">Book via WhatsApp</span>
-                            <span class="btn-icon" aria-hidden="true">💬</span>
+                            <span class="btn-icon" data-icon="chat" aria-hidden="true"></span>
                         </button>
-                        
-                        <p class="form-note">We'll confirm your appointment within 2 hours via WhatsApp or call.</p>
+
+                        <p class="form-note">We confirm every appointment within 2 hours via WhatsApp or phone.</p>
+                        <p class="form-success" id="formSuccess" role="status"></p>
                     </form>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials Section -->
+    <!-- =================================================== Testimonials === -->
     <section class="testimonials" aria-labelledby="testimonials-title">
         <div class="container">
             <div class="section-header" data-aos="fade-up">
                 <span class="section-tag">Client Stories</span>
                 <h2 id="testimonials-title">Trusted by Generations</h2>
             </div>
-            
+
             <div class="testimonials-grid" id="testimonialsGrid">
-                <!-- Testimonials will be rendered by JavaScript -->
+                <!-- rendered by script.js -->
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ========================================================= Footer === -->
     <footer class="footer" role="contentinfo">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="logo footer-logo" aria-label="Alif Laam Meem Jewellers Home">
+                    <a href="#home" class="logo footer-logo" aria-label="Alif Laam Meem Jewellers — home">
                         <span class="logo-icon" aria-hidden="true">✦</span>
                         <span class="logo-text">Alif Laam Meem</span>
                         <span class="logo-sub">Jewellers</span>
                     </a>
-                    <p class="footer-tagline">Crafting timeless elegance since 19XX. Where tradition meets contemporary design.</p>
+                    <p class="footer-tagline">Crafting timeless elegance since 1999. Where heritage goldsmithing meets contemporary design.</p>
                     <div class="social-links" aria-label="Social media">
-                        <a href="#" class="social-link" aria-label="Instagram" target="_blank" rel="noopener">📷</a>
-                        <a href="#" class="social-link" aria-label="Facebook" target="_blank" rel="noopener">📘</a>
-                        <a href="#" class="social-link" aria-label="WhatsApp" target="_blank" rel="noopener">💬</a>
-                        <a href="#" class="social-link" aria-label="YouTube" target="_blank" rel="noopener">▶️</a>
+                        <a href="#" class="social-link" data-icon="instagram" aria-label="Instagram" target="_blank" rel="noopener"></a>
+                        <a href="#" class="social-link" data-icon="facebook" aria-label="Facebook" target="_blank" rel="noopener"></a>
+                        <a href="#" class="social-link" data-icon="chat" aria-label="WhatsApp" target="_blank" rel="noopener"></a>
+                        <a href="#" class="social-link" data-icon="youtube" aria-label="YouTube" target="_blank" rel="noopener"></a>
                     </div>
                 </div>
-                
+
                 <div class="footer-links">
-                    <h4>Quick Links</h4>
+                    <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#home">Home</a></li>
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#collections">Collections</a></li>
+                        <li><a href="#process">The Atelier</a></li>
                         <li><a href="#appointment">Book Appointment</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-links">
-                    <h4>Collections</h4>
+                    <h3>Collections</h3>
                     <ul>
                         <li><a href="#collections">Engagement Rings</a></li>
-                        <li><a href="#collections">Wedding Sets</a></li>
-                        <li><a href="#collections">Diamond Jewelry</a></li>
-                        <li><a href="#collections">Gold Collections</a></li>
-                        <li><a href="#collections">Custom Design</a></li>
+                        <li><a href="#collections">Bridal Necklace Sets</a></li>
+                        <li><a href="#collections">Diamond Jewellery</a></li>
+                        <li><a href="#collections">Gold Bangles</a></li>
+                        <li><a href="#collections">Bespoke Commissions</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-contact">
-                    <h4>Visit Us</h4>
+                    <h3>Visit Us</h3>
                     <address>
-                        <p>📍 123 Jewelry Street, Gold Market</p>
-                        <p>City, State - 123456, India</p>
-                        <p>📞 <a href="tel:+91XXXXXXXXXX">+91 XXXXXXXXXX</a></p>
-                        <p>✉️ <a href="mailto:info@aliflaammeem.com">info@aliflaammeem.com</a></p>
+                        <p><span data-icon="pin" aria-hidden="true"></span>123 Jewellery Street, Gold Market</p>
+                        <p>City, State — 123456, India</p>
+                        <p><span data-icon="phone" aria-hidden="true"></span><a href="tel:+91XXXXXXXXXX">+91 XXXXX XXXXX</a></p>
+                        <p><span data-icon="mail" aria-hidden="true"></span><a href="mailto:info@aliflaammeem.com">info@aliflaammeem.com</a></p>
                     </address>
                     <div class="hours">
-                        <p><strong>Hours:</strong> Mon-Sat 10:00 AM - 8:00 PM</p>
-                        <p>Sunday: 11:00 AM - 6:00 PM</p>
+                        <p><strong>Hours:</strong> Mon–Sat 10:00 AM – 8:00 PM</p>
+                        <p>Sunday 11:00 AM – 6:00 PM</p>
                     </div>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
-                <p>&copy; 2025 Alif Laam Meem Jewellers. All rights reserved.</p>
+                <p>&copy; <span data-year>2026</span> Alif Laam Meem Jewellers. All rights reserved.</p>
                 <div class="footer-legal">
                     <a href="#">Privacy Policy</a>
                     <a href="#">Terms of Service</a>
@@ -370,10 +438,13 @@
         </div>
     </footer>
 
-    <!-- Back to Top -->
     <button class="back-to-top" id="backToTop" aria-label="Back to top" aria-hidden="true">
         <span aria-hidden="true">↑</span>
     </button>
+
+    <noscript>
+        <p style="padding:24px;text-align:center;background:#111;color:#ddd">This site uses JavaScript to render the collection. Please enable it, or call us to request the catalogue.</p>
+    </noscript>
 
     <script src="script.js"></script>
 </body>
