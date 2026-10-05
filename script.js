@@ -15,115 +15,38 @@
     };
 
     /* ---------------------------------------------------------------------
-       2. COLLECTION DATA
-       Facets: category (sub-filter of Type) / metal / occasion
-       --------------------------------------------------------------------- */
-    const PRODUCTS = [
-        {
-            name: 'Aurora Solitaire Ring',
-            material: '18K White Gold · VVS1 Diamond',
-            category: 'rings', categoryLabel: 'Rings',
-            metal: 'diamond', metalLabel: 'Diamond',
-            occasion: 'wedding',
-            desc: 'A brilliant-cut solitaire raised on a six-claw cathedral setting — our most requested engagement piece.',
-            price: '\u20B91,45,000 – \u20B93,20,000',
-            badge: 'Bestseller',
-            img: 'assets/p-rings.jpg',
-            alt: 'Solitaire diamond engagement ring photographed in black and white'
-        },
-        {
-            name: 'Heritage Bridal Necklace',
-            material: '22K Gold · Uncut Diamonds',
-            category: 'necklace', categoryLabel: 'Necklaces',
-            metal: 'gold', metalLabel: 'Gold',
-            occasion: 'wedding',
-            desc: 'Hand-assembled bridal set with traditional kundan work, balanced for weight and drape.',
-            price: '\u20B94,80,000 – \u20B98,50,000',
-            badge: 'Bridal',
-            img: 'assets/p-necklace.jpg',
-            alt: 'Ornate diamond bridal necklace set displayed on a bust'
-        },
-        {
-            name: 'Chandelier Drop Earrings',
-            material: '18K White Gold · 2.4 ct',
-            category: 'earrings', categoryLabel: 'Earrings',
-            metal: 'diamond', metalLabel: 'Diamond',
-            occasion: 'wedding',
-            desc: 'Graduated pear and marquise stones suspended to catch light with every movement.',
-            price: '\u20B92,10,000 – \u20B93,90,000',
-            badge: '',
-            img: 'assets/p-earrings.jpg',
-            alt: 'Pair of chandelier diamond drop earrings'
-        },
-        {
-            name: 'Carved Heritage Bangles',
-            material: '22K Gold · Hand Engraved',
-            category: 'bangles', categoryLabel: 'Bangles',
-            metal: 'gold', metalLabel: 'Gold',
-            occasion: 'everyday',
-            desc: 'Each bangle is engraved by hand over several days, so no two patterns repeat exactly.',
-            price: '\u20B91,90,000 – \u20B94,10,000',
-            badge: '',
-            img: 'assets/p-bangle.jpg',
-            alt: 'Stack of hand-carved gold bangles on a stone pedestal'
-        },
-        {
-            name: 'Eternity Platinum Band',
-            material: '950 Platinum · Channel Set',
-            category: 'rings', categoryLabel: 'Rings',
-            metal: 'platinum', metalLabel: 'Platinum',
-            occasion: 'wedding',
-            desc: 'A continuous line of channel-set stones in platinum — engineered to sit flush with any ring.',
-            price: '\u20B985,000 – \u20B92,40,000',
-            badge: 'New',
-            img: 'assets/p-platinum.jpg',
-            alt: 'Modern platinum eternity band with channel-set diamonds'
-        },
-        {
-            name: 'Antique Temple Pendant',
-            material: '22K Gold · Antique Finish',
-            category: 'pendants', categoryLabel: 'Pendants',
-            metal: 'gold', metalLabel: 'Gold',
-            occasion: 'gifting',
-            desc: 'Temple-inspired filigree finished by hand to a soft antique tone that deepens with wear.',
-            price: '\u20B965,000 – \u20B91,75,000',
-            badge: '',
-            img: 'assets/p-pendant.jpg',
-            alt: 'Antique gold temple pendant with filigree detailing'
-        },
-        {
-            name: 'Bespoke Bridal Commission',
-            material: 'Made to Order · Certified Stones',
-            category: 'bespoke', categoryLabel: 'Bespoke',
-            metal: 'diamond', metalLabel: 'Diamond',
-            occasion: 'wedding',
-            desc: 'Bring a reference or a sketch and our atelier will render, cast and set a piece that exists only for you.',
-            price: 'Quoted at consultation',
-            note: 'Bespoke commission',
-            badge: 'Atelier',
-            img: 'assets/craft.jpg',
-            alt: 'Jeweller setting a stone into a ring at the workbench'
-        },
-        {
-            name: 'Design Atelier Session',
-            material: 'Studio Consultation · Stone Selection',
-            category: 'bespoke', categoryLabel: 'Bespoke',
-            metal: 'platinum', metalLabel: 'Platinum',
-            occasion: 'gifting',
-            desc: 'A working session with our designers: stone grading, metal options, sketches and costed drawings.',
-            price: 'Complimentary',
-            note: 'Studio session',
-            badge: 'Studio',
-            img: 'assets/p-custom.jpg',
-            alt: 'Ring design sketch beside loose gemstones and jeweller tools'
-        }
-    ];
+       2. COLLECTION DATA  —  your pieces go here
 
+       There are no products in the site yet, so the showcase shows a
+       placeholder. Add one object per piece and the filters, cards, prices
+       and enquiry buttons build themselves.
+
+       Photos live in the assets/ folder. Copy this template, fill it in and
+       delete the surrounding comment markers:
+
+       {
+           name: 'Kundan Bridal Set',
+           material: '22K Gold · Uncut Diamonds',
+           category: 'bridal', categoryLabel: 'Bridal Sets',
+           metal: 'gold', metalLabel: 'Gold',
+           occasion: 'wedding',
+           desc: 'Layered necklace with matching earrings and maang tikka.',
+           price: '\u20B94,80,000 – \u20B98,50,000',
+           badge: 'Bridal',              // optional ribbon, '' for none
+           img: 'assets/bridal-set.jpg', // leave '' to show an image placeholder
+           imgHint: 'assets/bridal-set.jpg',
+           alt: 'Kundan bridal necklace set with matching earrings'
+       },
+       --------------------------------------------------------------------- */
+    const PRODUCTS = [];
+
+    /* Filter options. Keep these in step with the values used above. */
     const FACETS = {
         type: {
             label: 'Type',
             values: [
                 { value: 'all', label: 'All Types' },
+                { value: 'bridal', label: 'Bridal Sets' },
                 { value: 'rings', label: 'Rings' },
                 { value: 'necklace', label: 'Necklaces' },
                 { value: 'earrings', label: 'Earrings' },
@@ -154,7 +77,7 @@
 
     const TESTIMONIALS = [
         {
-            quote: 'They spent two hours with us without any pressure to buy. We came back a week later for the wedding set and the craftsmanship was exactly as promised.',
+            quote: 'They spent two hours with us without any pressure to buy. We came back a week later for the bridal set and the craftsmanship was exactly as promised.',
             name: 'Ayesha & Imran',
             meta: 'Bridal Commission · Hyderabad'
         },
@@ -171,19 +94,11 @@
     ];
 
     /* ---------------------------------------------------------------------
-       3. Icon set — inline monochrome SVG (inherits currentColor)
+       3. Icon set — inline SVG, drawn in the current text colour
        --------------------------------------------------------------------- */
     const ICONS = {
-        shield:   '<path d="M12 3.2 19 6v6.1c0 4.4-2.9 7.4-7 8.7-4.1-1.3-7-4.3-7-8.7V6z"/><polyline points="8.6 12.1 11 14.5 15.6 9.6"/>',
+        image:    '<rect x="3" y="4.6" width="18" height="14.8" rx="2"/><circle cx="8.6" cy="10" r="1.8"/><path d="m3.6 17.4 4.9-4.6 4 3.6 3.1-2.6 4.8 4.2"/>',
         diamond:  '<path d="M7.2 3.5h9.6L21 9.4 12 20.8 3 9.4z"/><path d="M3 9.4h18"/><path d="M12 20.8 9.4 9.4 12 3.5l2.6 5.9z"/>',
-        exchange: '<path d="M20 11.2A8 8 0 0 0 6.3 5.6"/><polyline points="3.4 4.4 3.4 9 8 9"/><path d="M4 12.8a8 8 0 0 0 13.7 5.6"/><polyline points="20.6 19.6 20.6 15 16 15"/>',
-        truck:    '<path d="M2.5 7h10.6v9.4H2.5z"/><path d="M13.1 10.4h4.6l3.4 3.6v2.4h-8z"/><circle cx="6.6" cy="18.4" r="1.7"/><circle cx="16.6" cy="18.4" r="1.7"/>',
-        ring:     '<circle cx="12" cy="15.4" r="5"/><path d="M12 10.4 8.6 7 12 3.8 15.4 7z"/>',
-        necklace: '<path d="M4.2 4.6c0 6.1 3.5 10.2 7.8 10.2s7.8-4.1 7.8-10.2"/><path d="M12 14.8v3.6"/><circle cx="12" cy="20" r="1.7"/>',
-        sparkle:  '<path d="M12 3.2 14.1 10 21 12l-6.9 2L12 20.8 9.9 14 3 12l6.9-2z"/>',
-        scale:    '<path d="M12 3.6v16.8"/><path d="M6.6 20.4h10.8"/><path d="M4.2 9.4h15.6"/><path d="M4.2 9.4 2 15h4.4z"/><path d="M19.8 9.4 22 15h-4.4z"/>',
-        hammer:   '<path d="M13.9 3.8 20.2 10l-2.7 2.7-6.3-6.2z"/><path d="M11.2 7.2 4 14.4l2.9 2.9 7.2-7.2"/>',
-        heart:    '<path d="M12 20.2S4.6 15.6 4.6 10.8A4.2 4.2 0 0 1 12 8.1a4.2 4.2 0 0 1 7.4 2.7c0 4.8-7.4 9.4-7.4 9.4z"/>',
         check:    '<polyline points="4.5 12.5 9.7 17.8 19.5 6.6"/>',
         chat:     '<path d="M20.2 11.7a8.1 8.1 0 0 1-11.8 7.2L4 20l1.1-4.3A8.1 8.1 0 1 1 20.2 11.7z"/><path d="M8.6 11.6h6.8M8.6 14.6h4.2"/>',
         phone:    '<path d="M6.2 3.4h3l1.5 3.9-2 1.5a11.3 11.3 0 0 0 4.9 4.9l1.5-2 3.9 1.5v3a2 2 0 0 1-2.2 2A15.2 15.2 0 0 1 4.2 5.6a2 2 0 0 1 2-2.2z"/>',
@@ -194,6 +109,10 @@
         mail:     '<rect x="3" y="5.6" width="18" height="12.8" rx="2"/><path d="m3.7 6.9 8.3 5.9 8.3-5.9"/>'
     };
 
+    /* Filled four-point star used for brand marks and rating rows */
+    const STAR = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">' +
+                 '<path d="M12 1.8 14.5 9.5 22.2 12 14.5 14.5 12 22.2 9.5 14.5 1.8 12 9.5 9.5Z"/></svg>';
+
     function iconSvg(name) {
         const body = ICONS[name];
         if (!body) return '';
@@ -202,8 +121,9 @@
                body + '</svg>';
     }
 
-    function initIcons() {
-        $$('[data-icon]').forEach((el) => {
+    function paintIcons(root) {
+        (root || document).querySelectorAll('[data-icon]').forEach((el) => {
+            if (el.firstElementChild) return;              // already painted
             const markup = iconSvg(el.getAttribute('data-icon'));
             if (markup) el.innerHTML = markup;
         });
@@ -215,6 +135,10 @@
     const $  = (sel, ctx = document) => ctx.querySelector(sel);
     const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[c]);
 
     /* ---------------------------------------------------------------------
        5. Contact links from config
@@ -310,6 +234,18 @@
        8. Collections: render + filter
        --------------------------------------------------------------------- */
     const state = { facet: null, value: 'all' };
+    const emptyMarkup = $('#catalogEmpty') ? $('#catalogEmpty').outerHTML : '';
+
+    function mediaMarkup(p) {
+        if (p.img) {
+            return '<img src="' + escapeHtml(p.img) + '" alt="' + escapeHtml(p.alt || p.name) +
+                   '" loading="lazy" decoding="async">';
+        }
+        return '<div class="ph">' +
+                   '<span class="ph-icon" data-icon="image" aria-hidden="true"></span>' +
+                   '<span class="ph-file">' + escapeHtml(p.imgHint || 'assets/your-piece.jpg') + '</span>' +
+               '</div>';
+    }
 
     function productCard(p, index) {
         const card = document.createElement('article');
@@ -318,18 +254,20 @@
         card.style.transitionDelay = Math.min(index * 70, 420) + 'ms';
         card.innerHTML = [
             '<div class="product-media">',
-                '<img src="', p.img, '" alt="', p.alt, '" loading="lazy" decoding="async" width="1024" height="1024">',
-                p.badge ? '<span class="product-badge">' + p.badge + '</span>' : '',
-                '<button class="product-quick" type="button" aria-label="Enquire about ', p.name, '">\u2192</button>',
+                mediaMarkup(p),
+                p.badge ? '<span class="product-badge">' + escapeHtml(p.badge) + '</span>' : '',
+                '<button class="product-quick" type="button" aria-label="Enquire about ', escapeHtml(p.name), '">\u2192</button>',
             '</div>',
             '<div class="product-body">',
-                '<p class="product-meta">', p.categoryLabel, ' <i>·</i> ', p.metalLabel, '</p>',
-                '<h3 class="product-title">', p.name, '</h3>',
-                '<p class="product-desc">', p.desc, '</p>',
-                '<p class="product-meta" style="letter-spacing:.14em">', p.material, '</p>',
+                '<p class="product-meta">', escapeHtml(p.categoryLabel), ' <i>·</i> ', escapeHtml(p.metalLabel), '</p>',
+                '<h3 class="product-title">', escapeHtml(p.name), '</h3>',
+                '<p class="product-desc">', escapeHtml(p.desc), '</p>',
+                '<p class="product-meta" style="letter-spacing:.14em">', escapeHtml(p.material), '</p>',
                 '<div class="product-foot">',
-                    '<span class="product-price">', p.price, '<small>', p.note || 'Indicative range', '</small></span>',
-                    '<a class="product-cta" href="#appointment" data-enquire="', p.name, '">Enquire</a>',
+                    '<span class="product-price">', escapeHtml(p.price),
+                        '<small>', escapeHtml(p.note || 'Indicative range'), '</small>',
+                    '</span>',
+                    '<a class="product-cta" href="#appointment" data-enquire="', escapeHtml(p.name), '">Enquire</a>',
                 '</div>',
             '</div>'
         ].join('');
@@ -356,29 +294,42 @@
         });
 
         grid.innerHTML = '';
-        list.forEach((p, i) => grid.appendChild(productCard(p, i)));
-        grid.appendChild(ctaCard());
 
-        const count = $('#productCount');
-        if (count) count.textContent = list.length;
-
-        // stagger reveal for freshly rendered cards
-        const cards = $$('.stagger', grid);
-        if (!revealObserver || reduceMotion) {
-            cards.forEach((el) => el.classList.add('in'));
+        if (!PRODUCTS.length) {
+            // Nothing added yet — show the setup panel instead of an empty grid.
+            if (emptyMarkup) grid.insertAdjacentHTML('afterbegin', emptyMarkup);
         } else {
-            requestAnimationFrame(() => cards.forEach((el) => el.classList.add('in')));
+            list.forEach((p, i) => grid.appendChild(productCard(p, i)));
+            grid.appendChild(ctaCard());
         }
 
-        // prefill the enquiry form when a card is used
+        // Filters and the counter only make sense once pieces exist.
+        const tabs  = $('#filterTabs');
+        const count = $('#gridCount');
+        if (tabs)  tabs.style.display  = PRODUCTS.length ? '' : 'none';
+        if (count) count.style.display = PRODUCTS.length ? '' : 'none';
+        const counter = $('#productCount');
+        if (counter) counter.textContent = list.length;
+
+        paintIcons(grid);
+
+        // Reveal the freshly rendered cards.
+        const items = $$('.stagger', grid);
+        if (!revealObserver || reduceMotion) {
+            items.forEach((el) => el.classList.add('in'));
+        } else {
+            requestAnimationFrame(() => items.forEach((el) => el.classList.add('in')));
+        }
+
+        // Pre-fill the enquiry form when a card is used.
         $$('[data-enquire]', grid).forEach((a) => {
             a.addEventListener('click', () => prefillEnquiry(a.getAttribute('data-enquire')));
         });
         $$('.product-quick', grid).forEach((btn) => {
             btn.addEventListener('click', () => {
-                const name = btn.closest('.product-card').querySelector('.product-title').textContent;
-                prefillEnquiry(name);
-                document.getElementById('appointment').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+                const title = $('.product-title', btn.closest('.product-card'));
+                if (title) prefillEnquiry(title.textContent);
+                $('#appointment').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
             });
         });
     }
@@ -389,14 +340,14 @@
         if (box) {
             box.value = 'I would like to enquire about the "' + name + '". Please share availability, certification and current pricing.';
         }
-        if (purpose) purpose.value = /Bespoke|Atelier/i.test(name) ? 'custom' : 'engagement';
+        if (purpose) purpose.value = /Bespoke|Atelier|Design/i.test(name) ? 'custom' : 'bridal';
     }
 
     function renderSubFilters() {
         const wrap = $('#subFilters');
         wrap.innerHTML = '';
 
-        if (!state.facet) {
+        if (!state.facet || !PRODUCTS.length) {
             wrap.classList.remove('open');
             return;
         }
@@ -428,13 +379,8 @@
                     t.setAttribute('aria-selected', String(on));
                 });
 
-                if (filter === 'all') {
-                    state.facet = null;
-                    state.value = 'all';
-                } else {
-                    state.facet = filter;
-                    state.value = 'all';
-                }
+                state.facet = filter === 'all' ? null : filter;
+                state.value = 'all';
                 renderSubFilters();
                 renderProducts();
             });
@@ -453,13 +399,13 @@
             const el = document.createElement('figure');
             el.className = 'testimonial stagger';
             el.innerHTML = [
-                '<div class="testimonial-stars" aria-label="5 out of 5 stars">\u2726\u2726\u2726\u2726\u2726</div>',
-                '<blockquote class="testimonial-quote">', t.quote, '</blockquote>',
+                '<div class="testimonial-stars" aria-label="5 out of 5 stars">' + STAR.repeat(5) + '</div>',
+                '<blockquote class="testimonial-quote">', escapeHtml(t.quote), '</blockquote>',
                 '<figcaption class="testimonial-author">',
-                    '<span class="author-avatar" aria-hidden="true">', initials, '</span>',
+                    '<span class="author-avatar" aria-hidden="true">', escapeHtml(initials), '</span>',
                     '<span class="author-info">',
-                        '<span class="author-name">', t.name, '</span>',
-                        '<span class="author-meta">', t.meta, '</span>',
+                        '<span class="author-name">', escapeHtml(t.name), '</span>',
+                        '<span class="author-meta">', escapeHtml(t.meta), '</span>',
                     '</span>',
                 '</figcaption>'
             ].join('');
@@ -478,46 +424,7 @@
     }
 
     /* ---------------------------------------------------------------------
-       10. Stats counters
-       --------------------------------------------------------------------- */
-    function initCounters() {
-        const nodes = $$('[data-count]');
-        if (!nodes.length) return;
-
-        const fmt = (v, decimals) => v.toLocaleString('en-IN', {
-            minimumFractionDigits: decimals,
-            maximumFractionDigits: decimals
-        });
-
-        const run = (el) => {
-            const target = parseFloat(el.getAttribute('data-count'));
-            const suffix = el.getAttribute('data-suffix') || '';
-            const decimals = (el.getAttribute('data-decimals') | 0);
-            if (reduceMotion) { el.textContent = fmt(target, decimals) + suffix; return; }
-            const start = performance.now();
-            const dur = 1500;
-            (function tick(now) {
-                const p = Math.min((now - start) / dur, 1);
-                const eased = 1 - Math.pow(1 - p, 3);
-                el.textContent = fmt(target * eased, decimals) + suffix;
-                if (p < 1) requestAnimationFrame(tick);
-            })(start);
-        };
-
-        if (!('IntersectionObserver' in window)) { nodes.forEach(run); return; }
-
-        const obs = new IntersectionObserver((entries, o) => {
-            entries.forEach((e) => {
-                if (!e.isIntersecting) return;
-                run(e.target);
-                o.unobserve(e.target);
-            });
-        }, { threshold: 0.5 });
-        nodes.forEach((n) => obs.observe(n));
-    }
-
-    /* ---------------------------------------------------------------------
-       11. Appointment form → WhatsApp
+       10. Appointment form → WhatsApp
        --------------------------------------------------------------------- */
     function initForm() {
         const form = $('#appointmentForm');
@@ -555,7 +462,6 @@
                 data.get('message') ? 'Note: ' + data.get('message') : null
             ].filter(Boolean);
 
-            form.setAttribute('action', 'https://wa.me/' + BUSINESS.whatsapp);
             $('#whatsappMessage').value = lines.join('\n');
 
             const success = $('#formSuccess');
@@ -587,17 +493,17 @@
     }
 
     /* ---------------------------------------------------------------------
-       12. Footer year
+       11. Footer year
        --------------------------------------------------------------------- */
     function initYear() {
         $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
     }
 
     /* ---------------------------------------------------------------------
-       13. Boot
+       12. Boot
        --------------------------------------------------------------------- */
     function init() {
-        initIcons();
+        paintIcons(document);
         applyContactLinks();
         initNav();
         initReveal();
@@ -605,7 +511,6 @@
         renderSubFilters();
         renderProducts();
         initTestimonials();
-        initCounters();
         initForm();
         initYear();
     }
