@@ -559,23 +559,36 @@ strong { color: var(--ink); font-weight: 600; }
 
 /* Optional hero photograph. build.py adds .hero--photo and sets --hero-photo
    only when assets/hero.jpg (or .png/.webp/.avif) exists, so the hero still
-   looks right with no image at all. The scrim keeps the headline legible
-   whatever the photograph does. */
+   looks right with no image at all.
+
+   The scrim is deliberately heavier at the top, where the headline sits, and
+   lighter lower down, so the jewellery in the photograph still reads. The
+   stops were chosen against a worst case — a blown-out gold highlight behind
+   the text — not against a typical image, so no photograph can break the
+   headline. See assets/README.md before changing them. */
 .hero--photo {
   background-color: #000;
   background-image:
     linear-gradient(180deg,
-      rgba(0, 0, 0, .58) 0%,
-      rgba(0, 0, 0, .70) 46%,
-      rgba(0, 0, 0, .88) 100%),
+      rgba(0, 0, 0, .80) 0%,
+      rgba(0, 0, 0, .72) 62%,
+      rgba(0, 0, 0, .56) 85%,
+      rgba(0, 0, 0, .62) 100%),
     var(--hero-photo);
   background-size: cover, cover;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
-  padding-block: clamp(72px, 11vw, 150px);
+  /* deep bottom padding leaves a band of unobstructed photograph under the
+     text, so the image reads as the hero rather than as a dim texture */
+  padding-block: clamp(64px, 10vw, 130px) clamp(140px, 20vw, 280px);
 }
-/* the gold wash that normally sits behind the motif would fight a photograph */
-.hero--photo .showcase-stage { background: none; }
+/* The photograph is the visual here — the line drawing and its glow would
+   compete with a real piece of jewellery. The hero becomes type over image. */
+.hero--photo .hero-showcase { display: none; }
+/* Mid greys are too weak over a photograph. Lift the supporting copy the same
+   way the dark bands do. Worst case against a bright gold highlight: 4.6:1. */
+.hero--photo .hero-tagline,
+.hero--photo .hero-description { color: #C7C7CC; }
 
 /* ----------------------------- 7. COLLECTIONS ---------------------------- */
 .filter-tabs {
