@@ -17,8 +17,6 @@
     addressLine2: 'Gulberg III, Lahore 54660, Pakistan',
     hoursWeek: 'Mon – Sat · 11:00 AM – 9:00 PM',
     hoursSun: 'Sunday · 1:00 PM – 7:00 PM',
-    rate22k: 'PKR 24,850',                    // indicative 22K per gram — update daily
-    rateDate: '06 October 2026',
     mapsUrl: 'https://maps.google.com/?q=Liberty+Market+Gulberg+III+Lahore',
     instagram: 'https://instagram.com/',
     facebook: 'https://facebook.com/',
@@ -484,16 +482,17 @@
     onScroll();
 
     if (btn && links) {
-      btn.addEventListener('click', () => {
-        const open = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-        links.classList.toggle('open', !open);
-      });
-      $$('.nav-link', links).forEach((a) => {
-        a.addEventListener('click', () => {
-          btn.setAttribute('aria-expanded', 'false');
-          links.classList.remove('open');
-        });
+      const setMenu = (open) => {
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        links.classList.toggle('open', open);
+        document.body.classList.toggle('no-scroll', open);
+      };
+      btn.addEventListener('click', () =>
+        setMenu(btn.getAttribute('aria-expanded') !== 'true'));
+      $$('.nav-link', links).forEach((a) =>
+        a.addEventListener('click', () => setMenu(false)));
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 980 && links.classList.contains('open')) setMenu(false);
       });
     }
 
@@ -572,18 +571,6 @@
     nums.forEach((el) => io.observe(el));
   }
 
-  function initRibbon() {
-    // Duplicate the marquee track so the loop is seamless at any width
-    const track = $('#ribbonTrack');
-    if (!track) return;
-    const set = $('.ribbon-set', track);
-    if (set) {
-      const copy = set.cloneNode(true);
-      copy.setAttribute('aria-hidden', 'true');
-      track.appendChild(copy);
-    }
-  }
-
   function hydrateSite() {
     $$('[data-site]').forEach((el) => {
       const key = el.dataset.site;
@@ -624,7 +611,6 @@
     initNewsletter();
     initDelegatedClicks();
     initNav();
-    initRibbon();
     initReveal();
     initCounters();
   }

@@ -24,17 +24,17 @@ The whole look is driven by CSS custom properties at the top of `styles.css`.
 
 | Token | Value | Used for |
 | --- | --- | --- |
-| `--grey-50 … --grey-300` | light greys | page grounds, cards, hairlines |
+| `--grey-25 … --grey-300` | light greys | page grounds, cards, hairlines |
 | `--ink` / `--ink-soft` | near-black, warm grey | headings, body copy |
 | `--gold` `--gold-deep` `--gold-light` | `#C6A15B` `#9A7734` `#E4CE9B` | accents, icons, dividers |
 | `--gold-grad` | multi-stop metallic | buttons, badges, monogram, shimmer text |
 | `--font-display` | Playfair Display | headings, prices, numerals |
 | `--font-body` | Inter | interface and body copy |
 
-**All artwork is code.** There are no image files: the hero medallion, the
-engraved showcase panel, the jewellery motif on every product card (rings,
-necklaces, jhumkas, bangles, bridal sets) and the stylised map are drawn with
-CSS gradients, borders and inline SVG line-art using two shared gradients
+**All artwork is code.** There are no image files: the hero's grey panels and
+gold medallion, the jewellery motif on every product card (rings, necklaces,
+jhumkas, bangles, bridal sets) and the stylised map are drawn with CSS
+gradients, borders and inline SVG line-art using two shared gradients
 (`#goldFill`, `#goldStroke`) defined once at the bottom of `index.html`.
 
 ## Editing content
@@ -49,15 +49,13 @@ const SITE = {
   email: 'care@…',
   addressLine1: '…', addressLine2: '…',
   hoursWeek: '…', hoursSun: '…',
-  rate22k: 'PKR 24,850',           // headline gold rate, update daily
-  rateDate: '06 October 2026',
   mapsUrl: '…', instagram: '…', facebook: '…', youtube: '…'
 };
 ```
 
 Anything in the page marked `data-site="key"` is filled from this object, and
 `data-site-href="key"` sets the link target. Update it once and it changes in
-the top bar, the appointment panel, the visit card and the footer.
+the appointment panel, the visit card and the footer.
 
 **Catalogue** — the `PRODUCTS` array in `script.js`. Each entry has a `type`
 (rings, necklace, earrings, bangles, bridal), `metals` array, `occasion`, a
@@ -66,8 +64,8 @@ The filters, chips and grid all build themselves from that data.
 
 **Testimonials** — the `TESTIMONIALS` array in `script.js`.
 
-**Copy and sections** — directly in `index.html`: hero, The House, Collections,
-The Atelier, Private Appointment, Client Stories, Visit and the footer.
+**Copy and sections** — directly in `index.html`: hero, Collections, The
+Atelier, Private Appointment, Client Stories, Visit and the footer.
 
 ## Connecting WhatsApp
 
@@ -91,9 +89,10 @@ shows inline errors before it hands over.
 ## Notes before going live
 
 1. Replace the placeholder phone number, address, email and social links.
-2. Update `rate22k` and `rateDate` (the top bar shows a live-looking rate —
-   keep it honest, or delete `<span class="rate …">` from the top bar).
-3. Prices in `PRODUCTS` are indicative only; the collections note says so
-   explicitly, which is worth keeping given bullion movement.
-4. Testimonials are illustrative samples — swap in real, permissioned
+2. Prices in `PRODUCTS` are indicative only — worth a note to clients given
+   how fast bullion moves.
+3. Testimonials are illustrative samples — swap in real, permissioned
    client words and set `aggregateRating` in the JSON-LD to match reality.
+4. The headline gold rate and the claim badges were removed at the client's
+   request; if you ever want them back, they are in git history at commit
+   `df46c32`.
