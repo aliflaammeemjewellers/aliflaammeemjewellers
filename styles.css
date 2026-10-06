@@ -557,36 +557,62 @@ strong { color: var(--ink); font-weight: 600; }
 }
 
 
-/* Optional hero photograph. build.py adds .hero--photo and sets --hero-photo
-   only when assets/hero.jpg (or .png/.webp/.avif) exists, so the hero still
-   looks right with no image at all.
+/* Optional hero photograph. build.py adds .hero--photo and the .hero-photo
+   element only when assets/hero.jpg (or .png/.webp/.avif) exists, so the hero
+   still looks right with no image at all.
 
    The scrim is deliberately heavier at the top, where the headline sits, and
    lighter lower down, so the jewellery in the photograph still reads. The
    stops were chosen against a worst case — a blown-out gold highlight behind
    the text — not against a typical image, so no photograph can break the
    headline. See assets/README.md before changing them. */
+/* The photograph is a real element, so it can be laid out differently by
+   breakpoint: a full-bleed cover background behind the copy on wide screens,
+   and a band beneath the copy on phones, where covering the whole hero would
+   put the jewellery directly behind the headline. */
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* anchored to the top: the photograph's dark upper area stays behind the
+     headline and the subject sits below it (see assets/README.md) */
+  object-fit: cover;
+  object-position: center top;
+}
+/* the hero's own content rides above the photograph */
+.hero > .container { position: relative; z-index: 2; }
+
 .hero--photo {
   background-color: #000;
-  background-image:
-    linear-gradient(180deg,
-      rgba(0, 0, 0, .80) 0%,
-      rgba(0, 0, 0, .72) 62%,
-      rgba(0, 0, 0, .56) 85%,
-      rgba(0, 0, 0, .62) 100%),
-    var(--hero-photo);
-  background-size: cover, cover;
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
   /* deep bottom padding leaves a band of unobstructed photograph under the
      text, so the image reads as the hero rather than as a dim texture */
   padding-block: clamp(64px, 10vw, 130px) clamp(140px, 20vw, 280px);
+}
+/* The scrim sits above the photograph and below the copy. Stops are chosen
+   against a worst case — a blown-out gold highlight behind the text — so no
+   photograph can make the headline illegible. */
+.hero--photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, .80) 0%,
+      rgba(0, 0, 0, .70) 58%,
+      rgba(0, 0, 0, .38) 82%,
+      rgba(0, 0, 0, .54) 100%);
 }
 /* The photograph is the visual here — the line drawing and its glow would
    compete with a real piece of jewellery. The hero becomes type over image. */
 .hero--photo .hero-showcase { display: none; }
 /* Mid greys are too weak over a photograph. Lift the supporting copy the same
-   way the dark bands do. Worst case against a bright gold highlight: 4.6:1. */
+   way the dark bands do. */
 .hero--photo .hero-tagline,
 .hero--photo .hero-description { color: #C7C7CC; }
 
@@ -1352,6 +1378,16 @@ strong { color: var(--ink); font-weight: 600; }
     font-size: 1rem;
   }
   .nav-cta { margin: 16px 0 0; justify-content: center; }
+
+  /* On a phone the copy fills most of the viewport, so the photograph drops
+     below it as a full-width band instead of sitting behind the text. */
+  .hero--photo { padding-block: clamp(56px, 9vw, 92px) clamp(40px, 6vw, 64px); }
+  .hero--photo::after { display: none; }
+  .hero-photo { position: static; margin-top: clamp(34px, 8vw, 60px); }
+  .hero-photo img {
+    height: clamp(210px, 50vw, 360px);
+    object-position: center 62%;
+  }
 
   .appointment-wrapper,
   .visit-grid { grid-template-columns: 1fr; }

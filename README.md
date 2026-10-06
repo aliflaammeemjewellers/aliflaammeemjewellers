@@ -63,9 +63,29 @@ floating buttons.
 **No ornament.** The earlier gold-gradient theme (Playfair headings, metallic
 gradients, engraved arches, rosettes, sunbursts, marquee) has been replaced
 throughout. The one piece of brand expression kept is the line-art motif on each
-product — it is the stand-in for photography, drawn as inline SVG in the same
+product — the stand-in for product photography, drawn as inline SVG in the same
 flat gold as the accent (two shared gradients, `#goldFill` and `#goldStroke`,
 defined once at the bottom of `index.html`).
+
+**Hero photograph.** The home page can carry one real photograph, dropped in as
+`assets/hero.jpg` and picked up by the build (see `assets/README.md`). It is a
+real `<img>` with an empty `alt` inside an `aria-hidden` wrapper, not a CSS
+background, because that lets it change layout by breakpoint:
+
+- **Wide screens:** it covers the hero behind a scrim, anchored to the top so
+  the photograph's dark upper area sits behind the headline. The scrim is
+  layered between the image and the copy, and its stops were chosen against a
+  worst case — a blown-out gold highlight directly behind the text — so no
+  photograph can make the headline illegible. Verified at 5.6:1 or better for
+  every text style.
+- **Phones:** covering the hero would put the jewellery right behind the
+  headline, because the copy block fills most of the viewport. So below 860px
+  the photograph drops out of the overlay and becomes a full-width band beneath
+  the copy, where the type sits on the hero's solid black and the jewellery is
+  shown unobstructed.
+
+With no photograph present the hero is the plain black band with the line
+drawing, and nothing breaks.
 
 **Band rhythm.** The page is built as full-bleed bands that alternate, the way
 Apple's marketing pages do — the background is the structure, not cards:
@@ -200,10 +220,9 @@ links and missing assets — all zero.
 `prefers-reduced-motion` support turns off the intro curtain, the scroll
 reveals and every transition. There is also a print stylesheet.
 
-**Performance.** No images, no libraries and no web fonts — the whole site is
-three files that work completely offline. Local Business structured data
-(JSON-LD) sits in the head for search engines. The optional hero photograph is
-the only thing you might add, and it is same-origin (`assets/README.md`).
+**Performance.** No libraries and no web fonts — the site runs from three files.
+The only image is the hero photograph in `assets/`, and it is same-origin.
+Local Business structured data (JSON-LD) sits in the head for search engines.
 
 ## Notes before going live
 

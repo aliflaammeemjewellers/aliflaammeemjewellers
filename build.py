@@ -639,14 +639,21 @@ def page_home():
     feat = next(p for p in PRODUCTS if p.get("featured"))
     hero_img = find_hero_image()
     if hero_img:
-        hero_open = (
-            '<section class="hero hero--dark intro-wrap hero--photo" id="home" '
-            "style=\"--hero-photo:url('%s')\">" % hero_img
-        )
+        hero_open = '<section class="hero hero--dark intro-wrap hero--photo" id="home">'
         hero_preload = '<link rel="preload" as="image" href="%s">' % hero_img
+        # A real element rather than a CSS background: it can be cover-fitted on
+        # wide screens and become a band beneath the copy on a phone, where a
+        # background would put the jewellery right behind the headline.
+        # Decorative, so alt is empty and the wrapper is hidden from AT.
+        hero_media = (
+            '\n  <div class="hero-photo" aria-hidden="true">'
+            '\n    <img src="%s" alt="" decoding="async" fetchpriority="high">'
+            '\n  </div>' % hero_img
+        )
     else:
         hero_open = '<section class="hero hero--dark intro-wrap" id="home">'
         hero_preload = ""
+        hero_media = ""
     tiles = [
         ("collections.html", "Collections", "Rings, necklaces, earrings, bangles and full bridal sets — "
                                            "filter the catalogue by type, metal or occasion."),
@@ -690,7 +697,7 @@ def page_home():
     </div>
 
     <div class="scroll-indicator" aria-hidden="true">{ICON['down']}</div>
-  </div>
+  </div>{hero_media}
 </section>
 
 <!-- ============================ FEATURED ============================ -->
