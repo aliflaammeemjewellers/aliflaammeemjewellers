@@ -1,380 +1,727 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Alif Laam Meem Jewellers - Exquisite Gold, Diamond & Platinum Jewelry">
-    <title>Alif Laam Meem Jewellers | Fine Jewelry Collection</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F7F6F4">
+<title>Alif Laam Meem Jewellers | Fine Gold, Diamond &amp; Polki Jewellery — Lahore</title>
+<meta name="description" content="Alif Laam Meem Jewellers — a Lahore house of fine jewellery since 1979. BIS hallmarked 22K gold, IGI certified diamonds, polki bridal sets and bespoke commissions, crafted by hand.">
+<meta property="og:title" content="Alif Laam Meem Jewellers | Fine Jewellery, Crafted by Hand">
+<meta property="og:description" content="Hallmarked gold, certified diamonds and bespoke bridal jewellery. Book a private showroom consultation.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231B1A18'/><path d='M16 5l7 11-7 11-7-11z' fill='%23C6A15B'/></svg>">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "JewelryStore",
+  "name": "Alif Laam Meem Jewellers",
+  "description": "Fine jewellery house in Lahore specialising in BIS hallmarked 22K gold, IGI certified diamonds, polki bridal sets and bespoke commissions.",
+  "priceRange": "PKR",
+  "telephone": "+92-300-000-0000",
+  "email": "care@aliflaammeemjewellers.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Shop 42, Gold Souk, Liberty Market",
+    "addressLocality": "Lahore",
+    "addressRegion": "Punjab",
+    "postalCode": "54660",
+    "addressCountry": "PK"
+  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"], "opens": "11:00", "closes": "21:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "13:00", "closes": "19:00" }
+  ],
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": "412" },
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Bridal & Polki Jewellery Sets" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "IGI Certified Diamond Solitaires" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bespoke Commission & Design" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Old Gold Exchange, Repair & Valuation" } }
+  ]
+}
+</script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="container nav-container">
-            <a href="#" class="logo" aria-label="Alif Laam Meem Jewellers Home">
-                <span class="logo-icon" aria-hidden="true">✦</span>
-                <span class="logo-text">Alif Laam Meem</span>
-                <span class="logo-sub">Jewellers</span>
-            </a>
-            
-            <div class="nav-links" id="navLinks">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#collections" class="nav-link">Collections</a>
-                <a href="#appointment" class="nav-link btn-book">Book Appointment</a>
-            </div>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu" aria-expanded="false">
-                <span class="hamburger"></span>
-            </button>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home" aria-labelledby="hero-title">
-        <div class="hero-bg" aria-hidden="true"></div>
-        <div class="container hero-content">
-            <div class="hero-text">
-                <span class="hero-badge" aria-hidden="true">Since 19XX</span>
-                <h1 id="hero-title">Timeless Elegance,<br>Crafted for You</h1>
-                <p class="hero-description">Discover exquisite gold, diamond, and platinum jewelry designed to celebrate life's most precious moments. Each piece tells a story of craftsmanship and heritage.</p>
-                <div class="hero-actions">
-                    <a href="#collections" class="btn btn-primary">Explore Collections</a>
-                    <a href="#appointment" class="btn btn-secondary">Book Consultation</a>
-                </div>
-                <div class="hero-trust">
-                    <div class="trust-item">
-                        <span class="trust-icon" aria-hidden="true">🔸</span>
-                        <span>BIS Hallmarked</span>
-                    </div>
-                    <div class="trust-item">
-                        <span class="trust-icon" aria-hidden="true">💎</span>
-                        <span>Certified Diamonds</span>
-                    </div>
-                    <div class="trust-item">
-                        <span class="trust-icon" aria-hidden="true">🔄</span>
-                        <span>Lifetime Exchange</span>
-                    </div>
-                    <div class="trust-item">
-                        <span class="trust-icon" aria-hidden="true">🚚</span>
-                        <span>Free Shipping</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-image" aria-hidden="true">
-                <div class="hero-image-inner">
-                    <div class="floating-card card-1">
-                        <span class="card-icon">💍</span>
-                        <span>Engagement Rings</span>
-                    </div>
-                    <div class="floating-card card-2">
-                        <span class="card-icon">📿</span>
-                        <span>Necklace Sets</span>
-                    </div>
-                    <div class="floating-card card-3">
-                        <span class="card-icon">💎</span>
-                        <span>Diamond Jewelry</span>
-                    </div>
-                    <div class="floating-card card-4">
-                        <span class="card-icon">✨</span>
-                        <span>Custom Design</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator" aria-hidden="true">
-            <span class="scroll-mouse"></span>
-            <span class="scroll-text">Scroll to Explore</span>
-        </div>
-    </section>
+<a class="skip-link" href="#home">Skip to content</a>
 
-    <!-- About Section -->
-    <section class="about" id="about" aria-labelledby="about-title">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">Our Story</span>
-                <h2 id="about-title">A Legacy of<br>Trust & Craftsmanship</h2>
-            </div>
-            
-            <div class="about-content">
-                <div class="about-image" data-aos="fade-right">
-                    <div class="about-img-wrapper">
-                        <div class="about-img-placeholder" aria-hidden="true">
-                            <span class="placeholder-icon">🏪</span>
-                            <span>Our Showroom</span>
-                        </div>
-                        <div class="experience-badge" aria-label="Decades of experience">
-                            <span class="exp-number">25+</span>
-                            <span class="exp-text">Years of<br>Excellence</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="about-text" data-aos="fade-left">
-                    <p class="lead">Founded with a vision to bring exceptional jewelry to discerning clients, Alif Laam Meem Jewellers has been a trusted name in fine jewelry for over two decades.</p>
-                    <p>Our master craftsmen combine traditional techniques with contemporary designs, creating pieces that transcend trends. Every jewel undergoes rigorous quality checks, ensuring only the finest reaches your hands.</p>
-                    
-                    <div class="about-values">
-                        <div class="value-item">
-                            <div class="value-icon" aria-hidden="true">⚖️</div>
-                            <h3>Ethical Sourcing</h3>
-                            <p>Conflict-free diamonds and responsibly sourced precious metals</p>
-                        </div>
-                        <div class="value-item">
-                            <div class="value-icon" aria-hidden="true">🔨</div>
-                            <h3>Master Craftsmanship</h3>
-                            <p>Handcrafted by artisans with generations of expertise</p>
-                        </div>
-                        <div class="value-item">
-                            <div class="value-icon" aria-hidden="true">🤝</div>
-                            <h3>Customer First</h3>
-                            <p>Personalized service and lifetime after-sales support</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ============================ TOP BAR ============================ -->
+<div class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-group">
+      <span class="topbar-item topbar-hallmark"><i class="gem"></i> BIS Hallmarked &amp; IGI Certified</span>
+      <span class="topbar-item topbar-hide-sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 21s-7-5.6-7-11a7 7 0 1 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        Liberty Market, Gulberg III, Lahore
+      </span>
+    </div>
+    <div class="topbar-group">
+      <span class="topbar-item rate topbar-hide-sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17M9 8.5h6M9 15.5h6"/></svg>
+        22K today <b data-site="rate22k">PKR 24,850</b>/g
+      </span>
+      <span class="topbar-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4.5 5.5c0 8 7 14 14 14l1.5-3-4-2-2 1.5c-2.5-1-5-3.5-6-6L9.5 8l-2-4-3 1.5z"/></svg>
+        <a href="tel:+923000000000" data-site="phoneDisplay">+92 300 000 0000</a>
+      </span>
+    </div>
+  </div>
+</div>
 
-    <!-- Collections Section -->
-    <section class="collections" id="collections" aria-labelledby="collections-title">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">Our Collections</span>
-                <h2 id="collections-title">Discover Your Perfect Piece</h2>
-            </div>
-            
-            <!-- Filter Tabs -->
-            <div class="filter-tabs" role="tablist" aria-label="Filter collections by category">
-                <button class="filter-tab active" role="tab" aria-selected="true" data-filter="all">All</button>
-                <button class="filter-tab" role="tab" aria-selected="false" data-filter="type">By Type</button>
-                <button class="filter-tab" role="tab" aria-selected="false" data-filter="metal">By Metal</button>
-                <button class="filter-tab" role="tab" aria-selected="false" data-filter="occasion">By Occasion</button>
-            </div>
-            
-            <!-- Sub-filters (hidden by default) -->
-            <div class="sub-filters" id="subFilters" aria-live="polite"></div>
-            
-            <!-- Products Grid -->
-            <div class="products-grid" id="productsGrid" role="list" aria-label="Jewelry products">
-                <!-- Products will be rendered by JavaScript -->
-            </div>
-            
-            <div class="view-more" data-aos="fade-up">
-                <a href="#appointment" class="btn btn-outline">Schedule a Private Viewing</a>
-            </div>
-        </div>
-    </section>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
-    <!-- Appointment Booking Section -->
-    <section class="appointment" id="appointment" aria-labelledby="appointment-title">
-        <div class="container">
-            <div class="appointment-wrapper">
-                <div class="appointment-info" data-aos="fade-right">
-                    <span class="section-tag">Book a Visit</span>
-                    <h2 id="appointment-title">Personal Consultation</h2>
-                    <p>Experience our collection in person with a dedicated jewelry consultant. Whether you're selecting an engagement ring, designing a custom piece, or exploring investment jewelry, we'll guide you every step of the way.</p>
-                    
-                    <div class="appointment-benefits">
-                        <div class="benefit">
-                            <span class="benefit-icon" aria-hidden="true">✓</span>
-                            <span>Private viewing room</span>
-                        </div>
-                        <div class="benefit">
-                            <span class="benefit-icon" aria-hidden="true">✓</span>
-                            <span>Expert guidance</span>
-                        </div>
-                        <div class="benefit">
-                            <span class="benefit-icon" aria-hidden="true">✓</span>
-                            <span>No obligation</span>
-                        </div>
-                        <div class="benefit">
-                            <span class="benefit-icon" aria-hidden="true">✓</span>
-                            <span>Complimentary refreshments</span>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-quick">
-                        <h3>Prefer to connect directly?</h3>
-                        <div class="quick-contacts">
-                            <a href="https://wa.me/91XXXXXXXXXX" class="quick-contact whatsapp" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-                                <span class="contact-icon" aria-hidden="true">💬</span>
-                                <div>
-                                    <span class="contact-label">WhatsApp</span>
-                                    <span class="contact-value">+91 XXXXXXXXXX</span>
-                                </div>
-                            </a>
-                            <a href="tel:+91XXXXXXXXXX" class="quick-contact phone" aria-label="Call us">
-                                <span class="contact-icon" aria-hidden="true">📞</span>
-                                <div>
-                                    <span class="contact-label">Call Us</span>
-                                    <span class="contact-value">+91 XXXXXXXXXX</span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="appointment-form-wrapper" data-aos="fade-left">
-                    <form class="appointment-form" id="appointmentForm" action="https://wa.me/91XXXXXXXXXX" method="GET" target="_blank">
-                        <input type="hidden" name="text" id="whatsappMessage" value="">
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="name">Full Name *</label>
-                                <input type="text" id="name" name="name" required placeholder="Enter your name">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone Number *</label>
-                                <input type="tel" id="phone" name="phone" required placeholder="+91 XXXXX XXXXX">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email">Email Address</label>
-                                <input type="email" id="email" name="email" placeholder="your@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label for="purpose">Purpose of Visit *</label>
-                                <select id="purpose" name="purpose" required>
-                                    <option value="">Select purpose</option>
-                                    <option value="engagement">Engagement / Wedding Jewelry</option>
-                                    <option value="custom">Custom Design Consultation</option>
-                                    <option value="investment">Gold / Diamond Investment</option>
-                                    <option value="gifting">Gift Selection</option>
-                                    <option value="repair">Repair / Restoration</option>
-                                    <option value="valuation">Valuation / Certification</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="date">Preferred Date *</label>
-                                <input type="date" id="date" name="date" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="time">Preferred Time *</label>
-                                <select id="time" name="time" required>
-                                    <option value="">Select time</option>
-                                    <option value="10:00">10:00 AM</option>
-                                    <option value="11:00">11:00 AM</option>
-                                    <option value="12:00">12:00 PM</option>
-                                    <option value="14:00">2:00 PM</option>
-                                    <option value="15:00">3:00 PM</option>
-                                    <option value="16:00">4:00 PM</option>
-                                    <option value="17:00">5:00 PM</option>
-                                    <option value="18:00">6:00 PM</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message">Special Requirements / Message</label>
-                            <textarea id="message" name="message" rows="4" placeholder="Any specific designs, budget range, or requirements..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-full" id="submitBooking">
-                            <span class="btn-text">Book via WhatsApp</span>
-                            <span class="btn-icon" aria-hidden="true">💬</span>
-                        </button>
-                        
-                        <p class="form-note">We'll confirm your appointment within 2 hours via WhatsApp or call.</p>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ============================ NAVBAR ============================ -->
+<nav class="navbar" id="navbar" aria-label="Primary">
+  <div class="container nav-container">
+    <a href="#home" class="logo" aria-label="Alif Laam Meem Jewellers — home">
+      <span class="logo-mark" aria-hidden="true"><span>ALM</span></span>
+      <span class="logo-words">
+        <span class="logo-text">Alif Laam Meem</span>
+        <span class="logo-sub">Jewellers</span>
+      </span>
+    </a>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials" aria-labelledby="testimonials-title">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">Client Stories</span>
-                <h2 id="testimonials-title">Trusted by Generations</h2>
-            </div>
-            
-            <div class="testimonials-grid" id="testimonialsGrid">
-                <!-- Testimonials will be rendered by JavaScript -->
-            </div>
-        </div>
-    </section>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#about" class="nav-link">The House</a>
+      <a href="#collections" class="nav-link">Collections</a>
+      <a href="#atelier" class="nav-link">Atelier</a>
+      <a href="#visit" class="nav-link">Visit</a>
+      <a href="#appointment" class="btn btn-primary nav-cta">Book a Consultation</a>
+    </div>
 
-    <!-- Footer -->
-    <footer class="footer" role="contentinfo">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="#" class="logo footer-logo" aria-label="Alif Laam Meem Jewellers Home">
-                        <span class="logo-icon" aria-hidden="true">✦</span>
-                        <span class="logo-text">Alif Laam Meem</span>
-                        <span class="logo-sub">Jewellers</span>
-                    </a>
-                    <p class="footer-tagline">Crafting timeless elegance since 19XX. Where tradition meets contemporary design.</p>
-                    <div class="social-links" aria-label="Social media">
-                        <a href="#" class="social-link" aria-label="Instagram" target="_blank" rel="noopener">📷</a>
-                        <a href="#" class="social-link" aria-label="Facebook" target="_blank" rel="noopener">📘</a>
-                        <a href="#" class="social-link" aria-label="WhatsApp" target="_blank" rel="noopener">💬</a>
-                        <a href="#" class="social-link" aria-label="YouTube" target="_blank" rel="noopener">▶️</a>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#collections">Collections</a></li>
-                        <li><a href="#appointment">Book Appointment</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Collections</h4>
-                    <ul>
-                        <li><a href="#collections">Engagement Rings</a></li>
-                        <li><a href="#collections">Wedding Sets</a></li>
-                        <li><a href="#collections">Diamond Jewelry</a></li>
-                        <li><a href="#collections">Gold Collections</a></li>
-                        <li><a href="#collections">Custom Design</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-contact">
-                    <h4>Visit Us</h4>
-                    <address>
-                        <p>📍 123 Jewelry Street, Gold Market</p>
-                        <p>City, State - 123456, India</p>
-                        <p>📞 <a href="tel:+91XXXXXXXXXX">+91 XXXXXXXXXX</a></p>
-                        <p>✉️ <a href="mailto:info@aliflaammeem.com">info@aliflaammeem.com</a></p>
-                    </address>
-                    <div class="hours">
-                        <p><strong>Hours:</strong> Mon-Sat 10:00 AM - 8:00 PM</p>
-                        <p>Sunday: 11:00 AM - 6:00 PM</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 Alif Laam Meem Jewellers. All rights reserved.</p>
-                <div class="footer-legal">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top -->
-    <button class="back-to-top" id="backToTop" aria-label="Back to top" aria-hidden="true">
-        <span aria-hidden="true">↑</span>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span class="hamburger"></span>
     </button>
+  </div>
+</nav>
 
-    <script src="script.js"></script>
+<!-- ============================ HERO ============================ -->
+<section class="hero" id="home">
+  <div class="container hero-content">
+    <div class="hero-text">
+      <span class="hero-badge"><i class="gem"></i> Est. 1979 &middot; Lahore</span>
+      <h1>
+        Heirlooms in <span class="gold-shine">Gold</span>,
+        <em>crafted for generations.</em>
+      </h1>
+      <p class="hero-description">
+        A family house of fine jewellery. Every piece is hallmarked, hand-finished and
+        weighed in front of you — from certified solitaires to polki bridal sets
+        built to your own sketch.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#collections" class="btn btn-primary">
+          Explore the Collections
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#appointment" class="btn btn-secondary">Book a Private Viewing</a>
+      </div>
+
+      <div class="hero-trust">
+        <span class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3l7 3v6c0 4.2-3 8.2-7 9-4-.8-7-4.8-7-9V6l7-3z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
+          BIS Hallmarked
+        </span>
+        <span class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3l9 5.5-9 11.5L3 8.5z"/><path d="M3 8.5h18M12 3v17M7.5 8.5L12 20.5l4.5-12"/></svg>
+          IGI Certified Diamonds
+        </span>
+        <span class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 8h13l3 3v5h-3M4 8v8h3"/><circle cx="8" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/></svg>
+          Free Insured Delivery
+        </span>
+        <span class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.5 5.8"/><path d="M20 5v6h-6"/></svg>
+          Lifetime Exchange
+        </span>
+      </div>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <span class="frame frame-1"></span>
+      <span class="frame frame-2"></span>
+      <span class="frame frame-3"></span>
+
+      <div class="medallion">
+        <span class="monogram">ALM<small>Fine Jewellery</small></span>
+      </div>
+
+      <span class="spark spark-1"></span>
+      <span class="spark spark-2"></span>
+      <span class="spark spark-3"></span>
+      <span class="spark spark-4"></span>
+
+      <span class="floating-card card-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l9 5.5-9 11.5L3 8.5z"/><path d="M3 8.5h18"/></svg>
+        Certified Solitaires
+      </span>
+      <span class="floating-card card-2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="14" r="6.5"/><path d="M12 3.5l3 4h-6z"/></svg>
+        Bridal Sets
+      </span>
+      <span class="floating-card card-3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 12h16M12 4v16"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+        Bespoke Design
+      </span>
+      <span class="floating-card card-4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.8 2.8M15.2 15.2L18 18M18 6l-2.8 2.8M8.8 15.2L6 18"/></svg>
+        Old Gold Exchange
+      </span>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" aria-hidden="true">
+    <span class="scroll-mouse"></span>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- ============================ RIBBON ============================ -->
+<div class="ribbon" aria-hidden="true">
+  <div class="ribbon-track" id="ribbonTrack">
+    <div class="ribbon-set">
+      <span class="ribbon-item"><i class="gem"></i> 22K Hallmarked Gold</span>
+      <span class="ribbon-item"><i class="gem"></i> IGI Certified Diamonds</span>
+      <span class="ribbon-item"><i class="gem"></i> Polki &amp; Kundan Bridal</span>
+      <span class="ribbon-item"><i class="gem"></i> Bespoke Commissions</span>
+      <span class="ribbon-item"><i class="gem"></i> Free Valuation&nbsp;&amp;&nbsp;Cleaning</span>
+      <span class="ribbon-item"><i class="gem"></i> Transparent Weighing</span>
+      <span class="ribbon-item"><i class="gem"></i> Lifetime Exchange</span>
+      <span class="ribbon-item"><i class="gem"></i> Made by Hand in Lahore</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ ABOUT ============================ -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="showcase" data-aos="fade-right">
+        <div class="showcase-window">
+          <div class="showcase-emblem">
+            <svg viewBox="0 0 200 200" role="img" aria-label="Line drawing of a gold bridal necklace">
+              <path d="M30 34 C30 116 60 140 100 140 C140 140 170 116 170 34" stroke="url(#goldStroke)" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M46 34 C46 100 72 122 100 122 C128 122 154 100 154 34" stroke="url(#goldStroke)" stroke-width="1.4" fill="none" opacity=".6"/>
+              <circle cx="30" cy="34" r="4" fill="url(#goldFill)"/>
+              <circle cx="170" cy="34" r="4" fill="url(#goldFill)"/>
+              <path d="M74 116 c0 0 6 9 6 15 a6 6 0 0 1 -12 0 c0 -6 6 -15 6 -15z" fill="url(#goldFill)"/>
+              <path d="M100 126 c0 0 6 9 6 15 a6 6 0 0 1 -12 0 c0 -6 6 -15 6 -15z" fill="url(#goldFill)"/>
+              <path d="M126 116 c0 0 6 9 6 15 a6 6 0 0 1 -12 0 c0 -6 6 -15 6 -15z" fill="url(#goldFill)"/>
+              <path d="M100 140 v14" stroke="url(#goldStroke)" stroke-width="2" fill="none"/>
+              <path d="M100 154 L114 174 L100 194 L86 174 Z" stroke="url(#goldStroke)" stroke-width="2.4" fill="none"/>
+              <path d="M86 174 h28 M100 154 v40" stroke="url(#goldStroke)" stroke-width="1.2" opacity=".6" fill="none"/>
+            </svg>
+          </div>
+        </div>
+        <div class="showcase-caption">
+          <span>The Noor <b>Polki</b> suite</span>
+          <span>Hand-set, 2025</span>
+        </div>
+        <div class="experience-badge">
+          <span class="exp-number" data-count="46" data-suffix="+">46+</span>
+          <span class="exp-text">Years of<br>Craft</span>
+        </div>
+      </div>
+
+      <div class="about-text" data-aos="fade-left">
+        <span class="section-tag">The House</span>
+        <h2 style="font-size:clamp(1.85rem,4vw,2.9rem);margin:20px 0 22px">Three generations,<br>one standard of honesty.</h2>
+        <p class="lead">
+          What began in 1979 as a single counter in the Liberty Market gold souk is today
+          a family workshop and showroom trusted by brides, collectors and investors alike.
+        </p>
+        <p>
+          Our karigars still set each stone by hand, under the loupe, at the same bench their
+          teacher used. Nothing leaves the vault without a hallmarked assay, a documented
+          weight and a written invoice — because jewellery bought for a lifetime deserves
+          paperwork that lasts just as long.
+        </p>
+
+        <div class="about-values">
+          <div class="value-item">
+            <span class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M5 8l7-5 7 5"/><path d="M4 21h16"/></svg>
+            </span>
+            <div>
+              <h3>Weighed in Your Presence</h3>
+              <p>Every gram, every stone and every making charge is shown on a printed bill before purchase.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <span class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.5 3.5l6 6-9.5 9.5-6-6z"/><path d="M6 17l-3 3"/><circle cx="12" cy="12" r="1.4"/></svg>
+            </span>
+            <div>
+              <h3>Bench-Made, Not Machine-Made</h3>
+              <p>Filigree, granulation, kundan and repoussé — techniques that machines cannot fake.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <span class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 11a8 8 0 1 0-2.5 5.8"/><path d="M20 5v6h-6"/></svg>
+            </span>
+            <div>
+              <h3>Lifetime Exchange &amp; Buyback</h3>
+              <p>Fair, published rates on old gold — plus complimentary cleaning and re-polishing, forever.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats" data-aos="fade-up">
+      <div class="stat">
+        <span class="stat-value" data-count="46" data-suffix="+">0</span>
+        <span class="stat-label">Years in the trade</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" data-count="18" data-suffix="K+">0</span>
+        <span class="stat-label">Families served</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" data-count="99.9" data-suffix="%">0</span>
+        <span class="stat-label">Hallmarked purity</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" data-count="4" data-suffix=".9">0</span>
+        <span class="stat-label">Average client rating</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ COLLECTIONS ============================ -->
+<section class="section section--alt" id="collections">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">Collections</span>
+      <h2>Find the piece that finds you</h2>
+      <p>Filter the house catalogue by type, metal or occasion. Prices are indicative and follow today&rsquo;s bullion rate &mdash; <span data-site="rateDate">06 October 2026</span>.</p>
+      <div class="ornament" aria-hidden="true"><span class="gem"></span></div>
+    </div>
+
+    <div class="filter-tabs" role="group" aria-label="Filter collections by">
+      <button class="filter-tab active" type="button" aria-pressed="true" data-filter="all">All Pieces</button>
+      <button class="filter-tab" type="button" aria-pressed="false" data-filter="type">By Type</button>
+      <button class="filter-tab" type="button" aria-pressed="false" data-filter="metal">By Metal</button>
+      <button class="filter-tab" type="button" aria-pressed="false" data-filter="occasion">By Occasion</button>
+    </div>
+
+    <div class="sub-filters" id="subFilters" role="group" aria-label="Refine selection" aria-live="polite"></div>
+
+    <div class="products-grid" id="productsGrid" role="list" aria-label="Jewellery catalogue">
+      <!-- rendered by script.js -->
+    </div>
+
+    <div class="collections-foot" data-aos="fade-up">
+      <p class="collections-note">
+        Looking for something not listed? We craft bespoke pieces from a photograph, a sketch, or an heirloom to be reimagined.
+      </p>
+      <a href="#appointment" class="btn btn-outline">Schedule a Private Viewing</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ATELIER / PROCESS ============================ -->
+<section class="section" id="atelier">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">The Atelier</span>
+      <h2>How a commission is made</h2>
+      <p>From first sketch to final polish, four unhurried stages — and you are part of every one of them.</p>
+    </div>
+
+    <div class="process-grid" data-aos="fade-up">
+      <article class="step">
+        <span class="step-num">01</span>
+        <h3>Consultation</h3>
+        <p>Sit with a jeweller, not a salesperson. We discuss budget, metal, stone and the story the piece should carry.</p>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3v-6a9 9 0 1 1 18-5z"/></svg>
+        </span>
+      </article>
+      <article class="step">
+        <span class="step-num">02</span>
+        <h3>Sketch &amp; Quote</h3>
+        <p>Hand-drawn renderings and a written, itemised estimate — making charges fixed before any gold is melted.</p>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 3.5l5.5 5.5L8 21.5H2.5V16z"/><path d="M13 5.5l5.5 5.5"/></svg>
+        </span>
+      </article>
+      <article class="step">
+        <span class="step-num">03</span>
+        <h3>Hand Crafting</h3>
+        <p>Our karigars work the metal at the bench — setting, engraving and polishing in stages you are welcome to watch.</p>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M11 3.5l5 5-8 8H3.5v-4.5z"/><path d="M16 8.5l3 3-4 4-3-3"/><path d="M13 21h8"/></svg>
+        </span>
+      </article>
+      <article class="step">
+        <span class="step-num">04</span>
+        <h3>Assay &amp; Delivery</h3>
+        <p>Independent hallmarking, certification and a lifetime service file handed over with your piece.</p>
+        <span class="step-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v6c0 4.2-3 8.2-7 9-4-.8-7-4.8-7-9V6z"/><path d="M9 12.2l2.2 2.2 4.3-4.4"/></svg>
+        </span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ APPOINTMENT ============================ -->
+<section class="section appointment" id="appointment">
+  <div class="container">
+    <div class="appointment-wrapper">
+      <div class="appointment-info" data-aos="fade-right">
+        <span class="section-tag">Private Appointment</span>
+        <h2>A quiet room, a tray of golds, and all the time you need</h2>
+        <p>
+          Book a private viewing at our Gulberg showroom. Whether you are choosing an
+          engagement solitaire, commissioning a bridal suite, or bringing in old gold to
+          exchange, your consultant will prepare the tray before you arrive.
+        </p>
+
+        <div class="appointment-benefits">
+          <span class="benefit"><i class="benefit-icon">✓</i> Private viewing room</span>
+          <span class="benefit"><i class="benefit-icon">✓</i> Loupe &amp; certificate review</span>
+          <span class="benefit"><i class="benefit-icon">✓</i> No obligation to buy</span>
+          <span class="benefit"><i class="benefit-icon">✓</i> Free old-gold valuation</span>
+          <span class="benefit"><i class="benefit-icon">✓</i> Refreshments served</span>
+          <span class="benefit"><i class="benefit-icon">✓</i> Discreet side entrance</span>
+        </div>
+
+        <div class="contact-quick">
+          <h3>Prefer to speak first?</h3>
+          <div class="quick-contacts">
+            <a class="quick-contact whatsapp" href="#" data-wa="Assalam-o-Alaikum. I would like to book a showroom consultation at Alif Laam Meem Jewellers.">
+              <span class="contact-icon" aria-hidden="true">💬</span>
+              <span>
+                <span class="contact-label">WhatsApp</span>
+                <span class="contact-value" data-site="phoneDisplay">+92 300 000 0000</span>
+              </span>
+            </a>
+            <a class="quick-contact phone" href="tel:+923000000000">
+              <span class="contact-icon" aria-hidden="true">📞</span>
+              <span>
+                <span class="contact-label">Call the showroom</span>
+                <span class="contact-value" data-site="phoneDisplay">+92 300 000 0000</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="appointment-form-wrapper" data-aos="fade-left">
+        <h3 class="form-heading">Request your appointment</h3>
+        <p class="form-subheading">Fill this in and we will confirm your slot on WhatsApp within two hours.</p>
+
+        <form class="appointment-form" id="appointmentForm" novalidate>
+          <input type="hidden" name="text" id="whatsappMessage" value="">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full name <span class="req">*</span></label>
+              <input type="text" id="name" name="name" autocomplete="name" placeholder="e.g. Ayesha Rehman" required>
+              <span class="error-msg">Please enter your full name.</span>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone / WhatsApp <span class="req">*</span></label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+92 3XX XXX XXXX" required>
+              <span class="error-msg">Enter a reachable phone number.</span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email <span style="text-transform:none;letter-spacing:0;color:var(--ink-mute)">(optional)</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com">
+              <span class="error-msg">Please check this email address.</span>
+            </div>
+            <div class="form-group">
+              <label for="purpose">Purpose of visit <span class="req">*</span></label>
+              <select id="purpose" name="purpose" required>
+                <option value="">Select a purpose</option>
+                <option value="engagement">Engagement / Wedding jewellery</option>
+                <option value="bridal">Bridal polki &amp; kundan suite</option>
+                <option value="custom">Bespoke commission</option>
+                <option value="investment">Gold / bullion investment</option>
+                <option value="exchange">Old gold exchange or buyback</option>
+                <option value="gifting">Gift selection</option>
+                <option value="repair">Repair, polishing or restoration</option>
+                <option value="valuation">Valuation &amp; certification</option>
+              </select>
+              <span class="error-msg">Choose the purpose of your visit.</span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="date">Preferred date <span class="req">*</span></label>
+              <input type="date" id="date" name="date" required>
+              <span class="error-msg">Pick a preferred date.</span>
+            </div>
+            <div class="form-group">
+              <label for="time">Preferred time <span class="req">*</span></label>
+              <select id="time" name="time" required>
+                <option value="">Select a time</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="13:00">1:00 PM</option>
+                <option value="14:00">2:00 PM</option>
+                <option value="15:00">3:00 PM</option>
+                <option value="16:00">4:00 PM</option>
+                <option value="17:00">5:00 PM</option>
+                <option value="18:00">6:00 PM</option>
+                <option value="19:00">7:00 PM</option>
+                <option value="20:00">8:00 PM</option>
+              </select>
+              <span class="error-msg">Pick a preferred time.</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Budget range &amp; requirements <span style="text-transform:none;letter-spacing:0;color:var(--ink-mute)">(optional)</span></label>
+            <textarea id="message" name="message" rows="4" placeholder="Tell us the occasion, the design you have in mind, or the weight you are looking for…"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">
+            <span class="btn-text">Request Appointment on WhatsApp</span>
+            <span class="btn-icon" aria-hidden="true">💬</span>
+          </button>
+
+          <p class="form-note"><i class="gem"></i>Your details stay with us. Nothing is shared, and there is no obligation to purchase.</p>
+          <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TESTIMONIALS ============================ -->
+<section class="section" id="clients">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">Client Stories</span>
+      <h2>Trusted across generations</h2>
+      <p>Unedited words from brides, collectors and families who have bought from our counter.</p>
+      <div class="ornament" aria-hidden="true"><span class="gem"></span></div>
+    </div>
+    <div class="testimonials-grid" id="testimonialsGrid" data-aos="fade-up">
+      <!-- rendered by script.js -->
+    </div>
+  </div>
+</section>
+
+<!-- ============================ VISIT ============================ -->
+<section class="section section--alt" id="visit">
+  <div class="container">
+    <div class="section-header left" data-aos="fade-up">
+      <span class="section-tag">Visit the Showroom</span>
+      <h2>Come and see it in daylight</h2>
+      <p>Gold always looks different under our light than under anyone else&rsquo;s. Bring your family — there is tea.</p>
+    </div>
+
+    <div class="visit-grid">
+      <div class="visit-card" data-aos="fade-right">
+        <h3>Alif Laam Meem Jewellers</h3>
+        <p>Gulberg III, Lahore &middot; Valet parking available on request</p>
+
+        <dl class="visit-list">
+          <div class="visit-row">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-5.6-7-11a7 7 0 1 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+            </span>
+            <div>
+              <dt>Address</dt>
+              <dd><span data-site="addressLine1">Shop 42, Gold Souk, Liberty Market</span><br><span data-site="addressLine2">Gulberg III, Lahore 54660, Pakistan</span></dd>
+            </div>
+          </div>
+          <div class="visit-row">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4.5 5.5c0 8 7 14 14 14l1.5-3-4-2-2 1.5c-2.5-1-5-3.5-6-6L9.5 8l-2-4-3 1.5z"/></svg>
+            </span>
+            <div>
+              <dt>Telephone &amp; WhatsApp</dt>
+              <dd>
+                <a href="tel:+923000000000" data-site="phoneDisplay">+92 300 000 0000</a><br>
+                <a href="mailto:care@aliflaammeemjewellers.com" data-site="email">care@aliflaammeemjewellers.com</a>
+              </dd>
+            </div>
+          </div>
+          <div class="visit-row">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+            </span>
+            <div>
+              <dt>Opening hours</dt>
+              <dd><span data-site="hoursWeek">Mon – Sat · 11:00 AM – 9:00 PM</span><br><span data-site="hoursSun">Sunday · 1:00 PM – 7:00 PM</span></dd>
+            </div>
+          </div>
+          <div class="visit-row">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M19 4v7a4 4 0 0 1-4 4H5"/><path d="M8 12l-3 3 3 3"/><path d="M19 4h-4"/></svg>
+            </span>
+            <div>
+              <dt>Getting here</dt>
+              <dd>Five minutes from Liberty Roundabout, opposite the gold souk arcade. Lift access to the first floor.</dd>
+            </div>
+          </div>
+        </dl>
+
+        <a class="btn btn-ghost directions-btn" href="https://maps.google.com/" data-site-href="mapsUrl">
+          Get directions
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="map-panel" data-aos="fade-left" role="img" aria-label="Stylised map showing the showroom location near Liberty Market, Gulberg III, Lahore">
+        <span class="map-roads" aria-hidden="true">
+          <span class="r1"></span><span class="r2"></span><span class="r3"></span><span class="r4"></span><span class="r5"></span>
+        </span>
+        <div class="map-pin">
+          <span class="pin-dot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 17.5s4.5-4.2 4.5-8a4.5 4.5 0 1 0-9 0c0 3.8 4.5 8 4.5 8z"/><circle cx="12" cy="9.5" r="1.6"/></svg>
+          </span>
+          <span class="pin-label">Liberty Market &middot; Gulberg III</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#home" class="logo" aria-label="Alif Laam Meem Jewellers — home">
+          <span class="logo-mark" aria-hidden="true"><span>ALM</span></span>
+          <span class="logo-words">
+            <span class="logo-text">Alif Laam Meem</span>
+            <span class="logo-sub">Jewellers</span>
+          </span>
+        </a>
+        <p class="footer-tagline">
+          A family house of fine jewellery since 1979 — hallmarked gold, certified diamonds
+          and hand-crafted bridal suites from the heart of Lahore.
+        </p>
+        <div class="social-links">
+          <a class="social-link" href="https://instagram.com/" data-site-href="instagram" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a class="social-link" href="https://facebook.com/" data-site-href="facebook" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14.5 8.5h2.5V5.5h-2.5c-2 0-3.5 1.6-3.5 3.5v2H9v3h2v6.5h3V14h2.5l.5-3H14V9.5c0-.6.3-1 .5-1z"/></svg>
+          </a>
+          <a class="social-link" href="#" data-wa="Assalam-o-Alaikum. I found your website and would like to ask about a piece." aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4A8 8 0 1 1 20 11.5z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5"/></svg>
+          </a>
+          <a class="social-link" href="https://youtube.com/" data-site-href="youtube" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="12" rx="3.5"/><path d="M11 9.8l4 2.2-4 2.2z" fill="currentColor" stroke="none"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#about">The House</a></li>
+          <li><a href="#collections">Collections</a></li>
+          <li><a href="#atelier">The Atelier</a></li>
+          <li><a href="#clients">Client Stories</a></li>
+          <li><a href="#visit">Visit Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#appointment">Bridal Consultation</a></li>
+          <li><a href="#appointment">Bespoke Commissions</a></li>
+          <li><a href="#appointment">Old Gold Exchange</a></li>
+          <li><a href="#appointment">Repair &amp; Polishing</a></li>
+          <li><a href="#appointment">Valuation &amp; Certification</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h4>Showroom</h4>
+        <address>
+          <p>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 21s-7-5.6-7-11a7 7 0 1 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+            <span><span data-site="addressLine1">Shop 42, Gold Souk, Liberty Market</span><br><span data-site="addressLine2">Gulberg III, Lahore 54660</span></span>
+          </p>
+          <p>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4.5 5.5c0 8 7 14 14 14l1.5-3-4-2-2 1.5c-2.5-1-5-3.5-6-6L9.5 8l-2-4-3 1.5z"/></svg>
+            <a href="tel:+923000000000" data-site="phoneDisplay">+92 300 000 0000</a>
+          </p>
+          <p>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>
+            <a href="mailto:care@aliflaammeemjewellers.com" data-site="email">care@aliflaammeemjewellers.com</a>
+          </p>
+        </address>
+        <div class="hours">
+          <p><strong>Hours</strong></p>
+          <p><span data-site="hoursWeek">Mon – Sat · 11:00 AM – 9:00 PM</span></p>
+          <p><span data-site="hoursSun">Sunday · 1:00 PM – 7:00 PM</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="newsletter">
+      <div>
+        <h3>First look at new arrivals</h3>
+        <p>Bridal previews and bullion rate notes, twice a month. No noise.</p>
+      </div>
+      <form class="newsletter-form" id="newsletterForm" novalidate>
+        <label class="visually-hidden" for="newsletterEmail">Email address</label>
+        <input type="email" id="newsletterEmail" placeholder="Your email address" autocomplete="email" required>
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+      <p class="newsletter-msg" id="newsletterMsg" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; <span id="year">2026</span> Alif Laam Meem Jewellers. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#visit">Privacy Policy</a>
+        <a href="#visit">Terms of Sale</a>
+        <a href="#visit">Hallmarking &amp; Buyback</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================ FLOATING ACTIONS ============================ -->
+<a class="whatsapp-float" href="#" data-wa="Assalam-o-Alaikum. I would like to ask about your jewellery collections." aria-label="Chat with us on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4A8 8 0 1 1 20 11.5z"/><path d="M8.5 9.5c0 3.2 2.8 6 6 6"/></svg>
+</a>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top" aria-hidden="true">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<!-- ============================ SHARED SVG GRADIENTS ============================ -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="goldFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E4CE9B"/>
+      <stop offset="45%" stop-color="#C6A15B"/>
+      <stop offset="100%" stop-color="#9A7734"/>
+    </linearGradient>
+    <linearGradient id="goldStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9A7734"/>
+      <stop offset="50%" stop-color="#C6A15B"/>
+      <stop offset="100%" stop-color="#7A5C23"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<script src="script.js"></script>
 </body>
 </html>
