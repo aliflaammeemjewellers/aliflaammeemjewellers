@@ -144,7 +144,7 @@ itself off under `prefers-reduced-motion`.
 **On load** a short branded intro plays — the ALM monogram fades up, a gold
 hairline draws out beneath it, "Jewellers" fades in — then the curtain lifts and
 the hero resolves in sequence: badge, headline, tagline, description, buttons,
-then the product and its caption. Three things keep it safe:
+then the line drawing and the scroll cue. Three things keep it safe:
 
 - **No flash.** The hero is hidden by CSS before paint, so nothing appears and
   then jumps. The intro element also carries inline layout styles, so it looks
@@ -157,10 +157,10 @@ then the product and its caption. Three things keep it safe:
 Scroll reveals (`.aos-in`) only start after the intro hands over — otherwise the
 two animations race and elements resolve at the wrong moment.
 
-**Micro-interactions:** the hero motif sits inside a slow-turning dashed ring
-with three twinkling sparks; the wishlist heart pulses a ring when saved; the
-WhatsApp button has a steady halo; the appointment success message draws an
-animated tick; quote cards stagger in as they scroll into view.
+**Micro-interactions:** three twinkling sparks sit behind the hero motif on a
+soft gold glow; the wishlist heart pulses a ring when saved; the WhatsApp button
+has a steady halo; the appointment success message draws an animated tick; quote
+cards stagger in as they scroll into view.
 
 Timings live in CSS (the intro keyframes are in section 5b, near the top of the
 file), so you can retune the whole sequence there. The hold before the curtain
@@ -169,15 +169,41 @@ lifts — 780ms after `load` — is the `setTimeout(finish, 780)` call in
 
 ## Accessibility & performance
 
-- Semantic landmarks, a skip link, `aria-pressed` filter controls, labelled
-  form fields, `role="status"` live regions for feedback.
-- Keyboard focus styles throughout; the mobile menu button is a real
-  `aria-expanded` toggle.
-- Full `prefers-reduced-motion` support and a print stylesheet.
-- Local Business structured data (JSON-LD) in the head for search engines.
-- No images, no libraries and no web fonts — the whole site is three files that
-  work completely offline. The only external request is the optional font on
-  your own machine, which is already installed.
+Every page was audited rather than assumed. What is actually implemented:
+
+**Contrast.** All body and secondary text is measured against the surface it
+sits on, not eyeballed. The `--ink-*` tokens were darkened until they cleared
+WCAG AA (4.5:1) on both white and the grey band; the dark bands flip to their
+own lighter greys and gold via the `.section--dark, .hero` scope. The keyboard
+focus ring is a solid gold (`--focus-ring`) rather than a translucent wash, so
+it clears the 3:1 non-text bar on light *and* dark surfaces. Lowest measured
+pair: 4.62:1.
+
+**Structure.** Each page has one `h1` and never skips a heading level, a `main`
+landmark, `nav`, `footer`, and a skip link that points at real content. The 23
+pages were checked for duplicate IDs, dead in-page anchors, broken internal
+links and missing assets — all zero.
+
+**Interaction.**
+
+- Filter controls are `aria-pressed` toggle buttons in a labelled group. The
+  result count is announced politely — "Showing 3 of 14 pieces", "No pieces
+  match these filters" — instead of changing silently.
+- The mobile menu button is a real `aria-expanded`/`aria-controls` toggle, and
+  `Escape` closes it and returns focus to the button.
+- Form errors are tied to their field with `aria-invalid` and
+  `aria-describedby`, the first bad field takes focus, and the summary is
+  announced through a live region. Typing clears the error.
+- Chips and buttons keep a 44px touch target on the small screen.
+
+**Motion.** Everything above animates only when it is safe to: full
+`prefers-reduced-motion` support turns off the intro curtain, the scroll
+reveals and every transition. There is also a print stylesheet.
+
+**Performance.** No images, no libraries and no web fonts — the whole site is
+three files that work completely offline. Local Business structured data
+(JSON-LD) sits in the head for search engines. The optional hero photograph is
+the only thing you might add, and it is same-origin (`assets/README.md`).
 
 ## Notes before going live
 

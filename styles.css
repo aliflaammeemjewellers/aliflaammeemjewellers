@@ -22,8 +22,9 @@
   /* type */
   --ink:      #1D1D1F;
   --ink-2:    #424245;
-  --ink-soft: #6E6E73;
-  --ink-mute: #86868B;
+  --ink-soft: #515154;
+  --ink-mute: #6E6E73;   /* darkened from #86868B to clear 4.5:1 on grey */
+  --focus-ring: #8A6A2B; /* 5.0:1 on white — visible keyboard focus */
 
   /* one restrained gold accent */
   --gold:       #B08C4A;
@@ -110,7 +111,9 @@ strong { color: var(--ink); font-weight: 600; }
 ::selection { background: var(--gold-pale); color: var(--gold-dark); }
 
 :focus-visible {
-  outline: 3px solid rgba(176, 140, 74, .55);
+  /* Solid, not translucent: a 55% gold wash only reached ~1.9:1 on white,
+     under the 3:1 bar for non-text UI. This clears it on light and dark. */
+  outline: 3px solid var(--focus-ring);
   outline-offset: 3px;
   border-radius: var(--r-xs);
 }
@@ -145,6 +148,13 @@ strong { color: var(--ink); font-weight: 600; }
 .section--alt { background: var(--bg-alt); }
 
 /* full-bleed dark band — Apple's black marketing sections */
+.section--dark,
+.hero {
+  /* on black, the light greys are the accessible ones */
+  --ink-soft: #A1A1A6;
+  --ink-mute: #A1A1A6;
+  --focus-ring: var(--gold-on-dark);
+}
 .section--dark {
   background: #000;
   color: #A1A1A6;
@@ -158,6 +168,7 @@ strong { color: var(--ink); font-weight: 600; }
 .section--dark .section-tag { color: var(--gold-on-dark); }
 .section--dark .step-num { color: var(--gold-on-dark); }
 .section--dark .step p { color: #A1A1A6; }
+.section--dark .step h2 { color: #F5F5F7; }
 .section--dark .step-icon {
   background: rgba(255, 255, 255, .07);
   color: var(--gold-on-dark);
@@ -504,23 +515,16 @@ strong { color: var(--ink); font-weight: 600; }
 }
 
 .hero-showcase { margin: clamp(42px, 5.5vw, 76px) auto 0; max-width: 1000px; }
+
+/* Positioning context for the twinkle sparks, and the soft gold glow
+   behind the motif. With a photo behind the hero the glow is dropped
+   (see .hero--photo) because the image already carries the depth. */
 .showcase-stage {
   position: relative;
   display: grid;
   place-items: center;
   padding: clamp(20px, 4vw, 48px);
   background: radial-gradient(58% 68% at 50% 46%, rgba(176, 140, 74, .26), transparent 72%);
-}
-/* slow-turning dashed ring behind the piece */
-.showcase-ring {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: min(430px, 68vw);
-  aspect-ratio: 1;
-  margin: calc(min(430px, 68vw) / -2) 0 0 calc(min(430px, 68vw) / -2);
-  border: 1px dashed rgba(210, 180, 120, .34);
-  border-radius: 50%;
-  animation: spin 46s linear infinite;
 }
 .showcase-stage .motif,
 .showcase-stage > svg { position: relative; z-index: 1; }
@@ -540,29 +544,38 @@ strong { color: var(--ink); font-weight: 600; }
   height: auto;
   display: block;
 }
-.showcase-caption {
-  margin-top: 8px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: center;
-  gap: 4px 12px;
-  font-size: .94rem;
-  color: #86868B;
-}
-.showcase-caption strong { font-size: 1.04rem; color: #F5F5F7; }
-
 .scroll-indicator {
   display: flex;
   justify-content: center;
   margin-top: clamp(24px, 3vw, 36px);
-  color: #6E6E73;
+  color: rgba(255, 255, 255, .72);
 }
 .scroll-indicator svg { width: 22px; height: 22px; animation: bob 2.4s var(--ease) infinite; }
 @keyframes bob {
   0%, 100% { transform: translateY(0); opacity: .45; }
   50%      { transform: translateY(6px); opacity: 1; }
 }
+
+
+/* Optional hero photograph. build.py adds .hero--photo and sets --hero-photo
+   only when assets/hero.jpg (or .png/.webp/.avif) exists, so the hero still
+   looks right with no image at all. The scrim keeps the headline legible
+   whatever the photograph does. */
+.hero--photo {
+  background-color: #000;
+  background-image:
+    linear-gradient(180deg,
+      rgba(0, 0, 0, .58) 0%,
+      rgba(0, 0, 0, .70) 46%,
+      rgba(0, 0, 0, .88) 100%),
+    var(--hero-photo);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  padding-block: clamp(72px, 11vw, 150px);
+}
+/* the gold wash that normally sits behind the motif would fight a photograph */
+.hero--photo .showcase-stage { background: none; }
 
 /* ----------------------------- 7. COLLECTIONS ---------------------------- */
 .filter-tabs {
@@ -598,7 +611,10 @@ strong { color: var(--ink); font-weight: 600; }
 }
 .sub-filters:empty { margin-bottom: 24px; }
 .chip {
-  padding: 7px 15px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 7px 16px;
   font-size: .88rem;
   color: var(--ink-soft);
   background: var(--bg);
@@ -865,7 +881,7 @@ strong { color: var(--ink); font-weight: 600; }
   font-weight: 600;
   color: var(--gold-deep);
 }
-.step h3 { margin: 10px 0 8px; font-size: 1.14rem; }
+.step h2 { margin: 10px 0 8px; font-size: 1.14rem; letter-spacing: -.01em; }
 .step p { font-size: .94rem; color: var(--ink-mute); }
 .step-icon {
   display: grid;
@@ -1154,11 +1170,13 @@ strong { color: var(--ink); font-weight: 600; }
 .social-link svg { width: 16px; height: 16px; }
 .social-link:hover { color: #fff; background: var(--ink); }
 
-.footer-links h4,
-.footer-contact h4 {
+/* These are h3 so the document outline runs h1 → h2 → h3 without a gap. */
+.footer-links h3,
+.footer-contact h3 {
   margin-bottom: 14px;
   font-size: .88rem;
   font-weight: 600;
+  letter-spacing: -.01em;
   color: var(--ink);
 }
 .footer-links li + li { margin-top: 9px; }
@@ -1267,9 +1285,6 @@ strong { color: var(--ink); font-weight: 600; }
 }
 
 /* --------------------------- 14. REVEAL ANIMATIONS ----------------------- */
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
 @keyframes twinkle {
   0%, 100% { opacity: .3; transform: scale(.8); }
   50%      { opacity: 1;  transform: scale(1.15); }
@@ -1346,7 +1361,6 @@ strong { color: var(--ink); font-weight: 600; }
   .spotlight-specs { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .hero h1 { max-width: none; }
-  .showcase-stage { border-radius: var(--r-lg); }
   .newsletter { flex-direction: column; align-items: flex-start; }
   .newsletter-form { width: 100%; max-width: none; }
   .hero-actions { flex-direction: column; align-items: stretch; width: 100%; }
@@ -1563,8 +1577,8 @@ strong { color: var(--ink); font-weight: 600; }
 }
 
 /* links that should read as ink, not gold (tile titles, product names) */
-.product-name a, .spotlight-name a, .showcase-caption strong a { color: inherit; }
-.product-name a:hover, .spotlight-name a:hover, .showcase-caption strong a:hover { text-decoration: underline; }
+.product-name a, .spotlight-name a, .piece-name { color: inherit; }
+.product-name a:hover, .spotlight-name a:hover { text-decoration: underline; }
 .media-link { display: grid; place-items: center; text-decoration: none; }
 .media-link:hover { text-decoration: none; }
 
@@ -1589,6 +1603,20 @@ strong { color: var(--ink); font-weight: 600; }
 }
 
 /* --------------------------- 16. A11Y / MOTION --------------------------- */
+/* Windows High Contrast / forced-colors: background-clip text is invisible,
+   so fall back to plain text colour. */
+@media (forced-colors: active) {
+  .gold-shine {
+    background: none;
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+  }
+  .btn-primary, .btn-light { border: 1px solid ButtonText; }
+  .product-card, .tile, .spotlight, .testimonial, .visit-card, .panel {
+    border: 1px solid CanvasText;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

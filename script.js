@@ -57,7 +57,10 @@
     const grid = $('#productsGrid');
     const spotlight = $('#spotlight');
     const empty = $('#noResults');
+    const status = $('#filterStatus');
     if (!grid) return;
+
+    const total = $$('.product-card', grid).length + (spotlight ? 1 : 0);
 
     let shown = 0;
     $$('.product-card', grid).forEach((el) => {
@@ -72,6 +75,15 @@
       if (ok) shown++;
     }
     if (empty) empty.hidden = shown > 0;
+
+    // Announce the result to screen readers, not just the visual grid.
+    if (status) {
+      status.textContent = shown === 0
+        ? 'No pieces match these filters.'
+        : shown === total
+          ? 'Showing all ' + total + ' pieces.'
+          : 'Showing ' + shown + ' of ' + total + ' pieces.';
+    }
   }
 
   function renderSubFilters(group) {
@@ -151,8 +163,24 @@
       const group = field.closest('.form-group');
       if (!group) return;
       group.classList.toggle('invalid', on);
+
+      // Keep the message tied to the field for screen readers, not just visually.
       const box = $('.error-msg', group);
-      if (box && msg) box.textContent = msg;
+      let described = [];
+      if (box) {
+        if (!box.id) box.id = (field.id || field.name || 'field') + '-error';
+        if (msg) box.textContent = msg;
+        const ids = (field.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean);
+        const at = ids.indexOf(box.id);
+        if (on && at === -1) ids.push(box.id);
+        if (!on && at > -1) ids.splice(at, 1);
+        described = ids;
+      }
+      if (described.length) field.setAttribute('aria-describedby', described.join(' '));
+      else field.removeAttribute('aria-describedby');
+
+      if (on) field.setAttribute('aria-invalid', 'true');
+      else field.removeAttribute('aria-invalid');
     }
 
     $$('input, select, textarea', form).forEach((f) => {
@@ -184,8 +212,14 @@
       });
 
       if (firstBad) {
+        const bad = checks.filter((c) => !c[1]).length;
+        if (status) {
+          status.innerHTML = '<span>' + bad +
+            (bad === 1 ? ' field needs' : ' fields need') +
+            ' your attention before we can prepare the request.</span>';
+          status.classList.add('show');
+        }
         firstBad.focus();
-        if (status) status.classList.remove('show');
         return;
       }
 
@@ -299,8 +333,15 @@
         setMenu(btn.getAttribute('aria-expanded') !== 'true'));
       $$('.nav-link', links).forEach((a) =>
         a.addEventListener('click', () => setMenu(false)));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && links.classList.contains('open')) {
+          setMenu(false);
+          btn.focus();
+        }
+      });
       window.addEventListener('resize', () => {
-        if (window.innerWidth > 980 && links.classList.contains('open')) setMenu(false);
+        // Matches the CSS breakpoint where the desktop nav takes over.
+        if (window.innerWidth > 860 && links.classList.contains('open')) setMenu(false);
       });
     }
 
