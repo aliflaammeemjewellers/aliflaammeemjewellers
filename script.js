@@ -43,6 +43,14 @@
 
   const filterState = { group: 'all', value: null };
 
+  /* Progressive reveal for the catalogue grid: the first REVEAL_BATCH cards
+     ship visible, the rest are revealed as the visitor scrolls. Keep in step
+     with REVEAL_BATCH in build.py. When a concrete filter is active the whole
+     matching set is shown at once — the list is small enough. */
+  const REVEAL_BATCH = 6;
+  const revealState = { count: REVEAL_BATCH };
+  const progressiveActive = () => filterState.value === null;
+
   function cardMatches(el) {
     if (!filterState.value) return true;
     if (filterState.group === 'type') return el.dataset.type === filterState.value;
@@ -61,12 +69,14 @@
     if (!grid) return;
 
     const total = $$('.product-card', grid).length + (spotlight ? 1 : 0);
+    const prog = progressiveActive();
 
     let shown = 0;
-    $$('.product-card', grid).forEach((el) => {
+    $$('.product-card', grid).forEach((el, i) => {
       const ok = cardMatches(el);
-      el.hidden = !ok;
-      if (ok) shown++;
+      const revealed = !prog || i < revealState.count;
+      el.hidden = !(ok && revealed);
+      if (ok && revealed) shown++;
     });
 
     if (spotlight) {
@@ -84,6 +94,126 @@
           ? 'Showing all ' + total + ' pieces.'
           : 'Showing ' + shown + ' of ' + total + ' pieces.';
     }
+
+    // Tab and chip clicks land here too, so the reveal foot has to follow
+    // the filter state no matter which path changed it.
+    updateRevealFoot();
+  }
+
+  /* ---------------------------------------------------------------------
+     2b. PROGRESSIVE REVEAL — more pieces as the visitor scrolls
+     --------------------------------------------------------------------- */
+  function animateCardIn(el, stagger) {
+    el.style.animation = 'none';
+    el.style.animationDelay = (stagger * 70) + 'ms';
+    void el.offsetWidth; // restart the cardIn animation
+    el.style.animation = '';
+  }
+
+  function revealMore() {
+    const grid = $('#productsGrid');
+    if (!grid || !progressiveActive()) return;
+    const cards = $$('.product-card', grid);
+    const total = cards.length;
+    if (revealState.count >= total) return;
+
+    const prev = revealState.count;
+    revealState.count = Math.min(prev + REVEAL_BATCH, total);
+    applyFilter();
+
+    let stagger = 0;
+    cards.forEach((el, i) => {
+      if (i >= prev && i < revealState.count && !el.hidden) animateCardIn(el, stagger++);
+    });
+
+    // The visitor is still at the bottom and there is room — keep filling.
+    const foot = $('#revealFoot');
+    if (foot && revealState.count < total) {
+      const r = foot.getBoundingClientRect();
+      if (r.top < window.innerHeight + 400) {
+        window.requestAnimationFrame(revealMore);
+      }
+    }
+  }
+
+  function updateRevealFoot() {
+    const foot = $('#revealFoot');
+    if (!foot) return;
+    const status = $('#revealStatus');
+    const btn = $('#revealMore');
+    if (!progressiveActive()) {
+      // A filter is narrowing the list — every match is already on screen.
+      foot.hidden = true;
+      return;
+    }
+    // Back to the unfiltered list: the sentinel has to be live again,
+    // otherwise scrolling for more silently stops working.
+    foot.hidden = false;
+    const total = $$('.product-card', $('#productsGrid')).length;
+    const shown = Math.min(revealState.count, total);
+    if (status) {
+      status.textContent = shown >= total
+        ? 'Showing all ' + total + ' pieces.'
+        : 'Showing ' + shown + ' of ' + total + ' pieces — scroll for more.';
+    }
+    if (btn) btn.hidden = shown >= total;
+  }
+
+  function initReveal() {
+    const grid = $('#productsGrid');
+    const foot = $('#revealFoot');
+    const btn = $('#revealMore');
+    if (!grid || !foot) return;
+
+    applyFilter();
+    updateRevealFoot();
+
+    if (btn) btn.addEventListener('click', revealMore);
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => { if (en.isIntersecting) revealMore(); });
+      }, { rootMargin: '600px 0px' });
+      io.observe(foot);
+    } else {
+      // Fallback: reveal a batch when the foot gets near the viewport.
+      window.addEventListener('scroll', () => {
+        const r = foot.getBoundingClientRect();
+        if (r.top < window.innerHeight + 600) revealMore();
+      }, { passive: true });
+    }
+  }
+
+  /* ---------------------------------------------------------------------
+     2c. DEEP LINK — ?type=rings lands on Collections already filtered
+     --------------------------------------------------------------------- */
+  function initUrlFilter() {
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type');
+    if (!type || FILTERS.type.options[type] === undefined) return;
+    const tabs = $$('.filter-tab');
+    let typeTab = null;
+    tabs.forEach((t) => { if (t.dataset.filter === 'type') typeTab = t; });
+    if (!typeTab) return;
+
+    tabs.forEach((t) => {
+      const on = t === typeTab;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    filterState.group = 'type';
+    renderSubFilters('type');
+    const wrap = $('#subFilters');
+    if (wrap) {
+      $$('.chip', wrap).forEach((c) => {
+        const on = c.dataset.val === type;
+        c.classList.toggle('active', on);
+        c.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+    filterState.value = type;
+    applyFilter();
+    updateRevealFoot();
   }
 
   function renderSubFilters(group) {
@@ -134,6 +264,122 @@
         applyFilter();
       });
     }
+  }
+
+  /* ---------------------------------------------------------------------
+     4. QUICK VIEW — every detail of a piece without leaving the page.
+     Data comes from the #catalogue-data JSON island (build.py), so opening
+     details never fetches anything.
+     --------------------------------------------------------------------- */
+  const CATALOGUE = (function () {
+    const el = d$('#catalogue-data');
+    if (!el) return null;
+    try { return JSON.parse(el.textContent); } catch (e) { return null; }
+  })();
+
+  let qvLastTrigger = null;
+
+  function qvOpen(item) {
+    let overlay = d$('.qv-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'qv-overlay';
+      overlay.innerHTML =
+        '<div class="qv-panel" role="dialog" aria-modal="true" aria-labelledby="qvName">' +
+          '<button class="qv-close" type="button" aria-label="Close details">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">' +
+            '<path d="M6 6l12 12M18 6L6 18"/></svg>' +
+          '</button>' +
+          '<div class="qv-media"></div>' +
+          '<div class="qv-body"></div>' +
+        '</div>';
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) qvClose(); });
+      d$('.qv-close', overlay).addEventListener('click', qvClose);
+    }
+
+    const badgeCls = (item.badge === 'Bestseller' || item.badge === 'Signature') ? 'badge gold' : 'badge';
+    const badge = item.badge ? '<span class="' + badgeCls + '">' + item.badge + '</span>' : '';
+    // The motif's gradient is a dark gold tuned for light tiles — on the dark
+    // media panel it needs the brighter "Dark" variant, same swap build.py's
+    // motif_dark() does.
+    const media = item.photo
+      ? '<img class="product-photo" src="' + item.photo + '" alt="' + item.name + '">'
+      : ((CATALOGUE.motifs[item.motif] || '')
+          .replace(/goldStroke/g, 'goldStrokeDark')
+          .replace(/goldFill/g, 'goldFillDark'));
+    d$('.qv-media', overlay).innerHTML = badge + media;
+
+    const specs = item.specs.map((s) =>
+      '<div class="spec"><dt>' + s[0] + '</dt><dd>' + s[1] + '</dd></div>').join('');
+    const tags = item.tags.map((t) => '<span class="tag">' + t + '</span>').join('') +
+      '<span class="tag">' + item.metals.join(' · ') + '</span>';
+
+    d$('.qv-body', overlay).innerHTML =
+      '<p class="qv-eyebrow">' + CATALOGUE.types[item.type] + ' · ' + CATALOGUE.occasions[item.occasion] + '</p>' +
+      '<h2 class="qv-name" id="qvName">' + item.name + '</h2>' +
+      '<p class="qv-price">' + item.price + '<small>' + item.note + '</small></p>' +
+      '<p class="qv-desc">' + item.desc + '</p>' +
+      '<p class="qv-story">' + item.story + '</p>' +
+      '<h3 class="qv-sub">Specifications</h3>' +
+      '<dl class="qv-specs">' + specs + '</dl>' +
+      '<div class="qv-tags">' + tags + '</div>' +
+      '<div class="qv-actions">' +
+        '<button class="btn btn-primary" type="button" data-enquire="' + item.name + '|' + item.price + '|' + item.href + '">Enquire on WhatsApp</button>' +
+        '<a class="btn btn-secondary" href="appointment.html">Book a viewing</a>' +
+        '<a class="qv-full" href="' + item.href + '">Open the full page</a>' +
+      '</div>';
+
+    // The closed state is .open-less: opacity 0 + visibility hidden. Not
+    // using the hidden attribute here on purpose — toggling display would
+    // kill the open transition and a pending "hide" timer could race a fast
+    // close-and-reopen.
+    document.body.classList.add('no-scroll');
+    overlay.classList.remove('open');
+    void overlay.offsetWidth; // reset, so the open transition replays
+    overlay.classList.add('open');
+    d$('.qv-close', overlay).focus();
+
+    document.removeEventListener('keydown', qvKeyHandler);
+    document.addEventListener('keydown', qvKeyHandler);
+  }
+
+  function qvClose() {
+    const overlay = d$('.qv-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+    document.removeEventListener('keydown', qvKeyHandler);
+    if (qvLastTrigger && document.contains(qvLastTrigger)) qvLastTrigger.focus();
+    qvLastTrigger = null;
+  }
+
+  function qvKeyHandler(e) {
+    const overlay = d$('.qv-overlay');
+    if (!overlay) return;
+    if (e.key === 'Escape') { qvClose(); return; }
+    if (e.key === 'Tab') {
+      // Keep focus inside the dialog while it is open.
+      const focusables = $$('button, a[href]', overlay);
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  }
+
+  function initQuickView() {
+    if (!CATALOGUE) return;
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest ? e.target.closest('[data-quickview]') : null;
+      if (!trigger) return;
+      let item = null;
+      CATALOGUE.items.forEach((i) => { if (i.id === trigger.dataset.quickview) item = i; });
+      if (!item) return;
+      qvLastTrigger = trigger;
+      qvOpen(item);
+    });
   }
 
   /* ---------------------------------------------------------------------
@@ -481,6 +727,9 @@
   function init() {
     hydrateSite();
     initFilters();
+    initUrlFilter();
+    initReveal();
+    initQuickView();
     initForm();
     initNewsletter();
     initDelegatedClicks();

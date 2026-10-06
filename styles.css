@@ -754,6 +754,9 @@ strong { color: var(--ink); font-weight: 600; }
   place-items: center;
   width: 30px; height: 30px;
   color: var(--ink-mute);
+  /* solid on both surfaces: a dark heart was invisible on the dark product
+     photographs, so the button carries its own light plate */
+  background: rgba(255, 255, 255, .92);
   border-radius: var(--r-full);
   transition: color .2s var(--ease), background-color .2s var(--ease);
 }
@@ -835,6 +838,48 @@ strong { color: var(--ink); font-weight: 600; }
 .enquire-btn svg { width: 12px; height: 12px; transition: transform .25s var(--ease); }
 .enquire-btn:hover { text-decoration: underline; }
 .enquire-btn:hover svg { transform: translateX(3px); }
+
+/* Real product photograph. build.py swaps it in for the line-drawing motif
+   when assets/products/<id>.jpg exists, so the dark plate is a fallback
+   colour, not a frame. */
+.product-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 18px;
+  background: #141416;
+}
+
+/* "View details" pill over the card media. Hover/focus reveals it on
+   pointer devices; on touch it is always visible. */
+.quickview-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  transform: translate(-50%, 6px);
+  z-index: 3;
+  padding: 7px 14px;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--ink);
+  background: rgba(255, 255, 255, .94);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-full);
+  box-shadow: 0 6px 16px rgba(10, 10, 12, .16);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s var(--ease), transform .22s var(--ease);
+}
+.product-card:hover .quickview-btn,
+.quickview-btn:focus-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+@media (hover: none) {
+  .quickview-btn { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+}
 
 /* featured piece */
 .spotlight {
@@ -1379,6 +1424,40 @@ strong { color: var(--ink); font-weight: 600; }
   .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .testimonials-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* Below this width the hero is no longer wide enough to hold the 16:9
+     photograph as a cover-fit background without cropping it: a cover fit
+     scales the photo up to the hero's height and shows only a middle strip,
+     so the necklace and the bangles end up cut in half. Instead the copy
+     sits on plain black and the photograph is laid out below it, full-width
+     and uncropped at its natural aspect — the whole set stays in frame. */
+  .hero--photo {
+    /* no bottom padding: the photograph becomes the hero's foot */
+    padding-block: clamp(56px, 10vw, 100px) 0;
+  }
+  /* the dark wash existed to keep the type legible over the photograph —
+     the copy no longer sits on it */
+  .hero--photo::after { display: none; }
+  .hero-photo {
+    position: relative;
+    inset: auto;
+    z-index: 1;
+    margin-top: clamp(30px, 7vw, 48px);
+  }
+  /* soft blend where the photograph meets the black copy area above it */
+  .hero-photo::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    z-index: 1;
+    background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0) 100%);
+    pointer-events: none;
+  }
+  .hero-photo img {
+    height: auto;
+    aspect-ratio: 1671 / 941;
+  }
 }
 
 @media (max-width: 860px) {
@@ -1426,30 +1505,6 @@ strong { color: var(--ink); font-weight: 600; }
   /* The heart has no background until hover, so this only grows the invisible
      hit area around the 16px icon. */
   .fav-btn { width: 44px; height: 44px; }
-
-  /* On a phone the copy fills most of the viewport, so the photograph drops
-     below it as a full-width band instead of sitting behind the text. */
-  /* The photograph stays the hero's background on a phone too. A narrow
-     viewport makes the copy block a much larger share of the hero, so the wash
-     has to be stronger here than on desktop: measured against a blown-out gold
-     highlight, the gold link needs 0.70 and the cue 0.67 to clear their
-     thresholds. The stops below hold 0.85 through the text and only open up
-     near the foot, where the copy has ended and the jewellery shows. */
-  .hero--photo {
-    /* the copy block ends around 500px in; the extra bottom padding keeps the
-       photograph running below it so it reads as the hero's background rather
-       than a strip, with the jewellery showing once the text has finished */
-    padding-block: clamp(64px, 12vw, 110px) clamp(110px, 26vw, 190px);
-  }
-  .hero--photo::after {
-    background: linear-gradient(180deg,
-        rgba(0, 0, 0, .86) 0%,
-        rgba(0, 0, 0, .85) 66%,
-        rgba(0, 0, 0, .80) 74%,
-        rgba(0, 0, 0, .70) 82%,
-        rgba(0, 0, 0, .58) 92%,
-        rgba(0, 0, 0, .48) 100%);
-  }
 
   .appointment-wrapper,
   .visit-grid { grid-template-columns: 1fr; }
@@ -1714,6 +1769,198 @@ strong { color: var(--ink); font-weight: 600; }
 @media (max-width: 640px) {
   .tiles { grid-template-columns: 1fr; }
   .piece-actions .btn { width: 100%; }
+}
+
+/* --------------------- 15b. PROGRESSIVE REVEAL + QUICK VIEW --------------------- */
+/* "Showing X of Y — scroll for more" foot under the catalogue grid. */
+.reveal-foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+.reveal-status { font-size: .92rem; color: var(--ink-mute); }
+
+/* "Browse all N rings" link under the featured grid. */
+.section-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+.section-more a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--gold-deep);
+}
+.section-more a:hover { text-decoration: underline; }
+.section-more svg { width: 14px; height: 14px; }
+
+/* --------------------------- QUICK VIEW DIALOG --------------------------- */
+/* All details of a piece, opened without leaving the page. Sits above the
+   navbar and the intro curtain. */
+.qv-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(16, 16, 18, .55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s var(--ease), visibility .25s;
+}
+.qv-overlay.open { opacity: 1; visibility: visible; }
+
+.qv-panel {
+  position: relative;
+  width: min(960px, 100%);
+  /* vh first: in browsers without dvh the min() below is invalid and the
+     previous line wins, instead of the panel losing its max-height */
+  max-height: min(88vh, 820px);
+  max-height: min(88dvh, 820px);
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  background: var(--bg);
+  border-radius: var(--r-xl);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .4);
+  transform: translateY(14px) scale(.985);
+  transition: transform .3s var(--ease-out);
+}
+.qv-overlay.open .qv-panel { transform: none; }
+
+.qv-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--ink-soft);
+  background: rgba(255, 255, 255, .82);
+  border-radius: var(--r-full);
+  transition: background-color .2s var(--ease), color .2s var(--ease);
+}
+.qv-close:hover { background: var(--bg-alt); color: var(--ink); }
+.qv-close svg { width: 18px; height: 18px; }
+
+.qv-media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: clamp(22px, 3vw, 40px);
+  background: #141416;
+  border-radius: var(--r-xl) 0 0 var(--r-xl);
+}
+.qv-media .badge { top: 14px; }
+.qv-media .motif { width: min(220px, 66%); height: auto; color: var(--gold-on-dark); }
+
+.qv-body {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(22px, 3.4vw, 40px);
+}
+.qv-eyebrow {
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.qv-name {
+  margin: 8px 0 4px;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -.02em;
+}
+.qv-price {
+  margin: 4px 0 14px;
+  font-size: 1.12rem;
+  font-weight: 600;
+}
+.qv-price small {
+  display: block;
+  font-size: .8rem;
+  font-weight: 400;
+  color: var(--ink-mute);
+}
+.qv-desc { margin: 0 0 10px; font-size: .98rem; color: var(--ink); }
+.qv-story { margin: 0 0 18px; font-size: .94rem; line-height: 1.6; color: var(--ink-mute); }
+.qv-sub {
+  margin: 0 0 10px;
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.qv-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 18px;
+  margin: 0 0 16px;
+}
+.qv-specs .spec {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.qv-specs dt {
+  font-size: .76rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--ink-mute);
+}
+.qv-specs dd {
+  margin: 2px 0 0;
+  font-size: .94rem;
+  color: var(--ink);
+}
+.qv-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.qv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+}
+.qv-full {
+  align-self: center;
+  font-size: .94rem;
+  font-weight: 500;
+  color: var(--gold-deep);
+}
+.qv-full:hover { text-decoration: underline; }
+
+@media (max-width: 760px) {
+  .qv-overlay { padding: 0; }
+  .qv-panel {
+    grid-template-columns: 1fr;
+    max-height: 100vh;
+    max-height: 100dvh;
+    border-radius: 0;
+    align-items: start;
+  }
+  .qv-media {
+    padding: 20px 20px 0;
+    border-radius: 0;
+  }
+  .qv-media .product-photo { border-radius: 16px; }
+  .qv-specs { grid-template-columns: 1fr; }
+  .qv-actions { flex-direction: column; align-items: stretch; }
+  .qv-actions .btn { width: 100%; }
+  .qv-full { text-align: center; }
 }
 
 /* --------------------------- 16. A11Y / MOTION --------------------------- */
