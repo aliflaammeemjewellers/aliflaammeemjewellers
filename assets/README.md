@@ -3,6 +3,71 @@
 Drop your own photographs in this folder. Nothing here is generated or committed
 by the build — the build only looks for files that already exist.
 
+## Your logo
+
+Save your logo as **`logo.svg`** (also works: `logo.png`, `logo.webp`,
+`logo.jpg`, `logo.avif`) and rebuild:
+
+```bash
+python3 build.py
+```
+
+The build finds it and puts it in the header and the footer of all 23 pages, and
+uses it for the browser tab. With no file present, the pages fall back to the
+built-in **ALM** monogram and the gold diamond favicon — nothing breaks.
+
+**Which format.** SVG is best: it stays razor sharp on every screen and retina
+display, weighs a few KB, and can be recoloured later. If your designer sent a
+raster file, a **transparent PNG at 2x** the height you want on screen is the
+next best thing (roughly 140px tall, ~300–400px wide for a lockup).
+
+### Two ways it can be laid out
+
+Open `build.py`, find `LOGO_MODE`, and set whichever describes your file:
+
+| `LOGO_MODE` | Use it when | What appears in the header |
+| --- | --- | --- |
+| `"lockup"` *(default)* | the file is the **whole logo** — symbol and the words together | just your artwork, in full |
+| `"mark"` | the file is the **symbol only** — a monogram, an emblem, a crest | your symbol, with "Alif Laam Meem" and "Jewellers" as live text beside it |
+
+`"lockup"` is the default because most jewellery-house logos include the name,
+and printing the name twice looks like a mistake. If your file is a symbol with
+no words in it, set `"mark"` — otherwise the header would show a wordless
+emblem with nothing identifying the business next to it.
+
+### How it is sized
+
+Your artwork is never stretched or cropped. It is height-locked and the width
+follows from its own proportions:
+
+- **lockup** — 34px tall in the header, 28px on phones, capped at 58% of the
+  screen width so a long logo can never push the menu button off the edge.
+- **mark** — 30px tall, matching the size of the monogram it replaces.
+
+If your logo reads too small or too large, change `--logo-h` on `.logo--lockup`
+/ `.logo--mark` in `styles.css`. One value, every page.
+
+### Browser tab icon
+
+The tab icon uses `logo-icon.*` if you provide one (any name from the list
+above with `logo-icon` instead of `logo`), otherwise it falls back to your main
+logo, otherwise to the gold diamond.
+
+Worth knowing: a **wide** lockup makes a poor tab icon — it gets shrunk into a
+square and the name becomes unreadable, leaving a few gold pixels. If that is
+what yours does, supply a square `logo-icon.svg` alongside it. And note that
+**iOS ignores SVG** for the home-screen icon; the build adds the needed
+`apple-touch-icon` tag automatically when your file is a PNG or JPG, so send a
+square PNG if home-screen bookmarks matter to you.
+
+### Light and dark backgrounds
+
+The header and footer are both light (`#FFFFFF` and `#F5F5F7`), so a logo with
+dark or gold artwork sits on white and needs no special handling. One thing to
+watch: a logo whose artwork is **white or very pale** will be invisible on white
+— send a version with dark or gold fill, or ask and we will add a dark header
+band for it.
+
 ## Hero background
 
 Save your photograph as **`hero.jpg`** (also works: `hero.jpeg`, `hero.png`,

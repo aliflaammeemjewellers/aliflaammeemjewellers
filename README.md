@@ -67,6 +67,20 @@ product — the stand-in for product photography, drawn as inline SVG in the sam
 flat gold as the accent (two shared gradients, `#goldFill` and `#goldStroke`,
 defined once at the bottom of `index.html`).
 
+**The logo.** The house logo is your own file, dropped into `assets/` as
+`logo.svg` (or `.png`, `.webp`, `.jpg`, `.avif`) and picked up by the build — see
+`assets/README.md`. It appears in the header and footer of all 23 pages, and in
+the browser tab. Two layouts are supported by one switch, `LOGO_MODE` in
+`build.py`: `"lockup"` when the file contains the name as well as the symbol, or
+`"mark"` when it is the symbol alone and the name should stay as live text
+beside it. The artwork is height-locked and never stretched, so any aspect ratio
+drops in without editing CSS.
+
+The link carries the accessible name, so the `<img>` has an empty `alt`: a
+screen reader announces "Alif Laam Meem Jewellers — home" rather than a
+filename. With no logo file present the build falls back to the built-in **ALM**
+monogram, so the site is never broken and never shows a missing-image icon.
+
 **Hero photograph.** The home page can carry one real photograph, dropped in as
 `assets/hero.jpg` and picked up by the build (see `assets/README.md`). It is a
 real `<img>` with an empty `alt` inside an `aria-hidden` wrapper, not a CSS
@@ -188,6 +202,53 @@ file), so you can retune the whole sequence there. The hold before the curtain
 lifts — 780ms after `load` — is the `setTimeout(finish, 780)` call in
 `initIntro()`.
 
+## Phone and desktop
+
+One stylesheet, one set of pages, no separate mobile site — the layout is driven
+by three breakpoints, plus fluid `clamp()` sizing so nothing waits for a step.
+
+| Width | What changes |
+| --- | --- |
+| over 1040px | desktop: 4-up grids, full horizontal nav, hero at its widest |
+| up to 1040px | 2-up grids |
+| up to 860px | the hamburger replaces the nav; hero photograph moves behind a stronger wash; footer goes 2-up; touch targets grow to 44px |
+| up to 640px | single-column grids, narrower gutters, a shorter logo |
+
+Everything below is measured, not assumed.
+
+**iOS does not zoom when you tap a field.** Safari scales the whole page up when
+a focused input is under 16px, which makes the page jump on every tap. Every
+control is set at `1rem` (17px), including the newsletter box — which was
+`.94rem`, or 15.98px, two hundredths under the threshold.
+
+**The mobile menu fits the screen.** It is clamped with `100dvh`, not `100vh`:
+on a phone `vh` measures the viewport *including* the browser's URL bar, so the
+menu was taller than the space it had and the Book button could end up behind
+it. `100vh` is kept as the first declaration for browsers without `dvh`.
+
+**Thumb-sized hit areas.** The hamburger, the nav Book button, the footer social
+icons and the wishlist heart on each product tile are all 44px on small screens,
+and stacked footer links are padded to 44px apart. They were 34px, 34px, 34px
+and 30px — under the minimum, and awkward with a thumb. The heart's larger
+button is invisible: it has no background until hover, so only the hit area
+grows.
+
+**Form fields never collapse.** Controls carry an explicit `min-height`, which
+matters most for the date picker — iOS renders a date input as a blank,
+near-zero-height box when `appearance: none` is applied without one.
+
+Verified against the stylesheet: it parses clean (382 rules, zero syntax
+errors), and every rule above was checked by reading the cascade at 320, 375,
+640, 860, 1040 and 1440px. This was a static review — no browser was available
+in the build environment to render at those widths, so the pixel results are
+unconfirmed and the live preview is the real test. Worth opening on a phone and
+on a laptop before you ship.
+
+The one thing deliberately *not* changed is the viewport meta tag — adding
+`viewport-fit=cover` would pull content under the notch and would need safe-area
+insets on the nav, footer and floating buttons to compensate. The default
+already keeps the notch clear, so it stays as it is.
+
 ## Accessibility & performance
 
 Every page was audited rather than assumed. What is actually implemented:
@@ -222,8 +283,16 @@ links and missing assets — all zero.
 reveals and every transition. There is also a print stylesheet.
 
 **Performance.** No libraries and no web fonts — the site runs from three files.
-The only image is the hero photograph in `assets/`, and it is same-origin.
-Local Business structured data (JSON-LD) sits in the head for search engines.
+The only images are the hero photograph and the logo in `assets/`, both
+same-origin. Local Business structured data (JSON-LD) sits in the head for
+search engines.
+
+**SVG logos.** An SVG logo is referenced with `<img src>`, never inlined, so it
+is drawn but never executed: a `<script>` or event handler inside the file is
+inert, and the file cannot reach the page, its storage or its cookies. That
+matters if the artwork came from a designer, a printer or an AI generator.
+Convert any text in it to outlines before sending — an SVG logo that depends on
+a font installed on your machine will not look the same on everyone else's.
 
 ## Notes before going live
 
