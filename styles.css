@@ -1379,6 +1379,40 @@ strong { color: var(--ink); font-weight: 600; }
   .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .testimonials-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* Below this width the hero is no longer wide enough to hold the 16:9
+     photograph as a cover-fit background without cropping it: a cover fit
+     scales the photo up to the hero's height and shows only a middle strip,
+     so the necklace and the bangles end up cut in half. Instead the copy
+     sits on plain black and the photograph is laid out below it, full-width
+     and uncropped at its natural aspect — the whole set stays in frame. */
+  .hero--photo {
+    /* no bottom padding: the photograph becomes the hero's foot */
+    padding-block: clamp(56px, 10vw, 100px) 0;
+  }
+  /* the dark wash existed to keep the type legible over the photograph —
+     the copy no longer sits on it */
+  .hero--photo::after { display: none; }
+  .hero-photo {
+    position: relative;
+    inset: auto;
+    z-index: 1;
+    margin-top: clamp(30px, 7vw, 48px);
+  }
+  /* soft blend where the photograph meets the black copy area above it */
+  .hero-photo::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    z-index: 1;
+    background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0) 100%);
+    pointer-events: none;
+  }
+  .hero-photo img {
+    height: auto;
+    aspect-ratio: 1671 / 941;
+  }
 }
 
 @media (max-width: 860px) {
@@ -1426,30 +1460,6 @@ strong { color: var(--ink); font-weight: 600; }
   /* The heart has no background until hover, so this only grows the invisible
      hit area around the 16px icon. */
   .fav-btn { width: 44px; height: 44px; }
-
-  /* On a phone the copy fills most of the viewport, so the photograph drops
-     below it as a full-width band instead of sitting behind the text. */
-  /* The photograph stays the hero's background on a phone too. A narrow
-     viewport makes the copy block a much larger share of the hero, so the wash
-     has to be stronger here than on desktop: measured against a blown-out gold
-     highlight, the gold link needs 0.70 and the cue 0.67 to clear their
-     thresholds. The stops below hold 0.85 through the text and only open up
-     near the foot, where the copy has ended and the jewellery shows. */
-  .hero--photo {
-    /* the copy block ends around 500px in; the extra bottom padding keeps the
-       photograph running below it so it reads as the hero's background rather
-       than a strip, with the jewellery showing once the text has finished */
-    padding-block: clamp(64px, 12vw, 110px) clamp(110px, 26vw, 190px);
-  }
-  .hero--photo::after {
-    background: linear-gradient(180deg,
-        rgba(0, 0, 0, .86) 0%,
-        rgba(0, 0, 0, .85) 66%,
-        rgba(0, 0, 0, .80) 74%,
-        rgba(0, 0, 0, .70) 82%,
-        rgba(0, 0, 0, .58) 92%,
-        rgba(0, 0, 0, .48) 100%);
-  }
 
   .appointment-wrapper,
   .visit-grid { grid-template-columns: 1fr; }
