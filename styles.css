@@ -151,7 +151,6 @@ address { font-style: normal; }
 }
 
 /* ---------------------------- 3. TEXT PRIMITIVES -------------------------- */
-.eyebrow,
 .section-tag {
   display: inline-flex;
   align-items: center;
@@ -171,7 +170,6 @@ address { font-style: normal; }
 }
 .section-tag::after { background: linear-gradient(90deg, var(--gold), transparent); }
 
-.gold-text,
 .gold-shine {
   background: var(--gold-grad);
   background-size: 220% 100%;
@@ -210,9 +208,6 @@ address { font-style: normal; }
 
 .section { padding: clamp(72px, 10vw, 132px) 0; position: relative; }
 .section--alt { background: var(--grey-100); }
-.section--paper { background: var(--grey-25); }
-.section--ink { background: var(--ink); color: rgba(255,255,255,.7); }
-.section--ink h2, .section--ink h3 { color: #fff; }
 
 .section-header {
   max-width: 720px;
@@ -1050,8 +1045,6 @@ address { font-style: normal; }
   transition: transform .6s var(--ease);
 }
 .product-card:hover .product-media .motif { transform: scale(1.06) translateY(-3px); }
-.product-media .motif .fill-gold { fill: url(#goldFill); }
-.product-media .motif .stroke-gold { stroke: url(#goldStroke); }
 .product-media .halo {
   position: absolute;
   width: 58%; aspect-ratio: 1;
