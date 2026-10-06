@@ -18,37 +18,41 @@ the plain black band and nothing breaks.
 
 ## What the hero does with your photograph
 
-**On wide screens** the photograph fills the hero behind the text, with a dark
-scrim over it — heaviest at the top where the headline is, lighter lower down,
-so the jewellery in the picture still reads. About 53% of the photograph's
-brightness comes through behind the jewellery.
+**On wide screens** the photograph runs full-bleed, edge to edge, centre-cropped
+so the whole piece is in frame. The copy sits on a soft dark wash — a radial
+pool centred on the text with no hard edge, so it reads as part of the
+photograph rather than as a black band. The wash fades to nothing by about 70%
+height, which is where the jewellery is: around 39% of the photograph's
+brightness comes through there and 50% near the bottom.
 
 **On phones** the photograph moves below the copy and becomes a full-width band.
 Covering the whole hero on a narrow screen would put the jewellery directly
 behind the headline, because the text block fills most of the viewport. As a
 band, the type sits on solid black and the jewellery is shown unobstructed.
-- **The line drawing is hidden** when a photograph is present. It would compete
-  with a real piece of jewellery, so the hero becomes type over image.
+
+Two more things change whenever a photograph is present:
+
+- **The line drawing is hidden.** It would compete with a real piece of
+  jewellery, so the hero becomes type over image.
 - **The supporting copy is lightened** from mid grey to `#C7C7CC`, because mid
   greys are not legible over a photograph.
-- **Deep bottom padding** leaves a band of unobstructed photograph under the
-  text, so the image reads as the hero rather than as a dim texture.
 
-The scrim stops were chosen against a worst case — a blown-out gold highlight
-directly behind the text — not against a typical image, and the current
-photograph was composed for: the build orients it to the top, where the velvet
-is darkest. Checked that way, the weakest text pairing is 5.6:1, so no
-photograph can make the headline illegible. If you want the photograph more
-visible, lower the alpha values on `.hero--photo::after` in `styles.css`; if you
-make the 58% stop weaker than about `.70`, re-check contrast first.
+The wash was checked against a worst case — a blown-out gold highlight directly
+behind the text — by compositing the CSS layers pixel by pixel and reading the
+contrast of every text style against the result. The gold link measures 6.7:1
+and the headline 11:1, so no photograph can make the hero text illegible. If you
+want the photograph more visible behind the copy, lower the alpha values on
+`.hero--photo::after` in `styles.css` and re-check contrast before you ship.
 
 ## What works best
 
 - A wide, landscape photograph — at least 2000px across so it stays sharp on
   large screens.
-- The subject toward the middle or lower third. The headline occupies the upper
-  area, so a bright subject up there is hidden behind the scrim anyway.
-- A dark upper third works best, since that is where the headline sits.
+- A dark upper third works best, since that is where the copy sits. A bright
+  subject up there is dimmed by the wash, so it will look flatter than the rest
+  of the picture and you lose detail you paid for.
+- The subject toward the middle or lower third, where the wash is weakest and
+  the photograph shows most clearly.
 - Keep the file under about 400 KB so the page still loads quickly. A large
   export straight from a phone or camera is usually several megabytes; ask and
   we will compress and resize it for you.

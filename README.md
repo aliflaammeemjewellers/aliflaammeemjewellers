@@ -72,12 +72,14 @@ defined once at the bottom of `index.html`).
 real `<img>` with an empty `alt` inside an `aria-hidden` wrapper, not a CSS
 background, because that lets it change layout by breakpoint:
 
-- **Wide screens:** it covers the hero behind a scrim, anchored to the top so
-  the photograph's dark upper area sits behind the headline. The scrim is
-  layered between the image and the copy, and its stops were chosen against a
-  worst case — a blown-out gold highlight directly behind the text — so no
-  photograph can make the headline illegible. Verified at 5.6:1 or better for
-  every text style.
+- **Wide screens:** the photograph runs full-bleed, centre-cropped so the whole
+  piece is in frame. The copy sits on a soft radial wash layered between the
+  image and the text — no hard edge, so the photograph never becomes a black
+  band — which clears the jewellery below the copy (about 39-50% of the
+  photograph's brightness comes through there). The wash was verified by
+  compositing the CSS layers pixel by pixel and reading contrast against the
+  result, with a blown-out gold sheet as the worst case: the headline measures
+  11:1 and the gold link 6.7:1, so no photograph can break the hero.
 - **Phones:** covering the hero would put the jewellery right behind the
   headline, because the copy block fills most of the viewport. So below 860px
   the photograph drops out of the overlay and becomes a full-width band beneath

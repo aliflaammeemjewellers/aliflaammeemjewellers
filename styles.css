@@ -579,34 +579,49 @@ strong { color: var(--ink); font-weight: 600; }
   display: block;
   width: 100%;
   height: 100%;
-  /* anchored to the top: the photograph's dark upper area stays behind the
-     headline and the subject sits below it (see assets/README.md) */
+  /* full-bleed: the photograph runs edge to edge and the whole piece is in
+     frame; the wash above the copy is what keeps the headline legible */
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
 }
 /* the hero's own content rides above the photograph */
 .hero > .container { position: relative; z-index: 2; }
 
 .hero--photo {
   background-color: #000;
-  /* deep bottom padding leaves a band of unobstructed photograph under the
-     text, so the image reads as the hero rather than as a dim texture */
-  padding-block: clamp(64px, 10vw, 130px) clamp(140px, 20vw, 280px);
+  /* bottom padding keeps the jewellery below the wash, where the photograph is
+     most visible, rather than crowding it against the buttons */
+  padding-block: clamp(64px, 10vw, 130px) clamp(100px, 15vw, 210px);
 }
-/* The scrim sits above the photograph and below the copy. Stops are chosen
-   against a worst case — a blown-out gold highlight behind the text — so no
-   photograph can make the headline illegible. */
+/* The wash sits above the photograph and below the copy. It is a soft radial
+   pool centred on the text block with no hard edge, so the photograph reads as
+   full-bleed rather than sitting in a black band, and the jewellery stays
+   visible below the copy. Two layers: the pool, then a faint overall toning so
+   the photograph never fights the type at the edges.
+   The stops are verified against a blown-out gold highlight directly behind
+   the text — see the measurement in README.md — so no photograph can make the
+   headline illegible. The radial fades to nothing by ~78% height, which is
+   where the jewellery is. */
 .hero--photo::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(180deg,
-      rgba(0, 0, 0, .80) 0%,
-      rgba(0, 0, 0, .70) 58%,
-      rgba(0, 0, 0, .38) 82%,
-      rgba(0, 0, 0, .54) 100%);
+  background:
+    radial-gradient(104% 52% at 50% 30%,
+      rgba(0, 0, 0, .74) 0%,
+      rgba(0, 0, 0, .68) 44%,
+      rgba(0, 0, 0, .42) 70%,
+      rgba(0, 0, 0, 0) 100%),
+    /* a shallow pool at the foot, so the scroll cue stays legible even where
+       the photograph is brightest — the cue animates down to 45% opacity */
+    radial-gradient(78% 26% at 50% 100%,
+      rgba(0, 0, 0, .68) 0%,
+      rgba(0, 0, 0, 0) 100%),
+    linear-gradient(180deg,
+      rgba(0, 0, 0, .30) 0%,
+      rgba(0, 0, 0, .48) 100%);
 }
 /* The photograph is the visual here — the line drawing and its glow would
    compete with a real piece of jewellery. The hero becomes type over image. */
