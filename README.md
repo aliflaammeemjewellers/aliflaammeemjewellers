@@ -20,28 +20,43 @@ python3 -m http.server 8000
 
 ## Design system
 
-The whole look is driven by CSS custom properties at the top of `styles.css`.
+The theme follows Apple's design language — flat surfaces, system type, tight
+negative tracking, generous white space, and exactly one accent colour.
 
 | Token | Value | Used for |
 | --- | --- | --- |
-| `--grey-25 … --grey-300` | light greys | page grounds, cards, hairlines |
-| `--ink` / `--ink-soft` | near-black, warm grey | headings, body copy |
-| `--gold` `--gold-deep` `--gold-light` | `#C6A15B` `#9A7734` `#E4CE9B` | accents, icons, dividers |
-| `--gold-grad` | multi-stop metallic | buttons, badges, monogram, shimmer text |
-| `--font-display` | Playfair Display | headings, prices, numerals |
-| `--font-body` | Inter | interface and body copy |
+| `--bg` / `--bg-alt` | `#FFFFFF` / `#F5F5F7` | page ground and every card, tile and panel |
+| `--fill` / `--separator` / `--hairline` | rgba black / `#D2D2D7` / `#E8E8ED` | segmented control, chips, dividers |
+| `--ink` / `--ink-soft` / `--ink-mute` | `#1D1D1F` / `#6E6E73` / `#86868B` | headings, body, secondary text |
+| `--gold` / `--gold-deep` | `#B08C4A` / `#8A6A2B` | the single accent — links, eyebrows, prices |
+| `--font` | SF system stack | everything |
 
-**All artwork is code.** There are no image files: the hero's arched doorway,
-rosette crest and threshold, the jewellery motif on every product card (rings,
-necklaces, jhumkas, bangles, bridal sets) and the Visit section's arch panel are
-drawn with CSS gradients, borders and inline SVG line-art using two shared
-gradients (`#goldFill`, `#goldStroke`) defined once at the bottom of
-`index.html`.
+**Typography** is the macOS/iOS system stack (`-apple-system`, `BlinkMacSystemFont`,
+`SF Pro Display/Text`, then Helvetica). No web fonts are loaded at all, so the
+site renders instantly and looks native on Apple devices.
 
-The hero is a full-width cinematic composition: a tall gold arch drawn in CSS
-frames a centred crest, badge, headline and two actions, flanked by hairline
-columns, with a threshold sill and a scroll cue at the base. It is entirely
-vector and CSS, so it scales cleanly from a 375px phone to a wide desktop.
+**Depth** comes from surface contrast, not shadows: tiles and panels are flat
+`#F5F5F7`, separated by hairline dividers, with shadows reserved for the two
+floating buttons.
+
+**No ornament.** The earlier gold-gradient theme (Playfair headings, metallic
+gradients, engraved arches, rosettes, sunbursts, marquee) has been replaced
+throughout. The one piece of brand expression kept is the line-art motif on each
+product — it is the stand-in for photography, drawn as inline SVG in the same
+flat gold as the accent (two shared gradients, `#goldFill` and `#goldStroke`,
+defined once at the bottom of `index.html`).
+
+**Notable components**
+
+- *Segmented control* — the collections filter is an Apple-style segmented
+  control: a grey track with a white, softly shadowed selected segment.
+- *Product tiles* — flat grey tiles with a centred motif, name, description,
+  small spec chips, price and a gold "Enquire" link.
+- *Featured piece* — a full-width panel above the grid with a white media well,
+  a two-column spec table and a dark/grey button pair.
+- *Hero* — an eyebrow pill, a large tight headline, a thin tagline, one dark
+  pill button and one gold text link, above a wide grey product panel with a
+  caption.
 
 ## Editing content
 
@@ -69,15 +84,14 @@ the appointment panel, the visit card and the footer.
 The filters, chips and grid all build themselves from that data.
 
 Add `featured: true` (plus a `specs` array of `[label, value]` pairs) to one
-entry and it is lifted out of the grid into the full-width **Featured Piece**
-spotlight above it. Only one piece should carry the flag; the first match wins.
+entry and it is lifted out of the grid into the full-width **Featured piece**
+panel above it. Only one piece should carry the flag; the first match wins.
 When a filter excludes it, the spotlight disappears and the piece appears as a
 normal card, so filtering never breaks the layout.
 
-**Card design** — each piece is a boxless "vitrine": an arch-topped media panel
-with a gold hairline arch echoing the hero doorway, a centred caption, a price
-line and an Enquire link. Nothing is boxed in a bordered rectangle, which keeps
-the grid feeling like a display case rather than a product table.
+**Card design** — each piece is a flat grey tile: centred motif, category,
+name, description, small spec chips, then a price and a gold "Enquire" link.
+Hovering lifts the tile very slightly — no borders, no shadows, no ornament.
 
 **Testimonials** — the `TESTIMONIALS` array in `script.js`.
 
@@ -100,8 +114,9 @@ shows inline errors before it hands over.
   `aria-expanded` toggle.
 - Full `prefers-reduced-motion` support and a print stylesheet.
 - Local Business structured data (JSON-LD) in the head for search engines.
-- No images, no libraries, no web fonts beyond two Google families — so the
-  page is very light and works offline apart from the fonts.
+- No images, no libraries and no web fonts — the whole site is three files that
+  work completely offline. The only external request is the optional font on
+  your own machine, which is already installed.
 
 ## Notes before going live
 

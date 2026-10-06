@@ -203,7 +203,6 @@
       <article class="product-card" role="listitem" data-type="${p.type}" data-occasion="${p.occasion}"
                data-metals="${p.metals.join(' ')}" style="animation-delay:${Math.min(i * 55, 420)}ms">
         <div class="product-media">
-          <span class="halo" aria-hidden="true"></span>
           ${MOTIF[p.motif]}
           ${p.badge ? `<span class="badge${p.badge === 'Bestseller' || p.badge === 'Signature' ? ' gold' : ''}">${p.badge}</span>` : ''}
           <button class="fav-btn" type="button" aria-label="Save ${p.name} to wishlist" aria-pressed="false"
@@ -255,7 +254,7 @@
             <button class="btn btn-primary" type="button" data-enquire="${p.name}|${money(p.price)}">
               Enquire on WhatsApp
             </button>
-            <a class="btn btn-outline" href="#appointment">Book a Viewing</a>
+            <a class="btn btn-secondary" href="#appointment">Book a viewing</a>
           </div>
         </div>
       </article>`;
