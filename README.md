@@ -78,13 +78,12 @@ background, because that lets it change layout by breakpoint:
   band — which clears the jewellery below the copy (about 39-50% of the
   photograph's brightness comes through there). The wash was verified by
   compositing the CSS layers pixel by pixel and reading contrast against the
-  result, with a blown-out gold sheet as the worst case: the headline measures
-  11:1 and the gold link 6.7:1, so no photograph can break the hero.
-- **Phones:** covering the hero would put the jewellery right behind the
-  headline, because the copy block fills most of the viewport. So below 860px
-  the photograph drops out of the overlay and becomes a full-width band beneath
-  the copy, where the type sits on the hero's solid black and the jewellery is
-  shown unobstructed.
+  result, with a blown-out gold sheet as the worst case and at both desktop and
+  phone geometry: the headline measures 11:1 or better and the gold link 6.4:1,
+  so no photograph can break the hero.
+- **Phones:** the photograph stays the background, with no separate band. The
+  copy fills a far larger share of a narrow hero, so the wash is stronger there
+  — 0.85 down to 0.48 — and opens up below the copy where the jewellery shows.
 
 With no photograph present the hero is the plain black band with the line
 drawing, and nothing breaks.

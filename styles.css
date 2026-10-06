@@ -1396,12 +1396,26 @@ strong { color: var(--ink); font-weight: 600; }
 
   /* On a phone the copy fills most of the viewport, so the photograph drops
      below it as a full-width band instead of sitting behind the text. */
-  .hero--photo { padding-block: clamp(56px, 9vw, 92px) clamp(40px, 6vw, 64px); }
-  .hero--photo::after { display: none; }
-  .hero-photo { position: static; margin-top: clamp(34px, 8vw, 60px); }
-  .hero-photo img {
-    height: clamp(210px, 50vw, 360px);
-    object-position: center 62%;
+  /* The photograph stays the hero's background on a phone too. A narrow
+     viewport makes the copy block a much larger share of the hero, so the wash
+     has to be stronger here than on desktop: measured against a blown-out gold
+     highlight, the gold link needs 0.70 and the cue 0.67 to clear their
+     thresholds. The stops below hold 0.85 through the text and only open up
+     near the foot, where the copy has ended and the jewellery shows. */
+  .hero--photo {
+    /* the copy block ends around 500px in; the extra bottom padding keeps the
+       photograph running below it so it reads as the hero's background rather
+       than a strip, with the jewellery showing once the text has finished */
+    padding-block: clamp(64px, 12vw, 110px) clamp(110px, 26vw, 190px);
+  }
+  .hero--photo::after {
+    background: linear-gradient(180deg,
+        rgba(0, 0, 0, .86) 0%,
+        rgba(0, 0, 0, .85) 66%,
+        rgba(0, 0, 0, .80) 74%,
+        rgba(0, 0, 0, .70) 82%,
+        rgba(0, 0, 0, .58) 92%,
+        rgba(0, 0, 0, .48) 100%);
   }
 
   .appointment-wrapper,

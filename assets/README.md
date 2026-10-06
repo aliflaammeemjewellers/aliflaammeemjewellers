@@ -25,10 +25,12 @@ photograph rather than as a black band. The wash fades to nothing by about 70%
 height, which is where the jewellery is: around 39% of the photograph's
 brightness comes through there and 50% near the bottom.
 
-**On phones** the photograph moves below the copy and becomes a full-width band.
-Covering the whole hero on a narrow screen would put the jewellery directly
-behind the headline, because the text block fills most of the viewport. As a
-band, the type sits on solid black and the jewellery is shown unobstructed.
+**On phones** the photograph is still the background behind the copy — there is
+no separate band. A narrow viewport makes the copy block a much larger share of
+the hero, so the wash is stronger here (0.85 down to 0.48) than on desktop:
+light text on an average photograph simply is not legible without it. The wash
+opens up below the copy, where the jewellery shows, so the photograph still
+reads as a background and not as a flat panel.
 
 Two more things change whenever a photograph is present:
 
@@ -38,9 +40,11 @@ Two more things change whenever a photograph is present:
   greys are not legible over a photograph.
 
 The wash was checked against a worst case — a blown-out gold highlight directly
-behind the text — by compositing the CSS layers pixel by pixel and reading the
-contrast of every text style against the result. The gold link measures 6.7:1
-and the headline 11:1, so no photograph can make the hero text illegible. If you
+behind the text — by compositing the CSS over the actual pixels and reading the
+contrast of every text style against the result, at both desktop and phone
+geometry. Worst results: the headline 14:1, the gold link 6.4:1, and the scroll
+cue at its dimmest animation frame 3.2:1. No photograph can make the copy
+illegible. If you
 want the photograph more visible behind the copy, lower the alpha values on
 `.hero--photo::after` in `styles.css` and re-check contrast before you ship.
 
