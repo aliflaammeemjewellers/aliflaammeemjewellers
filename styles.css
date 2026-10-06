@@ -304,6 +304,15 @@ strong { color: var(--ink); font-weight: 600; }
 
 .logo { display: inline-flex; align-items: center; gap: 9px; }
 .logo:hover { text-decoration: none; }
+
+/* Your own logo (see LOGO_FILE_NAMES in build.py). The artwork arrives at any
+   size and aspect ratio, so it is height-locked and never stretched: a wide
+   lockup scales down to fit the header, a square mark stays square. */
+.logo-img { display: block; height: var(--logo-h); width: auto; object-fit: contain; }
+.logo--lockup { --logo-h: 34px; }
+.logo--mark  { --logo-h: 30px; }
+.logo-img--mark { border-radius: 8px; }
+
 .logo-mark {
   display: grid;
   place-items: center;
@@ -1025,6 +1034,9 @@ strong { color: var(--ink); font-weight: 600; }
 .form-group select,
 .form-group textarea {
   width: 100%;
+  /* explicit height so controls never collapse — iOS Safari renders a date
+     input with appearance:none as a blank, near-zero-height box without it */
+  min-height: 46px;
   padding: 12px 14px;
   font-size: 1rem;
   color: var(--ink);
@@ -1264,7 +1276,11 @@ strong { color: var(--ink); font-weight: 600; }
 .newsletter-form input {
   flex: 1;
   padding: 11px 16px;
-  font-size: .94rem;
+  /* 1rem, not .94rem: iOS Safari zooms the whole page in when a field is
+     focused at under 16px, and .94rem of 17px is 15.98px — just under. The
+     page would jump and scale every time someone tapped the email box. */
+  font-size: 1rem;
+  min-height: 44px;
   color: var(--ink);
   background: var(--bg);
   border: 1px solid var(--separator);
@@ -1382,7 +1398,11 @@ strong { color: var(--ink); font-weight: 600; }
     transform: translateY(-112%);
     visibility: hidden;
     transition: transform .4s var(--ease), visibility .4s;
+    /* dvh, with vh as the fallback for older browsers. 100vh on a phone is
+       taller than the visible area — it includes the browser's URL bar — so
+       the last item in the menu, the Book button, ends up underneath it. */
     max-height: calc(100vh - var(--nav-h) - 20px);
+    max-height: calc(100dvh - var(--nav-h) - 20px);
     overflow-y: auto;
   }
   .nav-links.open { transform: none; visibility: visible; }
@@ -1393,6 +1413,19 @@ strong { color: var(--ink); font-weight: 600; }
     font-size: 1rem;
   }
   .nav-cta { margin: 16px 0 0; justify-content: center; }
+
+  /* Thumb-sized touch targets. At 34px the hamburger and the social icons sit
+     under the 44px minimum, and stacked footer links were ~20px apart — all
+     easy to miss with a thumb. Only in this block: on a desktop pointer, a
+     44px circle would just look oversized. */
+  .mobile-menu-btn { width: 44px; height: 44px; }
+  .nav-cta { min-height: 44px; }
+  .social-link { width: 44px; height: 44px; }
+  .footer-links li + li { margin-top: 2px; }
+  .footer-links a { display: inline-block; padding: 11px 0; }
+  /* The heart has no background until hover, so this only grows the invisible
+     hit area around the 16px icon. */
+  .fav-btn { width: 44px; height: 44px; }
 
   /* On a phone the copy fills most of the viewport, so the photograph drops
      below it as a full-width band instead of sitting behind the text. */
@@ -1443,6 +1476,9 @@ strong { color: var(--ink); font-weight: 600; }
   .newsletter-form { width: 100%; max-width: none; }
   .hero-actions { flex-direction: column; align-items: stretch; width: 100%; }
   .hero-actions .btn { width: 100%; }
+  /* A wide lockup shrinks rather than pushing the menu button off-screen. */
+  .logo--lockup { --logo-h: 28px; }
+  .logo-img { max-width: min(58vw, 260px); }
 }
 
 /* ==========================================================================

@@ -36,6 +36,51 @@ def find_hero_image():
             return "assets/" + name
     return None
 
+
+# Your own logo. Drop the file into assets/ and it is picked up on the next
+# build; any of these names works, the first match wins. SVG is ideal — sharp
+# at every size and only a few KB — but a transparent PNG at 2x is fine too.
+LOGO_FILE_NAMES = ("logo.svg", "logo.png", "logo.webp", "logo.jpg",
+                   "logo.jpeg", "logo.avif")
+
+# A square version of the mark, used for the browser tab. Optional: if it is
+# missing the logo above is used instead, which is only a good idea when the
+# logo is already close to square. Any of these names works.
+LOGO_ICON_NAMES = ("logo-icon.svg", "logo-icon.png", "logo-icon.webp",
+                   "logo-icon.jpg", "logo-icon.jpeg", "logo-icon.avif")
+
+# How your logo is laid out in the header and footer:
+#   "lockup" — the file is the complete logo: mark *and* name together. The
+#              words "Alif Laam Meem / Jewellers" are dropped, because they are
+#              already inside your artwork.
+#   "mark"   — the file is the symbol only. It replaces the ALM square and the
+#              name stays as live text beside it.
+LOGO_MODE = "lockup"
+
+
+def find_logo_file(names):
+    """First matching file in assets/ from `names`, or None."""
+    for name in names:
+        if os.path.exists(os.path.join(HERE, "assets", name)):
+            return "assets/" + name
+    return None
+
+
+LOGO_FILE = find_logo_file(LOGO_FILE_NAMES)
+
+MIME_BY_EXT = {
+    ".svg": "image/svg+xml",
+    ".png": "image/png",
+    ".webp": "image/webp",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".avif": "image/avif",
+}
+
+
+def mime_of(path):
+    return MIME_BY_EXT.get(os.path.splitext(path)[1].lower(), "")
+
 # ---------------------------------------------------------------------------
 # 1. BUSINESS DETAILS
 # ---------------------------------------------------------------------------
@@ -384,6 +429,22 @@ SVG_DEFS = """<svg width="0" height="0" style="position:absolute;overflow:hidden
 </svg>"""
 
 
+def favicon_links():
+    """Browser-tab icon: your mark when you have one, the diamond if not."""
+    icon = find_logo_file(LOGO_ICON_NAMES) or LOGO_FILE
+    if not icon:
+        return ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'"
+                " viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231D1D1F'/>"
+                "<path d='M16 6l7 10-7 10-7-10z' fill='%23B08C4A'/></svg>\">")
+    typ = mime_of(icon)
+    type_attr = ' type="%s"' % typ if typ else ""
+    links = '<link rel="icon" href="%s"%s>' % (icon, type_attr)
+    if typ != "image/svg+xml":
+        # iOS ignores SVG for the home-screen icon, so give it the raster file.
+        links += '\n<link rel="apple-touch-icon" href="%s">' % icon
+    return links
+
+
 def head(title, desc):
     return f"""<head>
 <meta charset="UTF-8">
@@ -395,13 +456,36 @@ def head(title, desc):
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="styles.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231D1D1F'/><path d='M16 6l7 10-7 10-7-10z' fill='%23B08C4A'/></svg>">
+{favicon_links()}
 {NOSCRIPT}
 </head>"""
 
 
 def logo(href="index.html"):
-    return f"""<a href="{href}" class="logo" aria-label="{esc(SITE['name'])} — home">
+    """The house logo: your file when there is one, the ALM monogram if not.
+
+    The link carries the accessible name, so the artwork itself is decorative
+    (empty alt) and a screen reader announces the business name, not a filename.
+    """
+    label = esc(SITE["name"]) + " — home"
+
+    if LOGO_FILE and LOGO_MODE == "lockup":
+        # The artwork already contains the name, so no wordmark text beside it.
+        return f"""<a href="{href}" class="logo logo--lockup" aria-label="{label}">
+        <img class="logo-img" src="{LOGO_FILE}" alt="" decoding="async">
+      </a>"""
+
+    if LOGO_FILE:
+        # Symbol only: it stands in for the ALM square, the name stays as text.
+        return f"""<a href="{href}" class="logo logo--mark" aria-label="{label}">
+        <img class="logo-img logo-img--mark" src="{LOGO_FILE}" alt="" decoding="async">
+        <span class="logo-words">
+          <span class="logo-text">{esc(SITE['short'])}</span>
+          <span class="logo-sub">Jewellers</span>
+        </span>
+      </a>"""
+
+    return f"""<a href="{href}" class="logo" aria-label="{label}">
         <span class="logo-mark" aria-hidden="true"><span>ALM</span></span>
         <span class="logo-words">
           <span class="logo-text">{esc(SITE['short'])}</span>
@@ -1379,6 +1463,16 @@ def main():
     print("built %d pages:" % len(written))
     for name in written:
         print("  ", name)
+
+    if LOGO_FILE:
+        print("\nlogo: %s  (%s layout)" % (LOGO_FILE, LOGO_MODE))
+        if LOGO_MODE == "lockup":
+            print("      the artwork carries the name, so no wordmark text is rendered")
+    else:
+        print("\nlogo: none in assets/ — using the ALM monogram placeholder")
+        print("      drop your file in as assets/logo.svg (or .png/.webp) and rebuild")
+
+    print("hero: %s" % (find_hero_image() or "none — plain dark band"))
 
 
 if __name__ == "__main__":
