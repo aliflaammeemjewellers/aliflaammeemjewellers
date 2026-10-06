@@ -311,7 +311,7 @@ strong { color: var(--ink); font-weight: 600; }
 .logo-img { display: block; height: var(--logo-h); width: auto; object-fit: contain; }
 .logo--lockup { --logo-h: 34px; }
 .logo--mark  { --logo-h: 30px; }
-.logo-img--mark { border-radius: 8px; }
+.logo-img--mark { border-radius: 3px; }
 
 .logo-mark {
   display: grid;
@@ -396,47 +396,29 @@ strong { color: var(--ink); font-weight: 600; }
   display: grid;
   place-items: center;
   background: #000;
-  transition: opacity .5s var(--ease), visibility .5s;
+  transition: opacity .32s var(--ease), visibility .32s;
 }
-.intro-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-.intro-mark {
-  font-size: clamp(2.4rem, 7vw, 3.6rem);
-  font-weight: 600;
-  letter-spacing: .24em;
-  text-indent: .24em;
-  color: #F5F5F7;
+.intro-inner { display: block; }
+.intro-logo {
+  display: block;
+  width: min(66vw, 260px);
+  height: auto;
+  object-fit: contain;
   opacity: 0;
   transform: scale(.94);
-  animation: introMark .9s var(--ease-out) .08s forwards;
+  animation: introBrand .5s var(--ease-out) .04s forwards;
 }
-.intro-rule {
-  width: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #D2B478, transparent);
-  animation: introRule .8s var(--ease-out) .5s forwards;
-}
-.intro-word {
-  font-size: .74rem;
-  letter-spacing: .42em;
-  text-indent: .42em;
-  text-transform: uppercase;
-  color: #86868B;
+.intro-fallback {
+  display: block;
+  color: #F5F5F7;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  letter-spacing: .08em;
   opacity: 0;
-  animation: introWord .7s var(--ease-out) .68s forwards;
+  transform: scale(.94);
+  animation: introBrand .5s var(--ease-out) .04s forwards;
 }
-@keyframes introMark {
+@keyframes introBrand {
   to { opacity: 1; transform: none; }
-}
-@keyframes introRule {
-  to { width: 132px; }
-}
-@keyframes introWord {
-  to { opacity: 1; }
 }
 
 .intro.is-done {
@@ -567,7 +549,7 @@ strong { color: var(--ink); font-weight: 600; }
 
 
 /* Optional hero photograph. build.py adds .hero--photo and the .hero-photo
-   element only when assets/hero.jpg (or .png/.webp/.avif) exists, so the hero
+   element only when assets/hero.webp (or .jpg/.png/.avif) exists, so the hero
    still looks right with no image at all.
 
    The scrim is deliberately heavier at the top, where the headline sits, and
@@ -815,19 +797,6 @@ strong { color: var(--ink); font-weight: 600; }
   gap: 6px;
   padding-top: 16px;
 }
-.price {
-  font-size: 1.06rem;
-  font-weight: 600;
-  letter-spacing: -.012em;
-  color: var(--ink);
-}
-.price small {
-  display: block;
-  font-size: .78rem;
-  font-weight: 400;
-  color: var(--ink-mute);
-  letter-spacing: 0;
-}
 .enquire-btn {
   display: inline-flex;
   align-items: center;
@@ -936,20 +905,6 @@ strong { color: var(--ink); font-weight: 600; }
   align-items: center;
   gap: 14px;
 }
-.spotlight-price {
-  font-size: 1.3rem;
-  font-weight: 600;
-  letter-spacing: -.014em;
-  color: var(--ink);
-  margin-right: 4px;
-}
-.spotlight-price small {
-  display: block;
-  font-size: .78rem;
-  font-weight: 400;
-  color: var(--ink-mute);
-  letter-spacing: 0;
-}
 
 .collections-foot {
   margin-top: 46px;
@@ -965,7 +920,7 @@ strong { color: var(--ink); font-weight: 600; }
   max-width: 60ch;
 }
 
-/* --------------------------- 8. ATELIER / PROCESS ------------------------ */
+/* ------------------------------ 8. PROCESS ----------------------------- */
 .process-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1141,6 +1096,12 @@ strong { color: var(--ink); font-weight: 600; }
   vertical-align: -4px;
   color: var(--gold-deep);
 }
+.form-status a {
+  color: var(--gold-deep);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 .tick circle {
   stroke-dasharray: 64;
   stroke-dashoffset: 64;
@@ -1242,13 +1203,22 @@ strong { color: var(--ink); font-weight: 600; }
   place-items: center;
   min-height: 400px;
   padding: clamp(26px, 4vw, 48px);
-  background: var(--bg-alt);
+  background: #000;
   border-radius: var(--r-xl);
+  overflow: hidden;
 }
 .visit-art svg {
   width: min(300px, 62%);
   height: auto;
   display: block;
+}
+.visit-logo-image {
+  display: block;
+  width: min(100%, 320px);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 3px;
 }
 
 /* ------------------------------- 12. FOOTER ------------------------------ */
@@ -1639,6 +1609,48 @@ strong { color: var(--ink); font-weight: 600; }
   border-radius: var(--r-xl);
 }
 .panel svg, .panel .motif { width: min(300px, 66%); height: auto; }
+.about-bridal-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 14px;
+  margin: 0;
+  padding: clamp(18px, 2.6vw, 28px);
+}
+.about-bridal-link {
+  display: block;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #141416;
+}
+.about-bridal-panel .product-photo {
+  transition: transform .35s var(--ease);
+}
+.about-bridal-link:hover .product-photo { transform: scale(1.025); }
+.about-bridal-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+}
+.about-bridal-caption > span {
+  font-size: .76rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.about-bridal-caption > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ink);
+  font-size: .9rem;
+  font-weight: 600;
+}
+.about-bridal-caption > a svg { width: 14px; height: 14px; }
 
 /* ---- prose (about, legal, supporting text) ---- */
 .prose { max-width: 74ch; }
@@ -1712,20 +1724,6 @@ strong { color: var(--ink); font-weight: 600; }
   font-size: clamp(1.02rem, 1.6vw, 1.16rem);
   color: var(--ink-soft);
   max-width: 52ch;
-}
-.piece-price {
-  margin: 24px 0 4px;
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -.018em;
-  color: var(--ink);
-}
-.piece-price small {
-  display: block;
-  font-size: .82rem;
-  font-weight: 400;
-  color: var(--ink-mute);
-  letter-spacing: 0;
 }
 .piece-specs {
   display: grid;
@@ -1876,21 +1874,10 @@ strong { color: var(--ink); font-weight: 600; }
   color: var(--gold-deep);
 }
 .qv-name {
-  margin: 8px 0 4px;
+  margin: 8px 0 12px;
   font-size: clamp(1.5rem, 2.6vw, 2rem);
   font-weight: 600;
   letter-spacing: -.02em;
-}
-.qv-price {
-  margin: 4px 0 14px;
-  font-size: 1.12rem;
-  font-weight: 600;
-}
-.qv-price small {
-  display: block;
-  font-size: .8rem;
-  font-weight: 400;
-  color: var(--ink-mute);
 }
 .qv-desc { margin: 0 0 10px; font-size: .98rem; color: var(--ink); }
 .qv-story { margin: 0 0 18px; font-size: .94rem; line-height: 1.6; color: var(--ink-mute); }
