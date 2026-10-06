@@ -31,12 +31,17 @@ The whole look is driven by CSS custom properties at the top of `styles.css`.
 | `--font-display` | Playfair Display | headings, prices, numerals |
 | `--font-body` | Inter | interface and body copy |
 
-**All artwork is code.** There are no image files: the hero's grey panels and
-gold medallion, the jewellery motif on every product card (rings, necklaces,
-jhumkas, bangles, bridal sets) and the Visit section's arched rosette panel are
+**All artwork is code.** There are no image files: the hero's arched doorway,
+rosette crest and threshold, the jewellery motif on every product card (rings,
+necklaces, jhumkas, bangles, bridal sets) and the Visit section's arch panel are
 drawn with CSS gradients, borders and inline SVG line-art using two shared
 gradients (`#goldFill`, `#goldStroke`) defined once at the bottom of
 `index.html`.
+
+The hero is a full-width cinematic composition: a tall gold arch drawn in CSS
+frames a centred crest, badge, headline and two actions, flanked by hairline
+columns, with a threshold sill and a scroll cue at the base. It is entirely
+vector and CSS, so it scales cleanly from a 375px phone to a wide desktop.
 
 ## Editing content
 
