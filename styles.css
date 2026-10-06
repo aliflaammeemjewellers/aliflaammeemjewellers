@@ -754,6 +754,9 @@ strong { color: var(--ink); font-weight: 600; }
   place-items: center;
   width: 30px; height: 30px;
   color: var(--ink-mute);
+  /* solid on both surfaces: a dark heart was invisible on the dark product
+     photographs, so the button carries its own light plate */
+  background: rgba(255, 255, 255, .92);
   border-radius: var(--r-full);
   transition: color .2s var(--ease), background-color .2s var(--ease);
 }
@@ -1817,7 +1820,10 @@ strong { color: var(--ink); font-weight: 600; }
 .qv-panel {
   position: relative;
   width: min(960px, 100%);
-  max-height: min(88vh, 88dvh, 820px);
+  /* vh first: in browsers without dvh the min() below is invalid and the
+     previous line wins, instead of the panel losing its max-height */
+  max-height: min(88vh, 820px);
+  max-height: min(88dvh, 820px);
   overflow-y: auto;
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;

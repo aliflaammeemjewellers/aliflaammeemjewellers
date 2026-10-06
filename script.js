@@ -94,6 +94,10 @@
           ? 'Showing all ' + total + ' pieces.'
           : 'Showing ' + shown + ' of ' + total + ' pieces.';
     }
+
+    // Tab and chip clicks land here too, so the reveal foot has to follow
+    // the filter state no matter which path changed it.
+    updateRevealFoot();
   }
 
   /* ---------------------------------------------------------------------
@@ -122,8 +126,6 @@
       if (i >= prev && i < revealState.count && !el.hidden) animateCardIn(el, stagger++);
     });
 
-    updateRevealFoot();
-
     // The visitor is still at the bottom and there is room — keep filling.
     const foot = $('#revealFoot');
     if (foot && revealState.count < total) {
@@ -144,6 +146,9 @@
       foot.hidden = true;
       return;
     }
+    // Back to the unfiltered list: the sentinel has to be live again,
+    // otherwise scrolling for more silently stops working.
+    foot.hidden = false;
     const total = $$('.product-card', $('#productsGrid')).length;
     const shown = Math.min(revealState.count, total);
     if (status) {
@@ -295,9 +300,14 @@
 
     const badgeCls = (item.badge === 'Bestseller' || item.badge === 'Signature') ? 'badge gold' : 'badge';
     const badge = item.badge ? '<span class="' + badgeCls + '">' + item.badge + '</span>' : '';
+    // The motif's gradient is a dark gold tuned for light tiles — on the dark
+    // media panel it needs the brighter "Dark" variant, same swap build.py's
+    // motif_dark() does.
     const media = item.photo
       ? '<img class="product-photo" src="' + item.photo + '" alt="' + item.name + '">'
-      : (CATALOGUE.motifs[item.motif] || '');
+      : ((CATALOGUE.motifs[item.motif] || '')
+          .replace(/goldStroke/g, 'goldStrokeDark')
+          .replace(/goldFill/g, 'goldFillDark'));
     d$('.qv-media', overlay).innerHTML = badge + media;
 
     const specs = item.specs.map((s) =>
@@ -320,9 +330,14 @@
         '<a class="qv-full" href="' + item.href + '">Open the full page</a>' +
       '</div>';
 
-    overlay.hidden = false;
+    // The closed state is .open-less: opacity 0 + visibility hidden. Not
+    // using the hidden attribute here on purpose — toggling display would
+    // kill the open transition and a pending "hide" timer could race a fast
+    // close-and-reopen.
     document.body.classList.add('no-scroll');
-    window.requestAnimationFrame(() => overlay.classList.add('open'));
+    overlay.classList.remove('open');
+    void overlay.offsetWidth; // reset, so the open transition replays
+    overlay.classList.add('open');
     d$('.qv-close', overlay).focus();
 
     document.removeEventListener('keydown', qvKeyHandler);
@@ -335,7 +350,6 @@
     overlay.classList.remove('open');
     document.body.classList.remove('no-scroll');
     document.removeEventListener('keydown', qvKeyHandler);
-    window.setTimeout(() => { overlay.hidden = true; }, 260);
     if (qvLastTrigger && document.contains(qvLastTrigger)) qvLastTrigger.focus();
     qvLastTrigger = null;
   }
