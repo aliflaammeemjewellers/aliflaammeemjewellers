@@ -46,6 +46,24 @@ product — it is the stand-in for photography, drawn as inline SVG in the same
 flat gold as the accent (two shared gradients, `#goldFill` and `#goldStroke`,
 defined once at the bottom of `index.html`).
 
+**Band rhythm.** The page is built as full-bleed bands that alternate, the way
+Apple's marketing pages do — the background is the structure, not cards:
+
+| Band | Background | Contents |
+| --- | --- | --- |
+| Hero | `#000` | eyebrow pill, huge headline, tagline, white pill + gold link, product on a gold glow |
+| Collections | `#fff` | eyebrow, heading, segmented control, featured panel, grey tiles |
+| The atelier | `#000` | four steps as text with hairline tops — no boxes on dark |
+| Appointment | `#fff` | details left, form card right (grey cards on white) |
+| Client stories | `#F5F5F7` | white quote cards |
+| Visit | `#fff` | grey detail and media cards |
+| Footer | `#F5F5F7` | link columns over hairlines |
+
+On dark bands, headings flip to `#F5F5F7`, body copy to `#A1A1A6`, and the
+accent switches to the brighter `--gold-on-dark` (`#D2B478`). The hero motif
+uses a matching brighter gradient pair (`#goldFillDark`, `#goldStrokeDark`),
+because the standard gold is too dark to read on black.
+
 **Notable components**
 
 - *Segmented control* — the collections filter is an Apple-style segmented
@@ -54,9 +72,9 @@ defined once at the bottom of `index.html`).
   small spec chips, price and a gold "Enquire" link.
 - *Featured piece* — a full-width panel above the grid with a white media well,
   a two-column spec table and a dark/grey button pair.
-- *Hero* — an eyebrow pill, a large tight headline, a thin tagline, one dark
-  pill button and one gold text link, above a wide grey product panel with a
-  caption.
+- *Hero* — an eyebrow pill, a huge tight headline, a thin tagline, a white pill
+  button and a gold text link, above the product floating on a soft gold glow,
+  with a caption and a bobbing scroll cue.
 
 ## Editing content
 

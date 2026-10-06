@@ -73,7 +73,7 @@
 </nav>
 
 <!-- ============================ HERO ============================ -->
-<section class="hero" id="home">
+<section class="hero hero--dark" id="home">
   <div class="container">
     <div class="hero-intro">
       <span class="hero-badge">Est. 1979 &middot; Lahore</span>
@@ -87,7 +87,7 @@
       </p>
 
       <div class="hero-actions">
-        <a href="#collections" class="btn btn-primary">Explore the collections</a>
+        <a href="#collections" class="btn btn-light">Explore the collections</a>
         <a href="#appointment" class="btn btn-link">
           Book a private viewing
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
@@ -98,16 +98,16 @@
     <figure class="hero-showcase">
       <div class="showcase-stage" aria-hidden="true">
         <svg viewBox="0 0 120 120">
-          <path d="M22 16 C22 62 34 78 60 78 C86 78 98 62 98 16" stroke="url(#goldStroke)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-          <path d="M32 18 C32 54 43 66 60 66 C77 66 88 54 88 18" stroke="url(#goldStroke)" stroke-width="1.2" fill="none" opacity=".55"/>
-          <circle cx="22" cy="16" r="3" fill="url(#goldFill)"/>
-          <circle cx="98" cy="16" r="3" fill="url(#goldFill)"/>
-          <path d="M44 60 c0 0 4 6 4 10 a4 4 0 0 1 -8 0 c0 -4 4 -10 4 -10 z" fill="url(#goldFill)"/>
-          <path d="M60 68 c0 0 4 6 4 10 a4 4 0 0 1 -8 0 c0 -4 4 -10 4 -10 z" fill="url(#goldFill)"/>
-          <path d="M76 60 c0 0 4 6 4 10 a4 4 0 0 1 -8 0 c0 -4 4 -10 4 -10 z" fill="url(#goldFill)"/>
-          <path d="M60 78 v14" stroke="url(#goldStroke)" stroke-width="2.2" fill="none"/>
-          <path d="M60 92 L70 104 L60 116 L50 104 Z" stroke="url(#goldStroke)" stroke-width="2.4" fill="none"/>
-          <path d="M50 104 h20 M60 92 v24" stroke="url(#goldStroke)" stroke-width="1.1" opacity=".55" fill="none"/>
+          <path d="M22 16 C22 62 34 78 60 78 C86 78 98 62 98 16" stroke="url(#goldStrokeDark)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          <path d="M32 18 C32 54 43 66 60 66 C77 66 88 54 88 18" stroke="url(#goldStrokeDark)" stroke-width="1.2" fill="none" opacity=".55"/>
+          <circle cx="22" cy="16" r="3" fill="url(#goldFillDark)"/>
+          <circle cx="98" cy="16" r="3" fill="url(#goldFillDark)"/>
+          <path d="M44 60 c0 0 4 6 4 10 a4 4 0 0 1 -8 0 c0 -4 4 -10 4 -10 z" fill="url(#goldFillDark)"/>
+          <path d="M60 68 c0 0 4 6 4 10 a4 4 0 0 1 -8 0 c0 -4 4 -10 4 -10 z" fill="url(#goldFillDark)"/>
+          <path d="M76 60 c0 0 4 6 4 10 a4 4 0 0 1 -8 0 c0 -4 4 -10 4 -10 z" fill="url(#goldFillDark)"/>
+          <path d="M60 78 v14" stroke="url(#goldStrokeDark)" stroke-width="2.2" fill="none"/>
+          <path d="M60 92 L70 104 L60 116 L50 104 Z" stroke="url(#goldStrokeDark)" stroke-width="2.4" fill="none"/>
+          <path d="M50 104 h20 M60 92 v24" stroke="url(#goldStrokeDark)" stroke-width="1.1" opacity=".55" fill="none"/>
         </svg>
       </div>
       <figcaption class="showcase-caption">
@@ -123,7 +123,7 @@
 </section>
 
 <!-- ============================ COLLECTIONS ============================ -->
-<section class="section section--alt" id="collections">
+<section class="section" id="collections">
   <div class="container">
     <div class="filter-tabs-wrap">
       <div class="filter-tabs" role="group" aria-label="Filter collections by">
@@ -150,11 +150,11 @@
 </section>
 
 <!-- ============================ ATELIER / PROCESS ============================ -->
-<section class="section" id="atelier">
+<section class="section section--dark" id="atelier">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
-      <span class="section-tag">The Atelier</span>
-      <h2>How a commission is made</h2>
+      <span class="section-tag">The atelier</span>
+      <h2>How a commission is made.</h2>
       <p>From first sketch to final polish, four unhurried stages — and you are part of every one of them.</p>
     </div>
 
@@ -325,7 +325,7 @@
 </section>
 
 <!-- ============================ TESTIMONIALS ============================ -->
-<section class="section" id="clients">
+<section class="section section--alt" id="clients">
   <div class="container">
     <div class="section-header" data-aos="fade-up">
       <span class="section-tag">Client Stories</span>
@@ -339,7 +339,7 @@
 </section>
 
 <!-- ============================ VISIT ============================ -->
-<section class="section section--alt" id="visit">
+<section class="section" id="visit">
   <div class="container">
     <div class="section-header left" data-aos="fade-up">
       <span class="section-tag">Visit the Showroom</span>
@@ -535,6 +535,17 @@
       <stop offset="0%" stop-color="#A9853F"/>
       <stop offset="55%" stop-color="#B08C4A"/>
       <stop offset="100%" stop-color="#8A6A2B"/>
+    </linearGradient>
+    <!-- brighter pair, for gold that has to read on black -->
+    <linearGradient id="goldFillDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E8D3A6"/>
+      <stop offset="55%" stop-color="#D2B478"/>
+      <stop offset="100%" stop-color="#B08C4A"/>
+    </linearGradient>
+    <linearGradient id="goldStrokeDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D2B478"/>
+      <stop offset="50%" stop-color="#E8D3A6"/>
+      <stop offset="100%" stop-color="#B08C4A"/>
     </linearGradient>
   </defs>
 </svg>
