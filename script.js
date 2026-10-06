@@ -137,8 +137,9 @@
       desc:'Granulated dome jhumkas finished with hand-strung pearls.', tags:['Handcrafted','Pearl'], price:'PKR 245,000', note:'pair', badge:'New' },
     { id:'sana',     name:'Sana Engraved Bangles',     type:'bangles',  metals:['gold22'],        occasion:'everyday',   motif:'bangles',
       desc:'Set of four slim bangles with traditional hand engraving.', tags:['Set of 4','Hand Engraved'], price:'PKR 720,000', note:'set of four' },
-    { id:'noor',     name:'Noor Polki Bridal Set',     type:'bridal',   metals:['gold22'],        occasion:'bridal',     motif:'bridal',
-      desc:'Uncut polki necklace with matching earrings and maang tikka.', tags:['Bridal','Polki','Made to order'], price:'Price on request', note:'bespoke', badge:'Signature' },
+    { id:'noor',     name:'Noor Polki Bridal Set',     type:'bridal',   metals:['gold22'],        occasion:'bridal',     motif:'bridal', featured:true,
+      desc:'Uncut polki necklace with matching earrings and maang tikka.', tags:['Bridal','Polki','Made to order'], price:'Price on request', note:'bespoke', badge:'Signature',
+      specs:[['Metal','22K gold, kundan-set'],['Stones','Uncut polki, pearls'],['Craft','Hand-set at the bench'],['Delivery','6–8 weeks, made to order']] },
     { id:'roshni',   name:'Roshni Temple Necklace',    type:'necklace', metals:['gold22'],        occasion:'bridal',     motif:'necklace',
       desc:'Temple-inspired nakshi work with ruby and emerald accents.', tags:['Bridal','22K Gold'], price:'PKR 1,240,000', note:'approx. 48g' },
     { id:'hina',     name:'Hina Eternity Band',        type:'rings',    metals:['rose','white'],  occasion:'engagement', motif:'rings',
@@ -234,6 +235,32 @@
       </article>`;
   }
 
+  function spotlightHTML(p) {
+    const specs = (p.specs || []).map(([k, v]) =>
+      `<div class="spec"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+    return `
+      <article class="spotlight" role="listitem" data-type="${p.type}" data-occasion="${p.occasion}"
+               data-metals="${p.metals.join(' ')}">
+        <div class="spotlight-media">
+          ${MOTIF[p.motif]}
+        </div>
+        <div class="spotlight-body">
+          <span class="spotlight-eyebrow"><i class="gem"></i> Featured Piece</span>
+          <h3 class="spotlight-name">${p.name}</h3>
+          <p class="spotlight-desc">${p.desc} Each suite is drafted around your bridal palette and
+            measured to the wearer, so no two are ever identical.</p>
+          <dl class="spotlight-specs">${specs}</dl>
+          <div class="spotlight-foot">
+            <span class="spotlight-price">${money(p.price)}<small>${p.note}</small></span>
+            <button class="btn btn-primary" type="button" data-enquire="${p.name}|${money(p.price)}">
+              Enquire on WhatsApp
+            </button>
+            <a class="btn btn-outline" href="#appointment">Book a Viewing</a>
+          </div>
+        </div>
+      </article>`;
+  }
+
   function matches(p) {
     const f = filterState;
     if (!f.value) return true;
@@ -247,11 +274,14 @@
   function renderProducts() {
     if (!grid) return;
     const list = PRODUCTS.filter(matches);
-    grid.innerHTML = list.length
-      ? list.map(cardHTML).join('')
-      : `<p class="collections-note" style="grid-column:1/-1;text-align:center;padding:40px 0">
+    const feat = list.filter((p) => p.featured).slice(0, 1)[0];
+    const rest = list.filter((p) => p !== feat);
+    const cards = rest.map(cardHTML).join('');
+
+    grid.innerHTML = (feat ? spotlightHTML(feat) : '') + (cards ||
+      (feat ? '' : `<p class="collections-note" style="grid-column:1/-1;text-align:center;padding:40px 0">
            No pieces in this selection yet — call us and we will craft it for you.
-         </p>`;
+         </p>`));
   }
 
   function renderSubFilters(group) {

@@ -68,6 +68,17 @@ the appointment panel, the visit card and the footer.
 `motif` (which gold line drawing to show), tags, price and an optional badge.
 The filters, chips and grid all build themselves from that data.
 
+Add `featured: true` (plus a `specs` array of `[label, value]` pairs) to one
+entry and it is lifted out of the grid into the full-width **Featured Piece**
+spotlight above it. Only one piece should carry the flag; the first match wins.
+When a filter excludes it, the spotlight disappears and the piece appears as a
+normal card, so filtering never breaks the layout.
+
+**Card design** — each piece is a boxless "vitrine": an arch-topped media panel
+with a gold hairline arch echoing the hero doorway, a centred caption, a price
+line and an Enquire link. Nothing is boxed in a bordered rectangle, which keeps
+the grid feeling like a display case rather than a product table.
+
 **Testimonials** — the `TESTIMONIALS` array in `script.js`.
 
 **Copy and sections** — directly in `index.html`: hero, Collections, The
