@@ -17,6 +17,7 @@ Output: index.html, about.html, collections.html, atelier.html,
 """
 
 import html
+import json
 import os
 from urllib.parse import quote
 
@@ -219,9 +220,13 @@ TYPES = {
     "bangles": "Bangles", "bridal": "Bridal Sets",
 }
 
+# How many catalogue cards are visible before the visitor scrolls for more.
+# Must stay in step with REVEAL_BATCH in script.js.
+REVEAL_BATCH = 6
+
 PRODUCTS = [
     dict(id="meher", name="Meher Solitaire Ring", type="rings", metals=["gold22"], occasion="engagement",
-         motif="rings", badge="Bestseller", price="PKR 385,000", note="incl. making",
+         motif="rings", badge="Bestseller", featured=True, price="PKR 385,000", note="incl. making",
          desc="A brilliant-cut solitaire raised on a hand-forged 22K band.",
          story="Set in a six-claw mount so light reaches the stone from every angle, on a band "
                "forged and filed by hand rather than cast. Choose the stone from the tray, then we "
@@ -254,7 +259,7 @@ PRODUCTS = [
          specs=[("Metal", "22K yellow gold"), ("Set", "Four bangles"), ("Width", "5 mm each"),
                 ("Finish", "Hand engraved, high polish")]),
     dict(id="noor", name="Noor Polki Bridal Set", type="bridal", metals=["gold22"], occasion="bridal",
-         motif="bridal", badge="Signature", featured=True, price="Price on request", note="bespoke",
+         motif="bridal", badge="Signature", spotlight=True, price="Price on request", note="bespoke",
          desc="Uncut polki necklace with matching earrings and maang tikka.",
          story="Uncut polki set in kundan on a 22K base, with matching earrings and maang tikka. Each "
                "suite is drafted around your bridal palette and measured to the wearer, so no two are "
@@ -271,7 +276,7 @@ PRODUCTS = [
          specs=[("Metal", "22K yellow gold"), ("Stones", "Ruby, emerald"), ("Weight", "Approx. 48 g"),
                 ("Length", "Made to order")]),
     dict(id="hina", name="Hina Eternity Band", type="rings", metals=["rose", "white"], occasion="engagement",
-         motif="rings", price="PKR 210,000", note="per band",
+         motif="rings", featured=True, price="PKR 210,000", note="per band",
          desc="Micro-set diamonds running continuously around the band.",
          story="Micro-set stones run the full circumference so the band reads the same from any angle. "
                "Comfort-fit inner profile for daily wear.",
@@ -302,6 +307,73 @@ PRODUCTS = [
          tags=["Platinum", "Engraving included"],
          specs=[("Metal", "Platinum, 18K inlay"), ("Finish", "Brushed"),
                 ("Engraving", "Included"), ("Set", "Pair")]),
+    dict(id="dilruba", name="Dilruba Halo Solitaire", type="rings", metals=["gold22"], occasion="engagement",
+         motif="rings", badge="New", featured=True, price="PKR 465,000", note="incl. making",
+         desc="A brilliant-cut solitaire ringed by a halo of smaller stones.",
+         story="A round brilliant raised above the hand, ringed by a halo of smaller stones that "
+               "doubles its apparent size. The band is forged from a single wire, so there is no "
+               "seam to catch.",
+         tags=["Halo", "22K Gold"],
+         specs=[("Metal", "22K yellow gold"), ("Stones", "Brilliant centre with halo"),
+                ("Setting", "Four-claw with halo"), ("Sizing", "Made to size")]),
+    dict(id="zoya", name="Zoya Three-Stone Ring", type="rings", metals=["gold22"], occasion="engagement",
+         motif="rings", featured=True, price="PKR 520,000", note="incl. making",
+         desc="Past, present and future — three stones on a tapered band.",
+         story="Three graduated stones on a band that tapers toward the fingertip: a centre "
+               "brilliant flanked by two smaller rounds. The side stones are set first, so the "
+               "centre always sits level.",
+         tags=["Three-stone", "22K Gold"],
+         specs=[("Metal", "22K yellow gold"), ("Stones", "Three brilliant-cut diamonds"),
+                ("Centre", "0.75 ct"), ("Sizing", "Made to size")]),
+    dict(id="reyaz", name="Reyaz Twisted Band", type="rings", metals=["rose"], occasion="everyday",
+         motif="rings", featured=True, price="PKR 260,000", note="per band",
+         desc="Two ribbons of rose gold twisted into one.",
+         story="Two ribbons of gold twisted around each other, so the band reads differently in "
+               "every light. Polished to a soft satin so it wears unmarked.",
+         tags=["Twist", "Satin finish"],
+         specs=[("Metal", "18K rose gold"), ("Width", "3 mm"),
+                ("Finish", "Satin"), ("Profile", "Comfort fit")]),
+    dict(id="mahnoor", name="Mahnoor Sapphire Ring", type="rings", metals=["gold22"], occasion="festive",
+         motif="rings", badge="New", featured=True, price="PKR 425,000", note="incl. making",
+         desc="A Ceylon sapphire crowned in a 22K gold filigree head.",
+         story="A deep-blue Ceylon sapphire in a hand-drawn filigree head, openwork light enough to "
+               "wear all evening. Blue and gold have been the house pairing since the first counter "
+               "in the Liberty Market souk.",
+         tags=["Ceylon Sapphire", "Filigree"],
+         specs=[("Metal", "22K yellow gold"), ("Stone", "Ceylon sapphire"),
+                ("Head", "Hand-drawn filigree"), ("Sizing", "Made to size")]),
+    dict(id="areeba", name="Areeba Pearl Ring", type="rings", metals=["gold18"], occasion="gifting",
+         motif="rings", price="PKR 185,000", note="incl. making",
+         desc="A South Sea pearl cradled in an 18K gold collette.",
+         story="A single South Sea pearl in a slim collette, close to the finger so it does not "
+               "snag. The pearl is matched for lustre, not just size.",
+         tags=["South Sea Pearl", "18K"],
+         specs=[("Metal", "18K yellow gold"), ("Pearl", "South Sea, 8 mm"),
+                ("Setting", "Collette"), ("Sizing", "Made to size")]),
+    dict(id="dildar", name="Dildar Pavé Band", type="rings", metals=["white"], occasion="engagement",
+         motif="rings", price="PKR 295,000", note="incl. making",
+         desc="White gold pavé-set with hand-placed micro diamonds.",
+         story="Micro diamonds placed by hand, stone by stone, around a slim white-gold band. The "
+               "pavé is set low, so the band can be worn every day without the stones catching.",
+         tags=["Pavé", "White Gold"],
+         specs=[("Metal", "18K white gold"), ("Stones", "Hand-set micro diamonds"),
+                ("Width", "2.4 mm"), ("Profile", "Comfort fit")]),
+    dict(id="suhani", name="Suhani Signet Ring", type="rings", metals=["gold22"], occasion="everyday",
+         motif="rings", price="PKR 150,000", note="incl. engraving",
+         desc="A wide hand-engraved signet, made to your initials.",
+         story="A wide face engraved to your initials or a date, under a hand-cut border. The "
+               "inside is signed and dated, so the ring can be handed on.",
+         tags=["Signet", "Hand Engraved"],
+         specs=[("Metal", "22K yellow gold"), ("Width", "9 mm"),
+                ("Engraving", "Initials or date"), ("Finish", "High polish")]),
+    dict(id="zar", name="Zar Diamond Cluster Ring", type="rings", metals=["gold18"], occasion="festive",
+         motif="rings", price="PKR 340,000", note="incl. making",
+         desc="A cluster of mixed-cut diamonds on an 18K gold base.",
+         story="Rounds, pears and brilliants clustered so light passes through the whole head at "
+               "once. It reads larger than its weight — which is the point.",
+         tags=["Cluster", "18K"],
+         specs=[("Metal", "18K yellow gold"), ("Stones", "Mixed-cut diamond cluster"),
+                ("Setting", "Cluster"), ("Sizing", "Made to size")]),
     dict(id="sitara", name="Sitara Filigree Kada", type="bangles", metals=["gold22"], occasion="festive",
          motif="bangles", price="PKR 545,000", note="approx. 32 g",
          desc="Wide kada built from hand-drawn gold filigree scrolls.",
@@ -382,6 +454,68 @@ def related_to(p, limit=3):
         0 if o["type"] == p["type"] else 1,
     ))
     return scored[:limit]
+
+
+# ---------------------------------------------------------------------------
+# 3b. PRODUCT PHOTOGRAPHS
+# Drop a photograph in assets/products/ named after the piece's id
+# (assets/products/meher.jpg) and the next build uses it in the card, the
+# quick view and the piece page. Without a photo the line-drawing motif is
+# used instead, so the site never shows a broken image.
+# ---------------------------------------------------------------------------
+PRODUCT_PHOTO_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".avif")
+
+
+def product_photo(p):
+    """Web path to the piece's photograph, or None when none has been added."""
+    for ext in PRODUCT_PHOTO_EXTS:
+        name = "products/%s%s" % (p["id"], ext)
+        if os.path.exists(os.path.join(HERE, "assets", name)):
+            return "assets/" + name
+    return None
+
+
+def product_media(p):
+    """The piece's visual: its photograph when one exists, else the motif."""
+    src = product_photo(p)
+    if src:
+        return ('<img class="product-photo" src="%s" alt="%s" '
+                'loading="lazy" decoding="async">' % (src, esc(p["name"])))
+    return MOTIF[p["motif"]]
+
+
+def spotlight_product():
+    """The single featured piece: the spotlight flag, then featured, then first."""
+    return (next((p for p in PRODUCTS if p.get("spotlight")), None)
+            or next((p for p in PRODUCTS if p.get("featured")), None)
+            or PRODUCTS[0])
+
+
+def featured_products():
+    return [p for p in PRODUCTS if p.get("featured")]
+
+
+def ring_count():
+    return sum(1 for p in PRODUCTS if p["type"] == "rings")
+
+
+def catalogue_json_block():
+    """Everything the quick view needs, as one JSON island on every page.
+    The script reads it by id, so opening details never fetches anything."""
+    items = []
+    for p in PRODUCTS:
+        items.append({
+            "id": p["id"], "name": p["name"], "type": p["type"],
+            "occasion": p["occasion"], "metals": [METALS[m] for m in p["metals"]],
+            "badge": p.get("badge", ""), "price": p["price"], "note": p["note"],
+            "desc": p["desc"], "story": p["story"], "tags": p["tags"],
+            "specs": [[k, v] for k, v in p["specs"]],
+            "motif": p["motif"], "photo": product_photo(p),
+            "href": "piece-%s.html" % p["id"],
+        })
+    payload = {"motifs": MOTIF, "types": TYPES, "occasions": OCCASIONS, "items": items}
+    return ('<script type="application/json" id="catalogue-data">%s</script>'
+            % json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
 
 
 # ---------------------------------------------------------------------------
@@ -610,6 +744,7 @@ def page(title, desc, active, content, intro=False, head_extra=""):
 {footer()}
 {SVG_DEFS}
 {head_extra}
+{catalogue_json_block()}
 <script src="script.js"></script>
 </body>
 </html>
@@ -643,17 +778,20 @@ def cta_band(title, text, primary_href="appointment.html", primary_label="Book a
 </section>"""
 
 
-def card(p, delay=0):
+def card(p, delay=0, hidden=False):
     metals = " · ".join(METALS[m] for m in p["metals"])
     badge = ""
     if p.get("badge"):
         cls = "badge gold" if p["badge"] in ("Bestseller", "Signature") else "badge"
         badge = f'\n          <span class="{cls}">{esc(p["badge"])}</span>'
     tags = "".join(f'\n              <span class="tag">{esc(t)}</span>' for t in p["tags"])
-    return f"""<article class="product-card" data-type="{p['type']}" data-occasion="{p['occasion']}"
+    hidden_attr = " hidden" if hidden else ""
+    return f"""<article class="product-card"{hidden_attr} data-type="{p['type']}" data-occasion="{p['occasion']}"
                  data-metals="{' '.join(p['metals'])}" style="animation-delay:{delay}ms">
             <div class="product-media">{badge}
-              <a class="media-link" href="piece-{p['id']}.html" tabindex="-1" aria-hidden="true">{MOTIF[p['motif']]}</a>
+              <a class="media-link" href="piece-{p['id']}.html" tabindex="-1" aria-hidden="true">{product_media(p)}</a>
+              <button class="quickview-btn" type="button" data-quickview="{p['id']}"
+                      aria-label="View all details for {esc(p['name'])}">View details</button>
               <button class="fav-btn" type="button" aria-label="Save {esc(p['name'])} to wishlist"
                       aria-pressed="false" data-fav="{p['id']}">{ICON['heart']}</button>
             </div>
@@ -681,7 +819,7 @@ def spotlight(p):
         for k, v in p["specs"])
     return f"""<article class="spotlight" data-type="{p['type']}" data-occasion="{p['occasion']}"
                  data-metals="{' '.join(p['metals'])}" id="spotlight" data-aos="fade-up">
-            <div class="spotlight-media">{MOTIF[p['motif']]}</div>
+            <div class="spotlight-media">{product_media(p)}</div>
             <div class="spotlight-body">
               <span class="spotlight-eyebrow">{ICON['gem']} Featured piece</span>
               <h2 class="spotlight-name"><a href="piece-{p['id']}.html">{esc(p['name'])}</a></h2>
@@ -720,7 +858,7 @@ def testimonial(t, i=0):
 # 5. PAGES
 # ---------------------------------------------------------------------------
 def page_home():
-    feat = next(p for p in PRODUCTS if p.get("featured"))
+    feat = spotlight_product()
     hero_img = find_hero_image()
     if hero_img:
         hero_open = '<section class="hero hero--dark intro-wrap hero--photo" id="home">'
@@ -752,6 +890,8 @@ def page_home():
           <p>{text}</p>
           <span class="tile-link">Learn more {ICON['chev']}</span>
         </a>""" for i, (href, title, text) in enumerate(tiles))
+
+    feat_cards = "".join(card(p, i * 45) + "\n        " for i, p in enumerate(featured_products()))
 
     content = f"""<main id="main">
 <!-- ============================ HERO ============================ -->
@@ -792,6 +932,22 @@ def page_home():
       <h2>The piece we are making most.</h2>
     </div>
     {spotlight(feat)}
+  </div>
+</section>
+
+<!-- ============================ FEATURED RINGS ============================ -->
+<section class="section" id="featured">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Featured this month</span>
+      <h2>The rings clients ask for by name.</h2>
+    </div>
+    <div class="products-grid" role="list" aria-label="Featured rings">
+        {feat_cards}
+    </div>
+    <p class="section-more">
+      <a href="collections.html?type=rings">Browse all {ring_count()} rings {ICON['arrow']}</a>
+    </p>
   </div>
 </section>
 
@@ -890,9 +1046,13 @@ def page_about():
 
 
 def page_collections():
-    feat = next(p for p in PRODUCTS if p.get("featured"))
-    others = [p for p in PRODUCTS if not p.get("featured")]
-    cards = "".join(card(p, i * 45) + "\n          " for i, p in enumerate(others))
+    feat = spotlight_product()
+    others = [p for p in PRODUCTS if p["id"] != feat["id"]]
+    # Progressive reveal: only the first batch ships visible; the rest stay
+    # hidden until script.js reveals them as the visitor scrolls. The noscript
+    # override below makes every card visible when JS is off.
+    cards = "".join(card(p, i * 45, hidden=(i >= REVEAL_BATCH)) + "\n          "
+                    for i, p in enumerate(others))
     content = f"""<main id="main">
 {page_head("Collections", "Find the piece that finds you.",
            "Filter the catalogue by type, metal or occasion. Prices are indicative and follow the "
@@ -923,6 +1083,13 @@ def page_collections():
       Nothing in this selection yet — call us and we will make it for you.
     </p>
 
+    <!-- More of the catalogue reveals itself as you scroll; the button is the
+         no-scroll fallback and the explicit "load more" for everyone. -->
+    <div class="reveal-foot" id="revealFoot">
+      <p class="reveal-status" id="revealStatus" role="status" aria-live="polite"></p>
+      <button class="btn btn-secondary" type="button" id="revealMore">Show more pieces</button>
+    </div>
+
     <div class="collections-foot">
       <p class="collections-note">
         Looking for something that is not listed? We make pieces from a photograph, a sketch, or an
@@ -937,10 +1104,15 @@ def page_collections():
           "appointment.html", "Book an appointment", wa_general(), "Ask on WhatsApp")}
 </main>
 """
+    # Without JS the grid cannot progressively reveal itself — show the whole
+    # catalogue instead of the first batch.
+    noscript_grid = (
+        "<noscript><style>#productsGrid .product-card{display:flex !important}</style></noscript>"
+    )
     return page(f"Collections — {SITE['name']}",
                 "Browse rings, necklaces, earrings, bangles and bridal sets. Filter by type, metal or "
                 "occasion; every piece has its own page with specs and pricing.",
-                "collections", content)
+                "collections", content, head_extra=noscript_grid)
 
 
 def page_atelier():
@@ -1385,7 +1557,7 @@ def page_piece(p):
   <div class="container piece">
     <div class="piece-media" data-aos="fade-right">
       {badge}
-      {MOTIF[p['motif']]}
+      {product_media(p)}
     </div>
 
     <div class="piece-body" data-aos="fade-left">
