@@ -33,9 +33,10 @@ The whole look is driven by CSS custom properties at the top of `styles.css`.
 
 **All artwork is code.** There are no image files: the hero's grey panels and
 gold medallion, the jewellery motif on every product card (rings, necklaces,
-jhumkas, bangles, bridal sets) and the stylised map are drawn with CSS
-gradients, borders and inline SVG line-art using two shared gradients
-(`#goldFill`, `#goldStroke`) defined once at the bottom of `index.html`.
+jhumkas, bangles, bridal sets) and the Visit section's arched rosette panel are
+drawn with CSS gradients, borders and inline SVG line-art using two shared
+gradients (`#goldFill`, `#goldStroke`) defined once at the bottom of
+`index.html`.
 
 ## Editing content
 
@@ -93,6 +94,6 @@ shows inline errors before it hands over.
    how fast bullion moves.
 3. Testimonials are illustrative samples — swap in real, permissioned
    client words and set `aggregateRating` in the JSON-LD to match reality.
-4. The headline gold rate and the claim badges were removed at the client's
-   request; if you ever want them back, they are in git history at commit
-   `df46c32`.
+4. The headline gold rate, claim badges and the illustrated map were removed
+   at the client's request; the Visit section now uses a decorative arched
+   panel instead. Both are in git history (`df46c32`) if you want them back.

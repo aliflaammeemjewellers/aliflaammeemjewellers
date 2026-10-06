@@ -1201,77 +1201,80 @@ address { font-style: normal; }
 .directions-btn { margin-top: 24px; align-self: flex-start; }
 .directions-btn svg { width: 15px; height: 15px; }
 
-/* Pure-CSS "map" panel — grey streets + gold pin, no images */
-.map-panel {
+/* Visit panel — woven grey ground, engraved sunburst, gold arch and rosette */
+.visit-art {
   position: relative;
-  min-height: 340px;
-  height: 100%;
+  min-height: 420px;
   border-radius: var(--r-lg);
   border: 1px solid var(--grey-200);
   overflow: hidden;
-  background: linear-gradient(160deg, var(--grey-100), var(--grey-150));
   display: grid;
   place-items: center;
+  box-shadow: var(--sh-2);
+  background:
+    radial-gradient(85% 55% at 50% 6%, #FFFFFF 0%, rgba(255,255,255,0) 62%),
+    linear-gradient(168deg, var(--grey-100) 0%, var(--grey-150) 48%, #D9D6CF 100%);
 }
-.map-panel::before {
+/* woven silk texture: grey threads crossed by fine gold filaments */
+.visit-art::before {
   content: "";
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(to right, rgba(122,92,35,.14) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(122,92,35,.14) 1px, transparent 1px);
-  background-size: 44px 44px;
+    repeating-linear-gradient(45deg, rgba(122,92,35,.075) 0 1px, transparent 1px 11px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,.55) 0 1px, transparent 1px 11px);
 }
-.map-panel::after {
-  content: "";
+/* engraved sunburst radiating from behind the arch */
+.va-sunburst {
   position: absolute;
-  width: 260px; height: 260px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(198,161,91,.3), transparent 68%);
-  animation: pulse 4.6s var(--ease) infinite;
+  left: 50%; top: -52%;
+  width: 195%; aspect-ratio: 1;
+  transform: translateX(-50%);
+  background: repeating-conic-gradient(from 0deg at 50% 50%,
+    rgba(198,161,91,.17) 0deg 1.1deg, transparent 1.1deg 4.4deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 10%, rgba(0,0,0,.32) 34%, transparent 60%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 10%, rgba(0,0,0,.32) 34%, transparent 60%);
 }
-@keyframes pulse {
-  0%, 100% { transform: scale(.85); opacity: .55; }
-  50%      { transform: scale(1.12); opacity: .95; }
-}
-.map-roads { position: absolute; inset: 0; }
-.map-roads span {
+/* double gold arch standing on the base */
+.va-arch {
   position: absolute;
-  background: rgba(255,255,255,.85);
-  box-shadow: 0 0 0 1px rgba(122,92,35,.08);
-}
-.map-roads .r1 { top: 28%; left: 0; right: 0; height: 7px; }
-.map-roads .r2 { top: 62%; left: 0; right: 0; height: 5px; }
-.map-roads .r3 { left: 32%; top: 0; bottom: 0; width: 7px; }
-.map-roads .r4 { left: 70%; top: 0; bottom: 0; width: 5px; }
-.map-roads .r5 { top: 44%; left: 32%; right: 30%; height: 4px; background: var(--gold-line); }
-.map-pin {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  gap: 12px;
-  text-align: center;
-}
-.map-pin .pin-dot {
-  width: 54px; height: 54px;
-  display: grid; place-items: center;
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
-  background-image: var(--gold-grad);
-  box-shadow: var(--sh-gold);
-  color: #2A1E08;
-}
-.map-pin .pin-dot svg { width: 22px; height: 22px; transform: rotate(45deg); }
-.map-pin .pin-label {
-  padding: 8px 16px;
-  background: rgba(255,255,255,.92);
+  inset: 13% 15% 0 15%;
   border: 1px solid var(--gold-line);
-  border-radius: var(--r-full);
-  font-size: .68rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--gold-dark);
-  white-space: nowrap;
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0 / 46% 46% 0 0;
+}
+.va-arch::after {
+  content: "";
+  position: absolute; inset: 9% 9% 0 9%;
+  border: 1px dashed var(--gold-line-soft);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0 / 46% 46% 0 0;
+}
+.va-mandala {
+  position: relative;
+  z-index: 2;
+  width: 46%;
+  max-width: 215px;
+  margin-top: 5%;
+  filter: drop-shadow(0 14px 24px rgba(122,92,35,.22));
+}
+.va-mandala svg { width: 100%; height: auto; display: block; }
+.visit-art .visit-spark-1 { top: 22%; left: 22%; }
+.visit-art .visit-spark-2 { top: 48%; right: 18%; animation-delay: 1.1s; }
+.visit-art .visit-spark-3 { bottom: 17%; left: 32%; animation-delay: 2.2s; }
+/* display plinth the arch rests on */
+.va-plinth {
+  position: absolute;
+  left: 15%; right: 15%; bottom: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-line), transparent);
+}
+.va-plinth::after {
+  content: "";
+  position: absolute; left: 50%; top: -3px;
+  width: 7px; height: 7px;
+  margin-left: -3.5px;
+  background: var(--gold-grad);
+  transform: rotate(45deg);
 }
 
 /* ------------------------------- 12. FOOTER ------------------------------ */
@@ -1509,6 +1512,7 @@ address { font-style: normal; }
   .form-row { grid-template-columns: 1fr; }
   .appointment-benefits { grid-template-columns: 1fr; }
   .quick-contacts { grid-template-columns: 1fr; }
+  .visit-art { min-height: 320px; }
   .newsletter { flex-direction: column; align-items: flex-start; }
   .newsletter-form { width: 100%; max-width: none; }
 }
