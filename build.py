@@ -7,12 +7,12 @@ here (SITE, PRODUCTS, TESTIMONIALS, the page_* functions), then run:
 
     python3 build.py
 
-Why a generator: the site is 24 pages with a shared header, footer and
-catalogue. Keeping one source of truth means a change to the phone number or
-a product price updates every page that mentions it.
+Why a generator: the site is 30 pages with a shared header, footer and
+catalogue. Keeping one source of truth means business details and product
+information stay consistent across every generated page.
 
-Output: index.html, about.html, collections.html, atelier.html,
-        appointment.html, clients.html, visit.html, privacy.html, terms.html,
+Output: index.html, about.html, collections.html, appointment.html,
+        clients.html, visit.html, privacy.html, terms.html,
         piece-<id>.html for every product.
 """
 
@@ -27,7 +27,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # Drop your own photograph into assets/ and it is picked up on the next build.
 # Any of these names works; the first match wins. Recommended: a wide image,
 # at least 2000px across, that reads well with a dark scrim over it.
-HERO_IMAGE_NAMES = ("hero.jpg", "hero.jpeg", "hero.png", "hero.webp", "hero.avif")
+HERO_IMAGE_NAMES = ("hero.webp", "hero.jpg", "hero.jpeg", "hero.png", "hero.avif")
 
 
 def find_hero_image():
@@ -42,7 +42,8 @@ def find_hero_image():
 # build; any of these names works, the first match wins. SVG is ideal — sharp
 # at every size and only a few KB — but a transparent PNG at 2x is fine too.
 LOGO_FILE_NAMES = ("logo.svg", "logo.png", "logo.webp", "logo.jpg",
-                   "logo.jpeg", "logo.avif")
+                   "logo.jpeg", "logo.avif",
+                   "a_sleek_high_end_dark_minimalist_luxury_logo_co.png")
 
 # A square version of the mark, used for the browser tab. Optional: if it is
 # missing the logo above is used instead, which is only a good idea when the
@@ -56,7 +57,7 @@ LOGO_ICON_NAMES = ("logo-icon.svg", "logo-icon.png", "logo-icon.webp",
 #              already inside your artwork.
 #   "mark"   — the file is the symbol only. It replaces the ALM square and the
 #              name stays as live text beside it.
-LOGO_MODE = "lockup"
+LOGO_MODE = "mark"
 
 
 def find_logo_file(names):
@@ -88,20 +89,20 @@ def mime_of(path):
 SITE = {
     "name": "Alif Laam Meem Jewellers",
     "short": "Alif Laam Meem",
-    "whatsapp": "923000000000",           # digits only, international format
-    "phone_display": "+92 300 000 0000",
-    "email": "care@aliflaammeemjewellers.com",
-    "address_1": "Shop 42, Gold Souk, Liberty Market",
-    "address_2": "Gulberg III, Lahore 54660, Pakistan",
-    "hours_week": "Mon – Sat · 11:00 AM – 9:00 PM",
-    "hours_sun": "Sunday · 1:00 PM – 7:00 PM",
-    "maps": "https://maps.google.com/?q=Liberty+Market+Gulberg+III+Lahore",
-    "instagram": "https://instagram.com/",
-    "facebook": "https://facebook.com/",
-    "youtube": "https://youtube.com/",
+    "whatsapp": "923114817882",           # digits only, international format
+    "phone_display": "+92 311 481 7882",
+    "email": "aliflaammeemjewellers@gmail.com",
+    "address_1": "Shop #8, Alif Laam Meem Jewellers",
+    "address_2": "Al Rehman Square Mall, Al Rehman Garden Phase 2, Sharaqpur, 54000, Pakistan",
+    "hours": "Mon – Sun · 11:00 AM – 9:00 PM",
+    "maps": "https://www.google.com/maps/place/Shop+%23+8,+Alif+Laam+Meem+Jewellers,+Al+Rehman+Square+Mall,+Al+Rehman+Garden+Phase+2,+Sharaqpur,+54000,+Pakistan/@31.5999959,74.230572,16z/data=!4m6!3m5!1s0x39191d5c10f9f201:0x80fa197d42f5b621!8m2!3d31.5999959!4d74.230572!16s%2Fg%2F11mdqhlycb",
+    "instagram": "https://www.instagram.com/alifl_aammeemjewellers?stkn=MWhoa3BjdzRidTBlZg==",
+    "pinterest": "https://pin.it/6UmhmIFy7",
+    "facebook": "https://www.facebook.com/profile.php?id=61591681864015&rdid=2k8hPE2yqDIVdi9u&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BUtcV9hP3%2F%3Fref%3Dxav_pl_fb_external_link_android#",
+    "youtube": "https://youtube.com/aliflaammeemjewellers",
 }
 
-TAGLINE = "Fine gold, diamond and polki jewellery, made to order in Lahore."
+TAGLINE = "Fine jewellery in 21K gold, made to be worn and treasured."
 
 
 def wa(message):
@@ -137,6 +138,7 @@ ICON = {
     "starline": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95L12 2.6z"/></svg>',
     "gem": '<i class="gem"></i>',
     "instagram": _svg('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1.1" fill="currentColor" stroke="none"/>', "1.6"),
+    "pinterest": '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.02 2C6.48 2 3.5 5.98 3.5 9.76c0 1.9.72 3.6 2.27 4.23.25.1.48 0 .55-.28l.22-.9c.07-.28.04-.38-.17-.63-.45-.53-.74-1.21-.74-2.18 0-2.81 2.1-5.33 5.48-5.33 2.99 0 4.63 1.83 4.63 4.27 0 3.21-1.42 5.92-3.53 5.92-1.16 0-2.02-.96-1.74-2.14.33-1.41.96-2.93.96-3.94 0-.91-.49-1.67-1.5-1.67-1.19 0-2.14 1.23-2.14 2.88 0 1.05.36 1.75.36 1.75l-1.44 6.1c-.43 1.82-.06 4.06-.03 4.29.02.14.2.17.29.07.12-.16 1.69-2.1 2.22-3.87.15-.5.87-3.4.87-3.4.43.82 1.67 1.54 2.99 1.54 3.93 0 6.6-3.58 6.6-8.37C20.55 5.54 17.17 2 12.02 2Z"/></svg>',
     "facebook": _svg('<path d="M14.5 8.5h2.5V5.5h-2.5c-2 0-3.5 1.6-3.5 3.5v2H9v3h2v6.5h3V14h2.5l.5-3H14V9.5c0-.6.3-1 .5-1z"/>', "1.6"),
     "youtube": _svg('<rect x="3" y="6" width="18" height="12" rx="3.5"/><path d="M11 9.8l4 2.2-4 2.2z" fill="currentColor" stroke="none"/>', "1.6"),
     "chat": _svg('<path d="M21 12a8 8 0 0 1-8 8H7l-4 3v-6a9 9 0 1 1 18-5z"/>'),
@@ -208,8 +210,7 @@ def motif_dark(kind):
 # 3. CATALOGUE
 # ---------------------------------------------------------------------------
 METALS = {
-    "gold22": "22K Gold", "gold18": "18K Gold", "rose": "Rose Gold",
-    "white": "White Gold", "plat": "Platinum",
+    "gold21": "21K Gold",
 }
 OCCASIONS = {
     "bridal": "Bridal", "engagement": "Engagement", "festive": "Festive",
@@ -225,196 +226,196 @@ TYPES = {
 REVEAL_BATCH = 6
 
 PRODUCTS = [
-    dict(id="meher", name="Meher Solitaire Ring", type="rings", metals=["gold22"], occasion="engagement",
-         motif="rings", badge="Bestseller", featured=True, price="PKR 385,000", note="incl. making",
-         desc="A brilliant-cut solitaire raised on a hand-forged 22K band.",
+    dict(id="meher", name="Meher Solitaire Ring", type="rings", metals=["gold21"], occasion="engagement",
+         motif="rings", badge="Bestseller", featured=True,
+         desc="A brilliant-cut solitaire raised on a hand-forged 21K gold band.",
          story="Set in a six-claw mount so light reaches the stone from every angle, on a band "
                "forged and filed by hand rather than cast. Choose the stone from the tray, then we "
                "size the band to the wearer.",
          tags=["BIS Hallmarked", "IGI Certified"],
-         specs=[("Metal", "22K yellow gold"), ("Stone", "Brilliant-cut solitaire"), ("Setting", "Six-claw, hand-finished"),
+         specs=[("Metal", "21K yellow gold"), ("Stone", "Brilliant-cut solitaire"), ("Setting", "Six-claw, hand-finished"),
                 ("Sizing", "Sized to the wearer")]),
-    dict(id="aab", name="Aab Diamond Pendant", type="necklace", metals=["gold18"], occasion="gifting",
-         motif="pendants", price="PKR 168,000", note="chain included",
-         desc="Pear-cut diamond suspended on a whisper-fine 18K chain.",
+    dict(id="aab", name="Aab Diamond Pendant", type="necklace", metals=["gold21"], occasion="gifting",
+         motif="pendants", featured=True,
+         desc="Pear-cut diamond suspended on a whisper-fine 21K gold chain.",
          story="A single pear-cut stone on the finest chain we can safely make, so the pendant "
                "moves with the wearer rather than sitting flat.",
-         tags=["IGI Certified", "18K"],
-         specs=[("Metal", "18K yellow gold"), ("Stone", "Pear-cut diamond"), ("Chain", "18K, included"),
+         tags=["IGI Certified"],
+         specs=[("Metal", "21K yellow gold"), ("Stone", "Pear-cut diamond"), ("Chain", "21K gold, included"),
                 ("Length", "Adjustable 16–18 in")]),
-    dict(id="zohra", name="Zohra Jhumka Earrings", type="earrings", metals=["gold22"], occasion="festive",
-         motif="earrings", badge="New", price="PKR 245,000", note="pair",
+    dict(id="zohra", name="Zohra Jhumka Earrings", type="earrings", metals=["gold21"], occasion="festive",
+         motif="earrings", badge="New", featured=True,
          desc="Granulated dome jhumkas finished with hand-strung pearls.",
          story="The domes are raised and then granulated — hundreds of tiny gold beads set one at a "
                "time — and finished with pearls strung on silk thread.",
          tags=["Handcrafted", "Pearl"],
-         specs=[("Metal", "22K yellow gold"), ("Craft", "Granulation, hand-raised domes"),
+         specs=[("Metal", "21K yellow gold"), ("Craft", "Granulation, hand-raised domes"),
                 ("Drops", "Freshwater pearl"), ("Fitting", "Screw-back")]),
-    dict(id="sana", name="Sana Engraved Bangles", type="bangles", metals=["gold22"], occasion="everyday",
-         motif="bangles", price="PKR 720,000", note="set of four",
+    dict(id="sana", name="Sana Engraved Bangles", type="bangles", metals=["gold21"], occasion="everyday",
+         motif="bangles", featured=True,
          desc="Set of four slim bangles with traditional hand engraving.",
          story="Four slim bangles, each engraved with the same repeating vine so the set reads as one "
                "piece when stacked and as four when worn alone.",
          tags=["Set of 4", "Hand Engraved"],
-         specs=[("Metal", "22K yellow gold"), ("Set", "Four bangles"), ("Width", "5 mm each"),
+         specs=[("Metal", "21K yellow gold"), ("Set", "Four bangles"), ("Width", "5 mm each"),
                 ("Finish", "Hand engraved, high polish")]),
-    dict(id="noor", name="Noor Polki Bridal Set", type="bridal", metals=["gold22"], occasion="bridal",
-         motif="bridal", badge="Signature", spotlight=True, price="Price on request", note="bespoke",
+    dict(id="noor", name="Noor Polki Bridal Set", type="bridal", metals=["gold21"], occasion="bridal",
+         motif="bridal", badge="Signature", spotlight=True,
          desc="Uncut polki necklace with matching earrings and maang tikka.",
-         story="Uncut polki set in kundan on a 22K base, with matching earrings and maang tikka. Each "
+         story="Uncut polki set in kundan on a 21K gold base, with matching earrings and maang tikka. Each "
                "suite is drafted around your bridal palette and measured to the wearer, so no two are "
                "ever identical.",
          tags=["Bridal", "Polki", "Made to order"],
-         specs=[("Metal", "22K gold, kundan-set"), ("Stones", "Uncut polki, pearls"),
+         specs=[("Metal", "21K yellow gold, kundan-set"), ("Stones", "Uncut polki, pearls"),
                 ("Craft", "Hand-set at the bench"), ("Delivery", "6–8 weeks, made to order")]),
-    dict(id="roshni", name="Roshni Temple Necklace", type="necklace", metals=["gold22"], occasion="bridal",
-         motif="necklace", price="PKR 1,240,000", note="approx. 48 g",
+    dict(id="roshni", name="Roshni Temple Necklace", type="necklace", metals=["gold21"], occasion="bridal",
+         motif="necklace", featured=True,
          desc="Temple-inspired nakshi work with ruby and emerald accents.",
          story="Nakshi work in the temple tradition, with ruby and emerald accents set into the "
                "repoussé panels. Made to order in the length you need.",
-         tags=["Bridal", "22K Gold"],
-         specs=[("Metal", "22K yellow gold"), ("Stones", "Ruby, emerald"), ("Weight", "Approx. 48 g"),
+         tags=["Bridal"],
+         specs=[("Metal", "21K yellow gold"), ("Stones", "Ruby, emerald"), ("Weight", "Approx. 48 g"),
                 ("Length", "Made to order")]),
-    dict(id="hina", name="Hina Eternity Band", type="rings", metals=["rose", "white"], occasion="engagement",
-         motif="rings", featured=True, price="PKR 210,000", note="per band",
+    dict(id="hina", name="Hina Eternity Band", type="rings", metals=["gold21"], occasion="engagement",
+         motif="rings",
          desc="Micro-set diamonds running continuously around the band.",
          story="Micro-set stones run the full circumference so the band reads the same from any angle. "
                "Comfort-fit inner profile for daily wear.",
          tags=["Ethical Diamonds", "Comfort Fit"],
-         specs=[("Metal", "Rose or white gold"), ("Stones", "Micro-set diamonds"),
+         specs=[("Metal", "21K yellow gold"), ("Stones", "Micro-set diamonds"),
                 ("Profile", "Comfort fit"), ("Sizing", "Made to size")]),
-    dict(id="gulbahar", name="Gulbahar Emerald Choker", type="bridal", metals=["gold22"], occasion="bridal",
-         motif="bridal", price="Price on request", note="bespoke",
-         desc="Zambian emerald drops set in kundan on a 22K gold base.",
+    dict(id="gulbahar", name="Gulbahar Emerald Choker", type="bridal", metals=["gold21"], occasion="bridal",
+         motif="bridal",
+         desc="Zambian emerald drops set in kundan on a 21K gold base.",
          story="Emerald drops in graduated sizes, each bezel cut to the stone rather than the stone "
                "cut to the bezel — which is why this one is always made to order.",
          tags=["Kundan", "Emerald"],
-         specs=[("Metal", "22K gold"), ("Stones", "Zambian emerald"), ("Setting", "Kundan"),
+         specs=[("Metal", "21K gold"), ("Stones", "Zambian emerald"), ("Setting", "Kundan"),
                 ("Delivery", "6–8 weeks")]),
-    dict(id="mahtab", name="Mahtab Diamond Studs", type="earrings", metals=["white"], occasion="everyday",
-         motif="pendants", badge="Bestseller", price="PKR 132,000", note="pair",
+    dict(id="mahtab", name="Mahtab Diamond Studs", type="earrings", metals=["gold21"], occasion="everyday",
+         motif="pendants", badge="Bestseller", featured=True,
          desc="Four-prong princess studs that move from desk to dinner.",
          story="A pair that works with a shalwar kameez and with a shirt collar: four-prong princess "
                "studs with closed backs so they sit flat.",
          tags=["IGI Certified", "Everyday"],
-         specs=[("Metal", "White gold"), ("Stones", "Princess-cut diamonds"),
+         specs=[("Metal", "21K yellow gold"), ("Stones", "Princess-cut diamonds"),
                 ("Setting", "Four-prong, closed back"), ("Fitting", "Push-back")]),
-    dict(id="vasl", name="Vasl Couple Bands", type="rings", metals=["plat", "gold18"], occasion="engagement",
-         motif="rings", price="PKR 298,000", note="pair",
-         desc="Brushed platinum bands with a single hidden gold inlay.",
-         story="A brushed platinum band with a single gold line set into the inner edge — visible to "
-               "the wearer, not to the room. Engraving inside is included.",
-         tags=["Platinum", "Engraving included"],
-         specs=[("Metal", "Platinum, 18K inlay"), ("Finish", "Brushed"),
+    dict(id="vasl", name="Vasl Couple Bands", type="rings", metals=["gold21"], occasion="engagement",
+         motif="rings",
+         desc="A pair of brushed 21K gold bands with a polished inner-edge detail.",
+         story="A pair of brushed 21K gold bands with a slim polished line set into the inner edge — "
+               "visible to the wearer, not to the room. Engraving inside is included.",
+         tags=["Brushed finish", "Engraving included"],
+         specs=[("Metal", "21K yellow gold"), ("Finish", "Brushed with polished detail"),
                 ("Engraving", "Included"), ("Set", "Pair")]),
-    dict(id="dilruba", name="Dilruba Halo Solitaire", type="rings", metals=["gold22"], occasion="engagement",
-         motif="rings", badge="New", featured=True, price="PKR 465,000", note="incl. making",
+    dict(id="dilruba", name="Dilruba Halo Solitaire", type="rings", metals=["gold21"], occasion="engagement",
+         motif="rings", badge="New",
          desc="A brilliant-cut solitaire ringed by a halo of smaller stones.",
          story="A round brilliant raised above the hand, ringed by a halo of smaller stones that "
                "doubles its apparent size. The band is forged from a single wire, so there is no "
                "seam to catch.",
-         tags=["Halo", "22K Gold"],
-         specs=[("Metal", "22K yellow gold"), ("Stones", "Brilliant centre with halo"),
+         tags=["Halo"],
+         specs=[("Metal", "21K yellow gold"), ("Stones", "Brilliant centre with halo"),
                 ("Setting", "Four-claw with halo"), ("Sizing", "Made to size")]),
-    dict(id="zoya", name="Zoya Three-Stone Ring", type="rings", metals=["gold22"], occasion="engagement",
-         motif="rings", featured=True, price="PKR 520,000", note="incl. making",
+    dict(id="zoya", name="Zoya Three-Stone Ring", type="rings", metals=["gold21"], occasion="engagement",
+         motif="rings",
          desc="Past, present and future — three stones on a tapered band.",
          story="Three graduated stones on a band that tapers toward the fingertip: a centre "
                "brilliant flanked by two smaller rounds. The side stones are set first, so the "
                "centre always sits level.",
-         tags=["Three-stone", "22K Gold"],
-         specs=[("Metal", "22K yellow gold"), ("Stones", "Three brilliant-cut diamonds"),
+         tags=["Three-stone"],
+         specs=[("Metal", "21K yellow gold"), ("Stones", "Three brilliant-cut diamonds"),
                 ("Centre", "0.75 ct"), ("Sizing", "Made to size")]),
-    dict(id="reyaz", name="Reyaz Twisted Band", type="rings", metals=["rose"], occasion="everyday",
-         motif="rings", featured=True, price="PKR 260,000", note="per band",
-         desc="Two ribbons of rose gold twisted into one.",
+    dict(id="reyaz", name="Reyaz Twisted Band", type="rings", metals=["gold21"], occasion="everyday",
+         motif="rings",
+         desc="Two ribbons of 21K yellow gold twisted into one.",
          story="Two ribbons of gold twisted around each other, so the band reads differently in "
                "every light. Polished to a soft satin so it wears unmarked.",
          tags=["Twist", "Satin finish"],
-         specs=[("Metal", "18K rose gold"), ("Width", "3 mm"),
+         specs=[("Metal", "21K yellow gold"), ("Width", "3 mm"),
                 ("Finish", "Satin"), ("Profile", "Comfort fit")]),
-    dict(id="mahnoor", name="Mahnoor Sapphire Ring", type="rings", metals=["gold22"], occasion="festive",
-         motif="rings", badge="New", featured=True, price="PKR 425,000", note="incl. making",
-         desc="A Ceylon sapphire crowned in a 22K gold filigree head.",
+    dict(id="mahnoor", name="Mahnoor Sapphire Ring", type="rings", metals=["gold21"], occasion="festive",
+         motif="rings", badge="New",
+         desc="A Ceylon sapphire crowned in a 21K gold filigree head.",
          story="A deep-blue Ceylon sapphire in a hand-drawn filigree head, openwork light enough to "
                "wear all evening. Blue and gold have been the house pairing since the first counter "
-               "in the Liberty Market souk.",
+               "at the showroom.",
          tags=["Ceylon Sapphire", "Filigree"],
-         specs=[("Metal", "22K yellow gold"), ("Stone", "Ceylon sapphire"),
+         specs=[("Metal", "21K yellow gold"), ("Stone", "Ceylon sapphire"),
                 ("Head", "Hand-drawn filigree"), ("Sizing", "Made to size")]),
-    dict(id="areeba", name="Areeba Pearl Ring", type="rings", metals=["gold18"], occasion="gifting",
-         motif="rings", price="PKR 185,000", note="incl. making",
-         desc="A South Sea pearl cradled in an 18K gold collette.",
+    dict(id="areeba", name="Areeba Pearl Ring", type="rings", metals=["gold21"], occasion="gifting",
+         motif="rings",
+         desc="A South Sea pearl cradled in a 21K gold collette.",
          story="A single South Sea pearl in a slim collette, close to the finger so it does not "
                "snag. The pearl is matched for lustre, not just size.",
-         tags=["South Sea Pearl", "18K"],
-         specs=[("Metal", "18K yellow gold"), ("Pearl", "South Sea, 8 mm"),
+         tags=["South Sea Pearl"],
+         specs=[("Metal", "21K yellow gold"), ("Pearl", "South Sea, 8 mm"),
                 ("Setting", "Collette"), ("Sizing", "Made to size")]),
-    dict(id="dildar", name="Dildar Pavé Band", type="rings", metals=["white"], occasion="engagement",
-         motif="rings", price="PKR 295,000", note="incl. making",
-         desc="White gold pavé-set with hand-placed micro diamonds.",
-         story="Micro diamonds placed by hand, stone by stone, around a slim white-gold band. The "
+    dict(id="dildar", name="Dildar Pavé Band", type="rings", metals=["gold21"], occasion="engagement",
+         motif="rings",
+         desc="Hand-placed micro diamonds set in a 21K yellow gold pavé band.",
+         story="Micro diamonds placed by hand, stone by stone, around a slim 21K yellow gold band. The "
                "pavé is set low, so the band can be worn every day without the stones catching.",
-         tags=["Pavé", "White Gold"],
-         specs=[("Metal", "18K white gold"), ("Stones", "Hand-set micro diamonds"),
+         tags=["Pavé"],
+         specs=[("Metal", "21K yellow gold"), ("Stones", "Hand-set micro diamonds"),
                 ("Width", "2.4 mm"), ("Profile", "Comfort fit")]),
-    dict(id="suhani", name="Suhani Signet Ring", type="rings", metals=["gold22"], occasion="everyday",
-         motif="rings", price="PKR 150,000", note="incl. engraving",
+    dict(id="suhani", name="Suhani Signet Ring", type="rings", metals=["gold21"], occasion="everyday",
+         motif="rings",
          desc="A wide hand-engraved signet, made to your initials.",
          story="A wide face engraved to your initials or a date, under a hand-cut border. The "
                "inside is signed and dated, so the ring can be handed on.",
          tags=["Signet", "Hand Engraved"],
-         specs=[("Metal", "22K yellow gold"), ("Width", "9 mm"),
+         specs=[("Metal", "21K yellow gold"), ("Width", "9 mm"),
                 ("Engraving", "Initials or date"), ("Finish", "High polish")]),
-    dict(id="zar", name="Zar Diamond Cluster Ring", type="rings", metals=["gold18"], occasion="festive",
-         motif="rings", price="PKR 340,000", note="incl. making",
-         desc="A cluster of mixed-cut diamonds on an 18K gold base.",
+    dict(id="zar", name="Zar Diamond Cluster Ring", type="rings", metals=["gold21"], occasion="festive",
+         motif="rings",
+         desc="A cluster of mixed-cut diamonds on a 21K gold base.",
          story="Rounds, pears and brilliants clustered so light passes through the whole head at "
                "once. It reads larger than its weight — which is the point.",
-         tags=["Cluster", "18K"],
-         specs=[("Metal", "18K yellow gold"), ("Stones", "Mixed-cut diamond cluster"),
+         tags=["Cluster"],
+         specs=[("Metal", "21K yellow gold"), ("Stones", "Mixed-cut diamond cluster"),
                 ("Setting", "Cluster"), ("Sizing", "Made to size")]),
-    dict(id="sitara", name="Sitara Filigree Kada", type="bangles", metals=["gold22"], occasion="festive",
-         motif="bangles", price="PKR 545,000", note="approx. 32 g",
+    dict(id="sitara", name="Sitara Filigree Kada", type="bangles", metals=["gold21"], occasion="festive",
+         motif="bangles",
          desc="Wide kada built from hand-drawn gold filigree scrolls.",
          story="Filigree drawn by hand into scrollwork, then assembled over a frame so the whole kada "
                "weighs far less than it looks.",
-         tags=["Filigree", "22K Gold"],
-         specs=[("Metal", "22K yellow gold"), ("Weight", "Approx. 32 g"),
+         tags=["Filigree"],
+         specs=[("Metal", "21K yellow gold"), ("Weight", "Approx. 32 g"),
                 ("Width", "22 mm"), ("Finish", "Hand drawn filigree")]),
-    dict(id="sahr", name="Sahr Gold Coin Pendant", type="necklace", metals=["gold22"], occasion="investment",
-         motif="pendants", price="PKR 96,000", note="incl. coin",
-         desc="Hallmarked 22K bullion coin framed in a rope-edge bezel.",
-         story="A bullion coin in a rope-edge bezel, so it can be worn or returned to the vault. "
-               "Coins are sold with their assay papers.",
-         tags=["Bullion", "24K Coin"],
-         specs=[("Bezel", "22K gold"), ("Coin", "24K bullion, hallmarked"),
-                ("Papers", "Included"), ("Chain", "Optional")]),
-    dict(id="nazm", name="Nazm Pearl Drop Earrings", type="earrings", metals=["gold18"], occasion="gifting",
-         motif="earrings", price="PKR 88,000", note="pair",
+    dict(id="sahr", name="Sahr 21K Gold Coin Pendant", type="necklace", metals=["gold21"], occasion="investment",
+         motif="pendants",
+         desc="A decorative gold coin pendant framed in a rope-edge 21K gold bezel.",
+         story="A decorative coin motif sits within a rope-edge 21K gold bezel, finished to wear as "
+               "an everyday pendant or a thoughtful gift.",
+         tags=["Coin motif"],
+         specs=[("Metal", "21K yellow gold"), ("Detail", "Rope-edge bezel"),
+                ("Finish", "High polish"), ("Chain", "Optional")]),
+    dict(id="nazm", name="Nazm Pearl Drop Earrings", type="earrings", metals=["gold21"], occasion="gifting",
+         motif="earrings",
          desc="South Sea pearl drops swinging from hammered gold hoops.",
          story="Hoops hammered to a soft irregular surface, with South Sea pearls hung so they catch "
                "the light when the wearer turns.",
-         tags=["South Sea Pearl", "18K"],
-         specs=[("Metal", "18K yellow gold"), ("Pearls", "South Sea drops"),
+         tags=["South Sea Pearl"],
+         specs=[("Metal", "21K yellow gold"), ("Pearls", "South Sea drops"),
                 ("Finish", "Hand hammered"), ("Fitting", "Hook")]),
-    dict(id="maahru", name="Maahru Diamond Bangle", type="bangles", metals=["white", "gold18"], occasion="bridal",
-         motif="bangles", price="PKR 465,000", note="single",
-         desc="A formal bangle of channel-set diamonds with gold edging.",
-         story="A single formal bangle: channel-set stones with a gold edge that frames the line and "
-               "protects the setting in daily wear.",
+    dict(id="maahru", name="Maahru Diamond Bangle", type="bangles", metals=["gold21"], occasion="bridal",
+         motif="bangles",
+         desc="A formal 21K gold bangle with channel-set diamonds.",
+         story="A single formal bangle: channel-set stones framed by 21K gold that protects the line for "
+               "daily wear.",
          tags=["IGI Certified", "Formal"],
-         specs=[("Metal", "White gold, 18K edge"), ("Stones", "Channel-set diamonds"),
+         specs=[("Metal", "21K yellow gold"), ("Stones", "Channel-set diamonds"),
                 ("Width", "8 mm"), ("Sizing", "Made to size")]),
 ]
 
 TESTIMONIALS = [
     dict(name="Ayesha Rehman", role="Bridal client, Lahore", rating=5,
          text="They designed my entire bridal set from a sketch I brought in. The polki work was finer "
-              "than anything I saw in the market — and the price was settled before a single gram was melted."),
+              "than anything I saw in the market — and every detail was agreed before a single gram was melted."),
     dict(name="Bilal Ahmed", role="Investment buyer", rating=5,
-         text="I have bought bullion here for nine years. Transparent weighing, proper hallmarking, "
-              "documented invoicing. That consistency is why my family keeps coming back."),
+         text="I have bought 21K gold jewellery here for nine years. Transparent weighing, proper "
+              "hallmarking, documented invoicing. That consistency is why my family keeps coming back."),
     dict(name="Sana Tariq", role="Engagement purchase", rating=5,
          text="I was nervous about choosing a solitaire. Their consultant spent two hours with me under "
               "the loupe, showed me the certificate, and never once pushed me upwards."),
@@ -433,7 +434,6 @@ NAV_ITEMS = [
     ("index.html", "Home", "home"),
     ("about.html", "About", "about"),
     ("collections.html", "Collections", "collections"),
-    ("atelier.html", "Atelier", "atelier"),
     ("visit.html", "Visit", "visit"),
 ]
 
@@ -458,12 +458,12 @@ def related_to(p, limit=3):
 
 # ---------------------------------------------------------------------------
 # 3b. PRODUCT PHOTOGRAPHS
-# Drop a photograph in assets/products/ named after the piece's id
-# (assets/products/meher.jpg) and the next build uses it in the card, the
-# quick view and the piece page. Without a photo the line-drawing motif is
-# used instead, so the site never shows a broken image.
+# Drop a photograph in assets/products/ named after the piece's id. Optimized
+# WebP files are preferred (assets/products/meher.webp); JPG/PNG sources work
+# as fallbacks. The build uses the image in cards, quick views and piece pages.
+# Without a photo the line-drawing motif is used instead.
 # ---------------------------------------------------------------------------
-PRODUCT_PHOTO_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".avif")
+PRODUCT_PHOTO_EXTS = (".webp", ".jpg", ".jpeg", ".png", ".avif")
 
 
 def product_photo(p):
@@ -475,12 +475,14 @@ def product_photo(p):
     return None
 
 
-def product_media(p):
-    """The piece's visual: its photograph when one exists, else the motif."""
+def product_media(p, loading="lazy"):
+    """The piece's visual; keep below-fold photos lazy and prioritize the main detail image."""
     src = product_photo(p)
     if src:
+        priority = ' fetchpriority="high"' if loading == "eager" else ""
         return ('<img class="product-photo" src="%s" alt="%s" '
-                'loading="lazy" decoding="async">' % (src, esc(p["name"])))
+                'loading="%s" decoding="async"%s>'
+                % (src, esc(p["name"]), loading, priority))
     return MOTIF[p["motif"]]
 
 
@@ -495,10 +497,6 @@ def featured_products():
     return [p for p in PRODUCTS if p.get("featured")]
 
 
-def ring_count():
-    return sum(1 for p in PRODUCTS if p["type"] == "rings")
-
-
 def catalogue_json_block():
     """Everything the quick view needs, as one JSON island on every page.
     The script reads it by id, so opening details never fetches anything."""
@@ -507,7 +505,7 @@ def catalogue_json_block():
         items.append({
             "id": p["id"], "name": p["name"], "type": p["type"],
             "occasion": p["occasion"], "metals": [METALS[m] for m in p["metals"]],
-            "badge": p.get("badge", ""), "price": p["price"], "note": p["note"],
+            "badge": p.get("badge", ""),
             "desc": p["desc"], "story": p["story"], "tags": p["tags"],
             "specs": [[k, v] for k, v in p["specs"]],
             "motif": p["motif"], "photo": product_photo(p),
@@ -532,12 +530,16 @@ NOSCRIPT = """<noscript>
   </style>
 </noscript>"""
 
-INTRO = """<div class="intro" id="intro" aria-hidden="true"
+INTRO_BRAND = (
+    f'<img class="intro-logo" src="{LOGO_FILE}" alt="" decoding="async" fetchpriority="high">'
+    if LOGO_FILE else
+    f'<span class="intro-fallback">{esc(SITE["name"])}</span>'
+)
+
+INTRO = f"""<div class="intro" id="intro" aria-hidden="true"
      style="position:fixed;inset:0;z-index:2000;display:grid;place-items:center;background:#000">
   <span class="intro-inner">
-    <span class="intro-mark">ALM</span>
-    <span class="intro-rule"></span>
-    <span class="intro-word">Jewellers</span>
+    {INTRO_BRAND}
   </span>
 </div>"""
 
@@ -579,7 +581,7 @@ def favicon_links():
     return links
 
 
-def head(title, desc):
+def head(title, desc, extra=""):
     return f"""<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -589,6 +591,8 @@ def head(title, desc):
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
+{f'<link rel="preload" as="image" href="{LOGO_FILE}" fetchpriority="high">' if LOGO_FILE else ''}
+{extra}
 <link rel="stylesheet" href="styles.css">
 {favicon_links()}
 {NOSCRIPT}
@@ -657,10 +661,11 @@ def footer():
         {logo()}
         <p class="footer-tagline">{esc(TAGLINE)}</p>
         <div class="social-links">
-          <a class="social-link" href="{SITE['instagram']}" target="_blank" rel="noopener" aria-label="Instagram">{ICON['instagram']}</a>
-          <a class="social-link" href="{SITE['facebook']}" target="_blank" rel="noopener" aria-label="Facebook">{ICON['facebook']}</a>
+          <a class="social-link" href="{esc(SITE['instagram'])}" target="_blank" rel="noopener" aria-label="Instagram">{ICON['instagram']}</a>
+          <a class="social-link" href="{esc(SITE['pinterest'])}" target="_blank" rel="noopener" aria-label="Pinterest">{ICON['pinterest']}</a>
+          <a class="social-link" href="{esc(SITE['facebook'])}" target="_blank" rel="noopener" aria-label="Facebook">{ICON['facebook']}</a>
           <a class="social-link" href="{wa_general()}" target="_blank" rel="noopener" aria-label="WhatsApp">{ICON['wa']}</a>
-          <a class="social-link" href="{SITE['youtube']}" target="_blank" rel="noopener" aria-label="YouTube">{ICON['youtube']}</a>
+          <a class="social-link" href="{esc(SITE['youtube'])}" target="_blank" rel="noopener" aria-label="YouTube">{ICON['youtube']}</a>
         </div>
       </div>
 
@@ -669,7 +674,6 @@ def footer():
         <ul>
           <li><a href="about.html">About</a></li>
           <li><a href="collections.html">Collections</a></li>
-          <li><a href="atelier.html">The atelier</a></li>
           <li><a href="clients.html">Client stories</a></li>
           <li><a href="visit.html">Visit us</a></li>
         </ul>
@@ -695,8 +699,7 @@ def footer():
         </address>
         <div class="hours">
           <p><strong>Hours</strong></p>
-          <p>{esc(SITE['hours_week'])}</p>
-          <p>{esc(SITE['hours_sun'])}</p>
+          <p>{esc(SITE['hours'])}</p>
         </div>
       </div>
     </div>
@@ -735,7 +738,7 @@ def page(title, desc, active, content, intro=False, head_extra=""):
     return f"""<!DOCTYPE html>
 {BUILD_NOTE}
 <html lang="en">
-{head(title, desc)}
+{head(title, desc, head_extra)}
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 {f'{INTRO}' if intro else ''}
@@ -743,7 +746,6 @@ def page(title, desc, active, content, intro=False, head_extra=""):
 {content}
 {footer()}
 {SVG_DEFS}
-{head_extra}
 {catalogue_json_block()}
 <script src="script.js"></script>
 </body>
@@ -786,8 +788,8 @@ def card(p, delay=0, hidden=False):
         badge = f'\n          <span class="{cls}">{esc(p["badge"])}</span>'
     tags = "".join(f'\n              <span class="tag">{esc(t)}</span>' for t in p["tags"])
     hidden_attr = " hidden" if hidden else ""
-    return f"""<article class="product-card"{hidden_attr} data-type="{p['type']}" data-occasion="{p['occasion']}"
-                 data-metals="{' '.join(p['metals'])}" style="animation-delay:{delay}ms">
+    return f"""<article class="product-card"{hidden_attr} data-type="{p['type']}"
+                 style="animation-delay:{delay}ms">
             <div class="product-media">{badge}
               <a class="media-link" href="piece-{p['id']}.html" tabindex="-1" aria-hidden="true">{product_media(p)}</a>
               <button class="quickview-btn" type="button" data-quickview="{p['id']}"
@@ -803,9 +805,8 @@ def card(p, delay=0, hidden=False):
                 <span class="tag">{esc(metals)}</span>
               </div>
               <div class="product-foot">
-                <span class="price">{esc(p['price'])}<small>{esc(p['note'])}</small></span>
                 <button class="enquire-btn" type="button"
-                        data-enquire="{esc(p['name'])}|{esc(p['price'])}|piece-{p['id']}.html">
+                        data-enquire="{esc(p['name'])}">
                   Enquire {ICON['arrow']}
                 </button>
               </div>
@@ -817,8 +818,8 @@ def spotlight(p):
     specs = "".join(
         f'\n              <div class="spec"><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>'
         for k, v in p["specs"])
-    return f"""<article class="spotlight" data-type="{p['type']}" data-occasion="{p['occasion']}"
-                 data-metals="{' '.join(p['metals'])}" id="spotlight" data-aos="fade-up">
+    return f"""<article class="spotlight" data-type="{p['type']}"
+                 id="spotlight" data-aos="fade-up">
             <div class="spotlight-media">{product_media(p)}</div>
             <div class="spotlight-body">
               <span class="spotlight-eyebrow">{ICON['gem']} Featured piece</span>
@@ -826,7 +827,6 @@ def spotlight(p):
               <p class="spotlight-desc">{esc(p['story'])}</p>
               <dl class="spotlight-specs">{specs}</dl>
               <div class="spotlight-foot">
-                <span class="spotlight-price">{esc(p['price'])}<small>{esc(p['note'])}</small></span>
                 <a class="btn btn-primary" href="piece-{p['id']}.html">View the piece</a>
                 <a class="btn btn-secondary" href="appointment.html">Book a viewing</a>
               </div>
@@ -862,7 +862,7 @@ def page_home():
     hero_img = find_hero_image()
     if hero_img:
         hero_open = '<section class="hero hero--dark intro-wrap hero--photo" id="home">'
-        hero_preload = '<link rel="preload" as="image" href="%s">' % hero_img
+        hero_preload = '<link rel="preload" as="image" href="%s" fetchpriority="high">' % hero_img
         # A real element rather than a CSS background: it can be cover-fitted on
         # wide screens and become a band beneath the copy on a phone, where a
         # background would put the jewellery right behind the headline.
@@ -877,12 +877,9 @@ def page_home():
         hero_preload = ""
         hero_media = ""
     tiles = [
-        ("collections.html", "Collections", "Rings, necklaces, earrings, bangles and full bridal sets — "
-                                           "filter the catalogue by type, metal or occasion."),
-        ("atelier.html", "The atelier", "How a commission is made, from the first sketch to the final "
-                                        "polish — four unhurried stages."),
-        ("visit.html", "Visit us", "The showroom in Gulberg III: hours, directions, and what to bring "
-                                   "if you are exchanging old gold."),
+        ("collections.html", "Collections", "Explore rings, necklaces, earrings, bangles and bridal sets in 21K gold."),
+        ("about.html", "About the house", "Meet Alif Laam Meem Jewellers, a jewellery house in Al Rehman Square Mall."),
+        ("visit.html", "Visit us", "Find us at Al Rehman Square Mall and plan your showroom visit."),
     ]
     tile_html = "".join(f"""
         <a class="tile" href="{href}" data-aos="fade-up" data-aos-delay="{i * 70}">
@@ -898,12 +895,12 @@ def page_home():
 {hero_open}
   <div class="container">
     <div class="hero-intro">
-      <span class="hero-badge">Est. 1979 &middot; Lahore</span>
-      <h1>Heirlooms in <span class="gold-shine">gold</span>.</h1>
+      <span class="hero-badge">Al Rehman Square Mall &middot; Sharaqpur</span>
+      <h1>Heirlooms in <span class="gold-shine">21K gold</span>.</h1>
       <p class="hero-tagline">Made to last generations.</p>
       <p class="hero-description">
-        Bridal sets, certified solitaires and bespoke commissions — hand-finished
-        at our bench in Gulberg.
+        Bridal sets, certified solitaires and custom designs in 21K gold, selected with care
+        at our Al Rehman Square Mall showroom.
       </p>
       <div class="hero-actions">
         <a href="collections.html" class="btn btn-light">Explore the collections</a>
@@ -935,18 +932,18 @@ def page_home():
   </div>
 </section>
 
-<!-- ============================ FEATURED RINGS ============================ -->
+<!-- ========================== FEATURED JEWELLERY ========================== -->
 <section class="section" id="featured">
   <div class="container">
     <div class="section-header">
-      <span class="section-tag">Featured this month</span>
-      <h2>The rings clients ask for by name.</h2>
+      <span class="section-tag">A few favourites</span>
+      <h2>A little of everything in 21K gold.</h2>
     </div>
-    <div class="products-grid" role="list" aria-label="Featured rings">
+    <div class="products-grid" role="list" aria-label="Featured jewellery">
         {feat_cards}
     </div>
     <p class="section-more">
-      <a href="collections.html?type=rings">Browse all {ring_count()} rings {ICON['arrow']}</a>
+      <a href="collections.html">Explore the full collection {ICON['arrow']}</a>
     </p>
   </div>
 </section>
@@ -969,25 +966,26 @@ def page_home():
 </main>
 """
     note = "" if hero_img else (
-        "<!-- No hero image found. Add your photograph as assets/hero.jpg "
-        "(or .png/.webp/.avif) and rebuild to use it as the hero background. -->")
-    return page(f"{SITE['short']} — Fine jewellery in Lahore",
+        "<!-- No hero image found. Add your photograph as assets/hero.webp "
+        "(or .jpg/.png/.avif) and rebuild to use it as the hero background. -->")
+    return page(f"{SITE['short']} — Fine jewellery in Sharaqpur",
                 TAGLINE + " Book a private showroom consultation.", "home", content,
                 intro=True, head_extra=(hero_preload + note))
 
 
 def page_about():
+    bridal_set = next(p for p in PRODUCTS if p["id"] == "noor")
     content = f"""<main id="main">
-{page_head("About", "A jewellery house in Gulberg.",
-           "We make gold, diamond and polki jewellery to order, and we look after it "
-           "long after it leaves the counter.")}
+{page_head("About", "A jewellery house in Al Rehman Square Mall.",
+           "Alif Laam Meem Jewellers offers a considered collection of 21K gold jewellery, "
+           "with personal service that continues long after your visit.")}
 
 <section class="section">
   <div class="container split">
     <div class="prose" data-aos="fade-right">
-      <p class="lede">Alif Laam Meem Jewellers began at a single counter in the Liberty Market gold souk.
-      Today it is a family workshop and showroom, and the work is still done the same way: at the bench,
-      by hand, in front of the person buying it.</p>
+      <p class="lede">Alif Laam Meem Jewellers is a jewellery house in Al Rehman Square Mall, Sharaqpur.
+      Our collection is crafted exclusively in 21K gold, with considered designs for celebrations
+      and everyday wear.</p>
 
       <p>Most of what we sell is made rather than bought in. A bride brings a sketch or a photograph;
       our karigars draw it properly, we quote it in writing, and then the piece is built —
@@ -1002,9 +1000,15 @@ def page_about():
       honestly what it is worth.</p>
     </div>
 
-    <div class="panel" data-aos="fade-left" aria-hidden="true">
-      {motif_dark('necklace')}
-    </div>
+    <figure class="panel about-bridal-panel" data-aos="fade-left">
+      <a class="about-bridal-link" href="piece-{bridal_set['id']}.html">
+        {product_media(bridal_set, loading="eager")}
+      </a>
+      <figcaption class="about-bridal-caption">
+        <span>21K Gold · Bridal Set</span>
+        <a href="piece-{bridal_set['id']}.html">Noor Polki Bridal Set {ICON['arrow']}</a>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
@@ -1040,8 +1044,8 @@ def page_about():
 </main>
 """
     return page(f"About — {SITE['name']}",
-                "A family jewellery workshop and showroom in Gulberg, Lahore: gold, diamond and polki "
-                "pieces made to order, with the weight and the paperwork shown in front of you.",
+                "A jewellery house in Al Rehman Square Mall, Sharaqpur, offering jewellery exclusively "
+                "in 21K gold, with clear weighing and paperwork.",
                 "about", content)
 
 
@@ -1055,8 +1059,7 @@ def page_collections():
                     for i, p in enumerate(others))
     content = f"""<main id="main">
 {page_head("Collections", "Find the piece that finds you.",
-           "Filter the catalogue by type, metal or occasion. Prices are indicative and follow the "
-           "gold rate on the day you buy.")}
+           "Explore our rings, necklaces, earrings, bangles and bridal sets, all crafted in 21K gold.")}
 
 <section class="section">
   <div class="container">
@@ -1064,8 +1067,6 @@ def page_collections():
       <div class="filter-tabs" role="group" aria-label="Filter collections by">
         <button class="filter-tab active" type="button" aria-pressed="true" data-filter="all">All pieces</button>
         <button class="filter-tab" type="button" aria-pressed="false" data-filter="type">By type</button>
-        <button class="filter-tab" type="button" aria-pressed="false" data-filter="metal">By metal</button>
-        <button class="filter-tab" type="button" aria-pressed="false" data-filter="occasion">By occasion</button>
       </div>
     </div>
 
@@ -1110,67 +1111,9 @@ def page_collections():
         "<noscript><style>#productsGrid .product-card{display:flex !important}</style></noscript>"
     )
     return page(f"Collections — {SITE['name']}",
-                "Browse rings, necklaces, earrings, bangles and bridal sets. Filter by type, metal or "
-                "occasion; every piece has its own page with specs and pricing.",
+                "Browse rings, necklaces, earrings, bangles and bridal sets, all crafted in 21K gold. "
+                "Explore the collection by type and view details for each piece.",
                 "collections", content, head_extra=noscript_grid)
-
-
-def page_atelier():
-    steps = [
-        ("01", "Consultation", "Sit with a jeweller, not a salesperson. We discuss the occasion, your budget, "
-                               "the metal and the stone — and whether the idea in your head is the right one.", "chat"),
-        ("02", "Sketch &amp; quote", "Hand drawings of the piece, and a written estimate that itemises metal, "
-                                     "stones and making. Nothing is fixed until you approve the quote.", "sketch"),
-        ("03", "Hand crafting", "Our karigars raise, engrave, set and polish the piece in stages. You are welcome "
-                                "at the bench for any of them, and we send photographs as it progresses.", "bench"),
-        ("04", "Assay &amp; handover", "Independent hallmarking and certification where needed, a final weigh-in, "
-                                       "and the piece handed over with its paperwork and a service file.", "shield"),
-    ]
-    step_html = "".join(f"""
-      <article class="step" data-aos="fade-up" data-aos-delay="{i * 60}">
-        <span class="step-num">{num}</span>
-        <h2>{title}</h2>
-        <p>{text}</p>
-        <span class="step-icon" aria-hidden="true">{ICON[icon]}</span>
-      </article>""" for i, (num, title, text, icon) in enumerate(steps))
-
-    content = f"""<main id="main">
-{page_head("Atelier", "How a commission is made.",
-           "Four stages, and you are part of all of them. Most commissions take three to eight weeks "
-           "depending on the stone and the setting.")}
-
-<section class="section">
-  <div class="container">
-    <div class="process-grid">{step_html}
-    </div>
-  </div>
-</section>
-
-<section class="section section--alt">
-  <div class="container split">
-    <div class="prose" data-aos="fade-right">
-      <h2>What to bring</h2>
-      <p class="lede">A commission goes faster when you bring anything you already love.</p>
-      <ul class="checks">
-        <li>{ICON['check']}A sketch, a photograph, or a screenshot — anything that shows the shape you mean.</li>
-        <li>{ICON['check']}A piece you already own that fits the way you want, for sizing and weight.</li>
-        <li>{ICON['check']}Old gold you would like remade, exchanged or valued. Bring the paperwork if you have it.</li>
-        <li>{ICON['check']}Your dates. If it is for a wedding, tell us the wedding date first, not last.</li>
-      </ul>
-    </div>
-    <div class="panel" data-aos="fade-left" aria-hidden="true">{motif_dark('rings')}</div>
-  </div>
-</section>
-
-{cta_band("Start with a conversation.",
-          "No deposit, no obligation, and no pressure to decide on the day.",
-          "appointment.html", "Book a consultation", "collections.html", "See finished pieces")}
-</main>
-"""
-    return page(f"The atelier — {SITE['name']}",
-                "How a bespoke piece is made: consultation, sketch and quote, hand crafting, then assay "
-                "and handover. What to bring to your first appointment.",
-                "atelier", content)
 
 
 def page_appointment():
@@ -1218,10 +1161,10 @@ def page_appointment():
 
     <div class="appointment-form-wrapper" data-aos="fade-left">
       <h2 class="form-heading">Request your appointment</h2>
-      <p class="form-subheading">Fill this in and we will confirm your slot on WhatsApp within two hours.</p>
+      <p class="form-subheading">Fill this in to open WhatsApp and prepare a Gmail draft with the same appointment details.</p>
 
       <form class="appointment-form" id="appointmentForm" data-wa-number="{SITE['whatsapp']}"
-            data-wa-name="{esc(SITE['name'])}" novalidate>
+            data-wa-name="{esc(SITE['name'])}" data-contact-email="{esc(SITE['email'])}" novalidate>
         <input type="hidden" name="text" id="whatsappMessage" value="">
 
         <div class="form-row">
@@ -1250,7 +1193,7 @@ def page_appointment():
               <option value="engagement">Engagement / wedding jewellery</option>
               <option value="bridal">Bridal polki &amp; kundan suite</option>
               <option value="custom">Bespoke commission</option>
-              <option value="investment">Gold / bullion investment</option>
+              <option value="investment">21K gold jewellery</option>
               <option value="exchange">Old gold exchange or buyback</option>
               <option value="gifting">Gift selection</option>
               <option value="repair">Repair, polishing or restoration</option>
@@ -1292,7 +1235,7 @@ def page_appointment():
         </div>
 
         <button type="submit" class="btn btn-primary btn-full">
-          <span class="btn-text">Request appointment on WhatsApp</span>
+          <span class="btn-text">Prepare WhatsApp &amp; Gmail request</span>
           <span class="btn-icon" aria-hidden="true">{ICON['wa']}</span>
         </button>
 
@@ -1329,8 +1272,8 @@ def page_appointment():
 </main>
 """
     return page(f"Book an appointment — {SITE['name']}",
-                "Book a private viewing at our Gulberg showroom. Fill in the form and we confirm your "
-                "slot on WhatsApp within two hours.", "appointment", content)
+                "Book a private viewing at Alif Laam Meem Jewellers in Al Rehman Square Mall, Sharaqpur. "
+                "We confirm your slot on WhatsApp within two hours.", "appointment", content)
 
 
 def page_clients():
@@ -1357,10 +1300,20 @@ def page_clients():
 </main>
 """
     return page(f"Client stories — {SITE['name']}",
-                "What clients say about buying bridal, bespoke and bullion jewellery from us.", "clients", content)
+                "What clients say about buying bridal and 21K gold jewellery from us.", "clients", content)
 
 
 def page_visit():
+    if LOGO_FILE:
+        visit_visual = (
+            f'<img class="visit-logo-image" src="{LOGO_FILE}" '
+            f'alt="{esc(SITE["name"])} logo" loading="lazy" decoding="async">'
+        )
+        visit_visual_a11y = ""
+    else:
+        visit_visual = motif_dark("bridal")
+        visit_visual_a11y = ' aria-hidden="true"'
+
     content = f"""<main id="main">
 {page_head("Visit", "Come and see it in daylight.",
            "Gold always looks different under our light than under anyone else's. "
@@ -1370,7 +1323,7 @@ def page_visit():
   <div class="container visit-grid">
     <div class="visit-card" data-aos="fade-right">
       <h2>{esc(SITE['name'])}</h2>
-      <p>Gulberg III, Lahore &middot; Valet parking available on request</p>
+      <p>Shop #8 &middot; Al Rehman Square Mall &middot; Sharaqpur, Pakistan</p>
 
       <dl class="visit-list">
         <div class="visit-row">
@@ -1392,25 +1345,24 @@ def page_visit():
           <span class="ico" aria-hidden="true">{ICON['clock']}</span>
           <div>
             <dt>Opening hours</dt>
-            <dd>{esc(SITE['hours_week'])}<br>{esc(SITE['hours_sun'])}</dd>
+            <dd>{esc(SITE['hours'])}</dd>
           </div>
         </div>
         <div class="visit-row">
           <span class="ico" aria-hidden="true">{ICON['route']}</span>
           <div>
             <dt>Getting here</dt>
-            <dd>Five minutes from Liberty Roundabout, opposite the gold souk arcade. Lift access to the
-            first floor.</dd>
+            <dd>We are located inside Al Rehman Square Mall. Contact us if you need help finding the showroom.</dd>
           </div>
         </div>
       </dl>
 
-      <a class="btn btn-ghost directions-btn" href="{SITE['maps']}" target="_blank" rel="noopener">
+      <a class="btn btn-ghost directions-btn" href="{esc(SITE['maps'])}" target="_blank" rel="noopener">
         Get directions {ICON['arrow']}
       </a>
     </div>
 
-    <div class="visit-art" data-aos="fade-left" aria-hidden="true">{motif_dark('bridal')}</div>
+    <div class="visit-art visit-logo-panel" data-aos="fade-left"{visit_visual_a11y}>{visit_visual}</div>
   </div>
 </section>
 
@@ -1442,8 +1394,8 @@ def page_visit():
 </main>
 """
     return page(f"Visit the showroom — {SITE['name']}",
-                "Address, opening hours, directions and contact details for our showroom in Gulberg III, "
-                "Lahore.", "visit", content)
+                "Address, opening hours, directions and contact details for our showroom in Al Rehman "
+                "Square Mall, Sharaqpur.", "visit", content)
 
 
 def legal_page(slug, title, crumb, lede, sections, updated="October 2026"):
@@ -1498,16 +1450,16 @@ def page_privacy():
 
 def page_terms():
     items = [
-        ("Prices and the gold rate",
-         "<p>Prices shown on this website are indicative and move with the gold rate and stone market. The "
-         "price that applies to your purchase is the one we quote and confirm in writing on the day. "
-         "Nothing on this website is an offer capable of acceptance.</p>"),
+        ("Quotes and the gold rate",
+         "<p>Product prices are not listed on this website. Contact the showroom for availability and a "
+         "current quote. Quotes are confirmed in writing and may change with the day's 21K gold rate and "
+         "stone market. Nothing on this website is an offer capable of acceptance.</p>"),
         ("Made-to-order pieces",
          "<p>Commissions are quoted before work begins, and the quote itemises metal, stones and making. "
          "Made-to-order pieces cannot be returned or exchanged, because they are made to your specification; "
          "we therefore agree the design, weight and dimensions with you in writing before we start.</p>"),
         ("Hallmarking and certification",
-         "<p>Gold is supplied hallmarked to the standard required for its purity. Where a stone is certified, "
+         "<p>Every gold piece in our collection is 21K yellow gold and is supplied hallmarked. Where a stone is certified, "
          "the certificate is supplied with the piece. If a certificate is lost, we will help you replace it "
          "at cost.</p>"),
         ("Exchange, buyback and old gold",
@@ -1525,7 +1477,7 @@ def page_terms():
         ("Settling a problem",
          "<p>If something is wrong with a piece we made or sold, tell us first and give us the chance to put "
          "it right. Most issues are resolved at the counter. If we cannot agree, the matter is subject to "
-         "the courts of Lahore, Pakistan.</p>"),
+         "the competent courts of Punjab, Pakistan.</p>"),
     ]
     return legal_page(
         "terms", "Terms of Sale", "Terms",
@@ -1540,7 +1492,7 @@ def page_piece(p):
     metals = " · ".join(METALS[m] for m in p["metals"])
     badge = f'<span class="badge gold">{esc(p["badge"])}</span>' if p.get("badge") else ""
     rel = "".join(card(r, i * 45) + "\n            " for i, r in enumerate(related_to(p)))
-    enquire = f"{p['name']}|{p['price']}|piece-{p['id']}.html"
+    enquire = p["name"]
 
     content = f"""<main id="main">
 <header class="page-head page-head--tight">
@@ -1557,15 +1509,13 @@ def page_piece(p):
   <div class="container piece">
     <div class="piece-media" data-aos="fade-right">
       {badge}
-      {product_media(p)}
+      {product_media(p, loading="eager")}
     </div>
 
     <div class="piece-body" data-aos="fade-left">
       <p class="piece-eyebrow">{TYPES[p['type']]} · {OCCASIONS[p['occasion']]}</p>
       <h1 class="piece-name">{esc(p['name'])}</h1>
       <p class="piece-lede">{esc(p['story'])}</p>
-
-      <p class="piece-price">{esc(p['price'])}<small>{esc(p['note'])}</small></p>
 
       <dl class="piece-specs">{specs}
       </dl>
@@ -1604,7 +1554,7 @@ def page_piece(p):
 </main>
 """
     return page(f"{p['name']} — {SITE['name']}",
-                f"{p['desc']} {TYPES[p['type']]} in {metals}, {p['price']}.",
+                f"{p['desc']} {TYPES[p['type']]} in {metals}.",
                 "collections", content)
 
 
@@ -1623,7 +1573,6 @@ def main():
     write("index.html", page_home())
     write("about.html", page_about())
     write("collections.html", page_collections())
-    write("atelier.html", page_atelier())
     write("appointment.html", page_appointment())
     write("clients.html", page_clients())
     write("visit.html", page_visit())

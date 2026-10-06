@@ -1,7 +1,10 @@
 # assets/
 
-Drop your own photographs in this folder. Nothing here is generated or committed
-by the build — the build only looks for files that already exist.
+Add image files in this folder; the build never downloads or creates assets.
+For speed, it prefers `hero.webp` and `products/<piece-id>.webp` when those
+optimized versions exist, with the original JPG/PNG formats as fallbacks. If you
+replace a source photograph, also replace its WebP version or remove the old
+WebP so the build can use the new source.
 
 ## Your logo
 
@@ -12,9 +15,12 @@ Save your logo as **`logo.svg`** (also works: `logo.png`, `logo.webp`,
 python3 build.py
 ```
 
-The build finds it and puts it in the header and the footer of all 23 pages, and
-uses it for the browser tab. With no file present, the pages fall back to the
-built-in **ALM** monogram and the gold diamond favicon — nothing breaks.
+The build finds it and puts it in the header and footer of all 30 pages, uses
+it for the browser tab, on the home-page loading curtain, and as the Visit-page
+feature image. A standard
+`logo.svg` or `logo.png` takes priority; otherwise the optimized `logo.webp` is
+used. With no logo file present, the header and footer fall back to the built-in
+**ALM** monogram and the tab to the gold diamond favicon.
 
 **Which format.** SVG is best: it stays razor sharp on every screen and retina
 display, weighs a few KB, and can be recoloured later. If your designer sent a
@@ -68,10 +74,16 @@ watch: a logo whose artwork is **white or very pale** will be invisible on white
 — send a version with dark or gold fill, or ask and we will add a dark header
 band for it.
 
+## Product photographs
+
+Use the catalogue piece ID for each filename in `assets/products/`, for example
+`meher.webp`. WebP files are preferred; JPG/PNG sources are still supported as
+fallbacks. Rebuild after replacing photos.
+
 ## Hero background
 
-Save your photograph as **`hero.jpg`** (also works: `hero.jpeg`, `hero.png`,
-`hero.webp`, `hero.avif`) and rebuild:
+Save your photograph as **`hero.webp`** (preferred for speed; `hero.jpg`,
+`hero.jpeg`, `hero.png` and `hero.avif` also work) and rebuild:
 
 ```bash
 python3 build.py
