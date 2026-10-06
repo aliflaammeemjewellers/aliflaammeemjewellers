@@ -80,6 +80,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 body.no-scroll { overflow: hidden; }
+/* hold the page still while the intro curtain is on screen */
+body.intro-lock { overflow: hidden; }
 
 h1, h2, h3, h4 {
   color: var(--ink);
@@ -368,6 +370,89 @@ strong { color: var(--ink); font-weight: 600; }
 .mobile-menu-btn[aria-expanded="true"] .hamburger::before { top: 0; transform: rotate(45deg); }
 .mobile-menu-btn[aria-expanded="true"] .hamburger::after { top: 0; transform: rotate(-45deg); }
 
+/* ---------------------------- 5b. PAGE INTRO ---------------------------- */
+/* Brief branded curtain on first paint, then the hero resolves in sequence.
+   Markup starts hidden via the pre-paint .intro-on flag on <html>. */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  background: #000;
+  transition: opacity .5s var(--ease), visibility .5s;
+}
+.intro-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.intro-mark {
+  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: .24em;
+  text-indent: .24em;
+  color: #F5F5F7;
+  opacity: 0;
+  transform: scale(.94);
+  animation: introMark .9s var(--ease-out) .08s forwards;
+}
+.intro-rule {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D2B478, transparent);
+  animation: introRule .8s var(--ease-out) .5s forwards;
+}
+.intro-word {
+  font-size: .74rem;
+  letter-spacing: .42em;
+  text-indent: .42em;
+  text-transform: uppercase;
+  color: #86868B;
+  opacity: 0;
+  animation: introWord .7s var(--ease-out) .68s forwards;
+}
+@keyframes introMark {
+  to { opacity: 1; transform: none; }
+}
+@keyframes introRule {
+  to { width: 132px; }
+}
+@keyframes introWord {
+  to { opacity: 1; }
+}
+
+.intro.is-done {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* hero resolves as the curtain lifts */
+.intro-wrap .hero-intro > * {
+  transition: opacity .75s var(--ease-out), transform .75s var(--ease-out);
+}
+.intro-wrap .hero-intro > :nth-child(1) { transition-delay: .18s; }
+.intro-wrap .hero-intro > :nth-child(2) { transition-delay: .24s; }
+.intro-wrap .hero-intro > :nth-child(3) { transition-delay: .30s; }
+.intro-wrap .hero-intro > :nth-child(4) { transition-delay: .36s; }
+.intro-wrap .hero-intro > :nth-child(5) { transition-delay: .42s; }
+.intro-wrap:not(.intro-open) .hero-intro > * {
+  opacity: 0;
+  transform: translateY(22px);
+}
+.intro-wrap .hero-showcase {
+  transition: opacity .9s var(--ease-out) .52s, transform .9s var(--ease-out) .52s;
+}
+.intro-wrap:not(.intro-open) .hero-showcase {
+  opacity: 0;
+  transform: translateY(34px) scale(.97);
+}
+.intro-wrap .scroll-indicator {
+  transition: opacity .8s var(--ease-out) .7s;
+}
+.intro-wrap:not(.intro-open) .scroll-indicator { opacity: 0; }
+
 /* -------------------------------- 6. HERO -------------------------------- */
 /* Apple's marketing hero: pure black, huge tight headline, two links, and the
    product floating on a soft glow below. */
@@ -424,11 +509,36 @@ strong { color: var(--ink); font-weight: 600; }
 
 .hero-showcase { margin: clamp(42px, 5.5vw, 76px) auto 0; max-width: 1000px; }
 .showcase-stage {
+  position: relative;
   display: grid;
   place-items: center;
   padding: clamp(20px, 4vw, 48px);
   background: radial-gradient(58% 68% at 50% 46%, rgba(176, 140, 74, .26), transparent 72%);
 }
+/* slow-turning dashed ring behind the piece */
+.showcase-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: min(430px, 68vw);
+  aspect-ratio: 1;
+  margin: calc(min(430px, 68vw) / -2) 0 0 calc(min(430px, 68vw) / -2);
+  border: 1px dashed rgba(210, 180, 120, .34);
+  border-radius: 50%;
+  animation: spin 46s linear infinite;
+}
+.showcase-stage .motif,
+.showcase-stage > svg { position: relative; z-index: 1; }
+.spark {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #E8D3A6;
+  box-shadow: 0 0 12px rgba(210, 180, 120, .9);
+  animation: twinkle 3.6s var(--ease) infinite;
+}
+.showcase-spark-1 { top: 16%; left: 22%; }
+.showcase-spark-2 { top: 38%; right: 18%; animation-delay: 1.2s; }
+.showcase-spark-3 { bottom: 18%; left: 34%; animation-delay: 2.4s; }
 .showcase-stage svg {
   width: min(400px, 62vw);
   height: auto;
@@ -576,6 +686,15 @@ strong { color: var(--ink); font-weight: 600; }
 .fav-btn:hover { color: var(--gold-deep); background: var(--bg); }
 .fav-btn.active { color: var(--gold-deep); }
 .fav-btn.active svg { fill: currentColor; }
+/* saved: a ring pulses out once */
+.fav-btn.active::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 1px solid var(--gold-line);
+  border-radius: var(--r-full);
+  animation: halo 1.1s var(--ease-out) 1;
+}
 
 .product-body { display: flex; flex-direction: column; flex: 1; align-items: center; }
 .product-cat {
@@ -893,6 +1012,25 @@ strong { color: var(--ink); font-weight: 600; }
   border-radius: var(--r-md);
 }
 .form-status.show { display: block; }
+.form-status .tick {
+  width: 19px; height: 19px;
+  margin-right: 9px;
+  vertical-align: -4px;
+  color: var(--gold-deep);
+}
+.tick circle {
+  stroke-dasharray: 64;
+  stroke-dashoffset: 64;
+  animation: draw .5s var(--ease-out) forwards;
+}
+.tick path {
+  stroke-dasharray: 15;
+  stroke-dashoffset: 15;
+  animation: draw .35s var(--ease-out) .4s forwards;
+}
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
 
 /* --------------------------- 10. TESTIMONIALS --------------------------- */
 .testimonials-grid {
@@ -1122,8 +1260,29 @@ strong { color: var(--ink); font-weight: 600; }
 }
 .whatsapp-float svg { width: 21px; height: 21px; }
 .whatsapp-float:hover { background: #333336; transform: scale(1.04); }
+/* steady attention ring on the WhatsApp button */
+.whatsapp-float::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--gold-line);
+  border-radius: var(--r-full);
+  animation: halo 3.4s var(--ease-out) infinite;
+}
 
 /* --------------------------- 14. REVEAL ANIMATIONS ----------------------- */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: .3; transform: scale(.8); }
+  50%      { opacity: 1;  transform: scale(1.15); }
+}
+@keyframes halo {
+  0%   { transform: scale(.9); opacity: .5; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
 [data-aos] {
   opacity: 0;
   transform: translateY(16px);
@@ -1207,9 +1366,19 @@ strong { color: var(--ink); font-weight: 600; }
     transition-duration: .001ms !important;
   }
   [data-aos] { opacity: 1 !important; transform: none !important; }
+  .intro { display: none !important; }
+  .intro-wrap .hero-intro > *,
+  .intro-wrap .hero-showcase,
+  .intro-wrap .scroll-indicator {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .form-status .tick circle,
+  .form-status .tick path { stroke-dashoffset: 0; animation: none; }
+  .scroll-indicator { display: none; }
 }
 
 @media print {
-  .navbar, .progress, .back-to-top, .whatsapp-float { display: none !important; }
+  .navbar, .progress, .back-to-top, .whatsapp-float, .intro { display: none !important; }
   body { background: #fff; color: #000; }
 }

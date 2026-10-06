@@ -40,12 +40,32 @@
   ]
 }
 </script>
+<noscript>
+  <style>
+    /* Without JS the intro could never retire — show the hero instead. */
+    .intro { display: none !important; }
+    .intro-wrap .hero-intro > *,
+    .intro-wrap .hero-showcase,
+    .intro-wrap .scroll-indicator { opacity: 1 !important; transform: none !important; }
+    [data-aos] { opacity: 1 !important; transform: none !important; }
+  </style>
+</noscript>
 </head>
 <body>
 
 <a class="skip-link" href="#home">Skip to content</a>
 
 <div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- ============================ PAGE INTRO ============================ -->
+<div class="intro" id="intro" aria-hidden="true"
+     style="position:fixed;inset:0;z-index:2000;display:grid;place-items:center;background:#000">
+  <span class="intro-inner">
+    <span class="intro-mark">ALM</span>
+    <span class="intro-rule"></span>
+    <span class="intro-word">Jewellers</span>
+  </span>
+</div>
 
 <!-- ============================ NAVBAR ============================ -->
 <nav class="navbar" id="navbar" aria-label="Primary">
@@ -73,7 +93,7 @@
 </nav>
 
 <!-- ============================ HERO ============================ -->
-<section class="hero hero--dark" id="home">
+<section class="hero hero--dark intro-wrap" id="home">
   <div class="container">
     <div class="hero-intro">
       <span class="hero-badge">Est. 1979 &middot; Lahore</span>
@@ -97,6 +117,10 @@
 
     <figure class="hero-showcase">
       <div class="showcase-stage" aria-hidden="true">
+        <span class="showcase-ring"></span>
+        <span class="spark showcase-spark-1"></span>
+        <span class="spark showcase-spark-2"></span>
+        <span class="spark showcase-spark-3"></span>
         <svg viewBox="0 0 120 120">
           <path d="M22 16 C22 62 34 78 60 78 C86 78 98 62 98 16" stroke="url(#goldStrokeDark)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
           <path d="M32 18 C32 54 43 66 60 66 C77 66 88 54 88 18" stroke="url(#goldStrokeDark)" stroke-width="1.2" fill="none" opacity=".55"/>

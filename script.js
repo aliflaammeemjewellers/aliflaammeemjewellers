@@ -24,6 +24,7 @@
   };
 
   const $  = (sel, ctx) => (ctx || document).querySelector(sel);
+  const d$ = (sel, ctx) => (ctx || document).querySelector(sel);
   const $$ = (sel, ctx) => Array.prototype.slice.call((ctx || document).querySelectorAll(sel));
 
   const waLink = (msg) =>
@@ -338,10 +339,10 @@
   function renderTestimonials() {
     const wrap = $('#testimonialsGrid');
     if (!wrap) return;
-    wrap.innerHTML = TESTIMONIALS.map((t) => {
+    wrap.innerHTML = TESTIMONIALS.map((t, i) => {
       const initials = t.name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
       return `
-        <figure class="testimonial">
+        <figure class="testimonial" style="animation-delay:${i * 90}ms">
           ${starRow(t.rating)}
           <blockquote>${t.text}</blockquote>
           <figcaption class="testimonial-author">
@@ -438,8 +439,13 @@
       window.open(waLink(msg), '_blank', 'noopener');
 
       if (status) {
-        status.innerHTML = 'Thank you, ' + name.value.trim().split(' ')[0] +
-          ' — your request has been prepared in WhatsApp. Send the message and we will confirm your slot within 2 hours.';
+        status.innerHTML =
+          '<svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+          'stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/>' +
+          '<path d="M7.5 12.4l3 3 6-6.4"/></svg>' +
+          '<span>Thank you, ' + name.value.trim().split(' ')[0] +
+          ' — your request has been prepared in WhatsApp. Send the message and ' +
+          'we will confirm your slot within 2 hours.</span>';
         status.classList.add('show');
       }
     });
@@ -547,6 +553,46 @@
     }
   }
 
+  /* ---------------------------------------------------------------------
+     9b. PAGE INTRO
+     A brief branded curtain on first paint, then the hero resolves in
+     sequence. The markup is hidden pre-paint by .intro-on on <html>, so
+     nothing flashes before this runs. Reveal animations start only after
+     the hero has finished resolving — otherwise the two race each other.
+     --------------------------------------------------------------------- */
+  function initIntro() {
+    const intro = $('#intro');
+    const hero = $('.intro-wrap');
+
+    if (reduceMotion()) {
+      if (intro) intro.remove();
+      if (hero) hero.classList.add('intro-open');
+      initReveal();
+      return;
+    }
+
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      if (hero) hero.classList.add('intro-open');
+      if (intro) intro.classList.add('is-done');
+      document.body.classList.remove('intro-lock');
+      window.setTimeout(() => { if (intro && intro.parentNode) intro.remove(); }, 640);
+      window.setTimeout(initReveal, 160);
+    };
+
+    document.body.classList.add('intro-lock');
+
+    if (document.readyState === 'complete') {
+      window.setTimeout(finish, 780);
+    } else {
+      window.addEventListener('load', () => window.setTimeout(finish, 780), { once: true });
+      // if the load event never lands (slow font/asset stall), do not trap the page
+      window.setTimeout(finish, 2800);
+    }
+  }
+
   function initReveal() {
     const items = $$('[data-aos]');
     if (!items.length) return;
@@ -600,6 +646,11 @@
     nums.forEach((el) => io.observe(el));
   }
 
+  function reduceMotion() {
+    return !!window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
   function hydrateSite() {
     $$('[data-site]').forEach((el) => {
       const key = el.dataset.site;
@@ -640,7 +691,7 @@
     initNewsletter();
     initDelegatedClicks();
     initNav();
-    initReveal();
+    initIntro();
     initCounters();
   }
 

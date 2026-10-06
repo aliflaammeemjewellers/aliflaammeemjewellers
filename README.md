@@ -124,6 +124,37 @@ Set that to the showroom's number and it works immediately — no backend or
 third-party service required. The form also validates the required fields and
 shows inline errors before it hands over.
 
+## Motion
+
+The site animates on load and on scroll. All of it is optional and switches
+itself off under `prefers-reduced-motion`.
+
+**On load** a short branded intro plays — the ALM monogram fades up, a gold
+hairline draws out beneath it, "Jewellers" fades in — then the curtain lifts and
+the hero resolves in sequence: badge, headline, tagline, description, buttons,
+then the product and its caption. Three things keep it safe:
+
+- **No flash.** The hero is hidden by CSS before paint, so nothing appears and
+  then jumps. The intro element also carries inline layout styles, so it looks
+  right even if the stylesheet is still loading.
+- **No trap.** If the `load` event never fires (a stalled asset), a 2.8s timer
+  releases the page anyway. Scroll is locked while the curtain is up.
+- **No JS, no problem.** A `<noscript>` block hides the curtain and reveals the
+  hero, and the scroll-reveal animations are forced visible.
+
+Scroll reveals (`.aos-in`) only start after the intro hands over — otherwise the
+two animations race and elements resolve at the wrong moment.
+
+**Micro-interactions:** the hero motif sits inside a slow-turning dashed ring
+with three twinkling sparks; the wishlist heart pulses a ring when saved; the
+WhatsApp button has a steady halo; the appointment success message draws an
+animated tick; quote cards stagger in as they scroll into view.
+
+Timings live in CSS (the intro keyframes are in section 5b, near the top of the
+file), so you can retune the whole sequence there. The hold before the curtain
+lifts — 780ms after `load` — is the `setTimeout(finish, 780)` call in
+`initIntro()`.
+
 ## Accessibility & performance
 
 - Semantic landmarks, a skip link, `aria-pressed` filter controls, labelled
