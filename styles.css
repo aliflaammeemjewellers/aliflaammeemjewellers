@@ -313,7 +313,6 @@ strong { color: var(--ink); font-weight: 600; }
 .logo--mark  { --logo-h: 30px; }
 .logo-img--mark { border-radius: 3px; }
 
-.logo-mark {
   ```css
 .logo-mark {
   width: 38px;
@@ -322,7 +321,6 @@ strong { color: var(--ink); font-weight: 600; }
   display: block;
 }
 ```
-}
 .logo-mark span {
   font-size: .6rem;
   font-weight: 600;
