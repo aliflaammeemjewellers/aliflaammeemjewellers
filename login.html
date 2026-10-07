@@ -1,159 +1,258 @@
-```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Login | Alif Laam Meem Jewellers</title>
-
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Sign in to your Alif Laam Meem Jewellers account.">
+  <title>Sign in | Alif Laam Meem Jewellers</title>
+  <link rel="icon" href="assets/logo-icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
 </head>
-
-<body>
-
-  <header class="navbar">
-
-    <a href="index.html" class="brand">
-
-      <img
-        src="assets/logo-icon.png"
-        alt="Alif Laam Meem Jewellers"
-        class="brand-logo"
-      >
-
-      <div class="brand-text">
-        <strong>Alif Laam Meem</strong>
-        <span>Jewellers</span>
-      </div>
-
-    </a>
-
-    <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="collections.html">Collections</a>
-      <a href="visit.html">Visit</a>
-      <a href="appointment.html" class="book">Book</a>
-    </nav>
-
-  </header>
-
-
-  <main class="login-area">
-
-    <section class="login-card">
-
-      <div class="eyebrow">
-        Welcome back
-      </div>
-
-      <h1>
-        Your jewellery journey<br>
-        continues.
-      </h1>
-
-      <p class="intro">
-        Sign in to access your Alif Laam Meem
-        account and discover your collection.
-      </p>
-
-
-      <form id="loginForm">
-
-        <div class="field">
-
-          <label for="email">
-            Email address
-          </label>
-
-          <input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            autocomplete="email"
-            required
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="password">
-            Password
-          </label>
-
-          <input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            autocomplete="current-password"
-            required
-          >
-
-        </div>
-
-
-        <a href="#" class="forgot">
-          Forgot password?
-        </a>
-
-
-        <button
-          type="submit"
-          class="login-button"
-        >
-          Sign in
-        </button>
-
-
-        <div id="message"></div>
-
-      </form>
-
-
-      <div class="signup">
-        Don't have an account?
-        <a href="signup.html">Create an account</a>
-      </div>
-
-
-      <a href="index.html" class="back">
-        ← Back to Alif Laam Meem
+<body class="auth-page auth-page--login">
+  <nav class="navbar" id="navbar" aria-label="Primary">
+    <div class="container nav-container">
+      <a class="logo logo--mark" href="index.html" aria-label="Alif Laam Meem Jewellers — home">
+        <img class="logo-img logo-img--mark" src="assets/logo-icon.png" alt="" width="192" height="192" decoding="async">
+        <span class="logo-words">
+          <span class="logo-text">Alif Laam Meem</span>
+          <span class="logo-sub">Jewellers</span>
+        </span>
       </a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="collections.html" class="nav-link">Collections</a>
+        <a href="visit.html" class="nav-link">Visit</a>
+        <a href="login.html" class="nav-link active" aria-current="page">Login</a>
+        <a href="appointment.html" class="btn btn-primary nav-cta">Book</a>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Toggle navigation menu"
+              aria-expanded="false" aria-controls="navLinks"><span class="hamburger"></span></button>
+    </div>
+  </nav>
 
-    </section>
+  <main class="auth-main">
+    <div class="container auth-container">
+      <section class="auth-card" aria-labelledby="authTitle">
+        <header class="auth-heading">
+          <p class="auth-eyebrow" id="authEyebrow">Welcome back</p>
+          <h1 class="auth-title" id="authTitle">Your jewellery journey continues.</h1>
+          <p class="auth-intro" id="authDescription">Sign in to access your Alif Laam Meem account and discover your collection.</p>
+        </header>
 
+        <form class="auth-form" id="loginForm" method="post">
+          <div class="auth-field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" autocapitalize="none" spellcheck="false" required>
+          </div>
+
+          <div class="auth-field">
+            <div class="auth-field-heading">
+              <label for="password">Password</label>
+              <button class="auth-inline-action" id="forgotPassword" type="button">Forgot password?</button>
+            </div>
+            <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+          </div>
+
+          <button class="btn btn-primary auth-submit" id="loginButton" type="submit">Sign in</button>
+          <p class="auth-message" id="loginMessage" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+        </form>
+
+        <form class="auth-form auth-recovery-form" id="recoveryForm" method="post" aria-labelledby="authTitle" hidden>
+          <div class="auth-field">
+            <label for="recoveryPassword">New password</label>
+            <input id="recoveryPassword" name="new-password" type="password" placeholder="Choose a new password" autocomplete="new-password" minlength="6" required>
+          </div>
+          <button class="btn btn-primary auth-submit" id="recoveryButton" type="submit">Update password</button>
+          <p class="auth-message" id="recoveryMessage" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+        </form>
+
+        <p class="auth-switch" id="accountSwitch">New to the house? <a href="signup.html">Create an account</a></p>
+        <a class="auth-back" href="index.html">&larr; Back to Alif Laam Meem</a>
+      </section>
+    </div>
   </main>
 
+  <noscript>
+    <p class="auth-noscript">JavaScript is required to securely sign in to your account.</p>
+  </noscript>
+
+  <script>
+    (() => {
+      const button = document.getElementById('mobileMenuBtn');
+      const links = document.getElementById('navLinks');
+      if (!button || !links) return;
+
+      const setMenu = (open) => {
+        button.setAttribute('aria-expanded', String(open));
+        links.classList.toggle('open', open);
+        document.body.classList.toggle('no-scroll', open);
+      };
+
+      button.addEventListener('click', () => {
+        setMenu(button.getAttribute('aria-expanded') !== 'true');
+      });
+      links.querySelectorAll('.nav-link').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && links.classList.contains('open')) {
+          setMenu(false);
+          button.focus();
+        }
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 860 && links.classList.contains('open')) setMenu(false);
+      });
+    })();
+  </script>
 
   <script type="module">
-
-    import { createClient } from
-      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
     const supabase = createClient(
       "https://eafqpwwpwzjdrkrtoqlz.supabase.co",
       "sb_publishable_zoi5AWHlAjPn6bx8QOfrPQ_v8vXIHzT"
     );
 
+    const loginForm = document.getElementById("loginForm");
+    const recoveryForm = document.getElementById("recoveryForm");
+    const loginMessage = document.getElementById("loginMessage");
+    const recoveryMessage = document.getElementById("recoveryMessage");
+    const loginButton = document.getElementById("loginButton");
+    const recoveryButton = document.getElementById("recoveryButton");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const recoveryPassword = document.getElementById("recoveryPassword");
+    const forgotPasswordButton = document.getElementById("forgotPassword");
+    const accountSwitch = document.getElementById("accountSwitch");
+    const authEyebrow = document.getElementById("authEyebrow");
+    const authTitle = document.getElementById("authTitle");
+    const authDescription = document.getElementById("authDescription");
 
-    const form =
-      document.getElementById("loginForm");
+    function showMessage(element, text, state) {
+      element.textContent = text;
+      element.dataset.state = state;
+      element.hidden = !text;
+    }
 
-    const message =
-      document.getElementById("message");
+    function friendlyError(error, fallback) {
+      const original = error && error.message ? error.message : "";
+      const normalized = original.toLowerCase();
+      if (normalized.includes("invalid login credentials")) {
+        return "The email address or password is incorrect. Check your details or request a password reset.";
+      }
+      if (normalized.includes("email not confirmed") || normalized.includes("email_not_confirmed")) {
+        return "Please confirm your email using the link we sent before signing in.";
+      }
+      if (normalized.includes("too many") || normalized.includes("rate limit")) {
+        return "There have been too many attempts. Please wait a moment and try again.";
+      }
+      if (normalized.includes("failed to fetch") || normalized.includes("network")) {
+        return "We couldn't reach the account service. Check your connection and try again.";
+      }
+      return original || fallback;
+    }
 
-
-    form.addEventListener("submit", async (event) => {
-
+    loginForm.addEventListener("submit", async (event) => {
       event.preventDefault();
+      showMessage(loginMessage, "", "");
 
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      const originalLabel = loginButton.textContent;
+      loginButton.disabled = true;
+      loginButton.textContent = "Signing in…";
 
-      const email =
-        document.getElementById("email").value.trim();
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          showMessage(loginMessage, friendlyError(error, "We couldn't sign you in. Please try again."), "error");
+          return;
+        }
+        if (!data.session) {
+          showMessage(loginMessage, "We couldn't start your session. Please try again.", "error");
+          return;
+        }
+        window.location.replace("index.html");
+      } catch (error) {
+        showMessage(loginMessage, friendlyError(error, "We couldn't sign you in. Please try again."), "error");
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = originalLabel;
+      }
+    });
 
-      const password =
-        document.getElement
+    forgotPasswordButton.addEventListener("click", async () => {
+      showMessage(loginMessage, "", "");
+      const email = emailInput.value.trim();
+      if (!email) {
+        showMessage(loginMessage, "Enter your email address above, then choose Forgot password?", "error");
+        emailInput.focus();
+        return;
+      }
+      if (!emailInput.checkValidity()) {
+        emailInput.reportValidity();
+        emailInput.focus();
+        return;
+      }
+
+      const originalLabel = forgotPasswordButton.textContent;
+      forgotPasswordButton.disabled = true;
+      forgotPasswordButton.textContent = "Sending link…";
+      try {
+        const redirectTo = new URL("login.html", window.location.href).href;
+        const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+        if (error) {
+          showMessage(loginMessage, friendlyError(error, "We couldn't send a reset link. Please try again."), "error");
+          return;
+        }
+        showMessage(loginMessage, "If an account exists for this email, a password reset link will be sent. Please check your inbox and spam folder.", "success");
+      } catch (error) {
+        showMessage(loginMessage, friendlyError(error, "We couldn't send a reset link. Please try again."), "error");
+      } finally {
+        forgotPasswordButton.disabled = false;
+        forgotPasswordButton.textContent = originalLabel;
+      }
+    });
+
+    recoveryForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      showMessage(recoveryMessage, "", "");
+
+      const originalLabel = recoveryButton.textContent;
+      recoveryButton.disabled = true;
+      recoveryButton.textContent = "Updating…";
+      try {
+        const { error } = await supabase.auth.updateUser({ password: recoveryPassword.value });
+        if (error) {
+          showMessage(recoveryMessage, friendlyError(error, "We couldn't update your password. Please try again."), "error");
+          return;
+        }
+        showMessage(recoveryMessage, "Your password has been updated. Returning to Alif Laam Meem…", "success");
+        window.setTimeout(() => window.location.replace("index.html"), 900);
+      } catch (error) {
+        showMessage(recoveryMessage, friendlyError(error, "We couldn't update your password. Please try again."), "error");
+      } finally {
+        recoveryButton.disabled = false;
+        recoveryButton.textContent = originalLabel;
+      }
+    });
+
+    loginForm.addEventListener("input", () => showMessage(loginMessage, "", ""));
+    recoveryForm.addEventListener("input", () => showMessage(recoveryMessage, "", ""));
+
+    supabase.auth.onAuthStateChange((event) => {
+      if (event !== "PASSWORD_RECOVERY") return;
+      loginForm.hidden = true;
+      recoveryForm.hidden = false;
+      accountSwitch.hidden = true;
+      authEyebrow.textContent = "Password reset";
+      authTitle.textContent = "Choose a new password.";
+      authDescription.textContent = "Create a new password to securely return to your account.";
+      window.setTimeout(() => recoveryPassword.focus(), 0);
+    });
+  </script>
+</body>
+</html>
