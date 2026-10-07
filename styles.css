@@ -314,13 +314,14 @@ strong { color: var(--ink); font-weight: 600; }
 .logo-img--mark { border-radius: 3px; }
 
 .logo-mark {
-  display: grid;
-  place-items: center;
-  width: 30px; height: 30px;
-  flex: none;
-  border-radius: 8px;
-  background: var(--ink);
-  color: #fff;
+  ```css
+.logo-mark {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  display: block;
+}
+```
 }
 .logo-mark span {
   font-size: .6rem;
