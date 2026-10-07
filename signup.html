@@ -6,318 +6,212 @@
 
   <title>Create Account | Alif Laam Meem Jewellers</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #ffffff;
-      color: #171717;
-    }
-
-    nav {
-      height: 78px;
-      border-bottom: 1px solid #e8e8e8;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 8%;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .logo-mark {
-      width: 27px;
-      height: 27px;
-      background: #111;
-      color: #d6a447;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 3px;
-      font-size: 10px;
-    }
-
-    .brand-text span {
-      display: block;
-      font-size: 10px;
-      font-weight: 400;
-      color: #777;
-      margin-top: 2px;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #222;
-      font-size: 12px;
-    }
-
-    .book-btn {
-      background: #202020;
-      color: white !important;
-      padding: 9px 20px;
-      border-radius: 30px;
-    }
-
-    .container {
-      min-height: calc(100vh - 78px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 55px 20px;
-    }
-
-    .signup-card {
-      width: 100%;
-      max-width: 430px;
-      background: #f6f6f6;
-      border-radius: 26px;
-      padding: 42px 38px;
-    }
-
-    .eyebrow {
-      text-align: center;
-      color: #b48325;
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 30px;
-      line-height: 1.15;
-      margin: 0 0 12px;
-    }
-
-    .intro {
-      text-align: center;
-      color: #707070;
-      font-size: 13px;
-      line-height: 1.6;
-      margin-bottom: 28px;
-    }
-
-    label {
-      display: block;
-      font-size: 12px;
-      margin-bottom: 8px;
-      color: #333;
-    }
-
-    input {
-      width: 100%;
-      height: 46px;
-      border: 1px solid #d9d9d9;
-      border-radius: 12px;
-      padding: 0 14px;
-      font-size: 13px;
-      outline: none;
-      background: white;
-      margin-bottom: 18px;
-    }
-
-    input:focus {
-      border-color: #b48325;
-    }
-
-    .create-btn {
-      width: 100%;
-      height: 46px;
-      border: none;
-      border-radius: 25px;
-      background: #202020;
-      color: white;
-      font-size: 13px;
-      cursor: pointer;
-      margin-top: 4px;
-    }
-
-    .create-btn:hover {
-      background: #000;
-    }
-
-    .login-link {
-      text-align: center;
-      margin-top: 22px;
-      font-size: 12px;
-      color: #777;
-    }
-
-    .login-link a {
-      color: #b48325;
-      text-decoration: none;
-    }
-
-    .message {
-      text-align: center;
-      font-size: 12px;
-      margin-top: 16px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 700px) {
-      nav {
-        padding: 0 20px;
-      }
-
-      .nav-links {
-        gap: 12px;
-      }
-
-      .nav-links a:not(.book-btn) {
-        display: none;
-      }
-
-      .signup-card {
-        padding: 35px 24px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <nav>
-    <div class="logo">
-      ```html
-<img
-  src="assets/logo-icon.png"
-  alt="Alif Laam Meem Jewellers"
-  class="logo-mark"
->
-```
-     <div class="brand-text">
-        Alif Laam Meem
+  <header class="navbar">
+
+    <a href="index.html" class="brand">
+
+      <img
+        src="assets/logo-icon.png"
+        alt="Alif Laam Meem Jewellers"
+        class="brand-logo"
+      >
+
+      <div class="brand-text">
+        <strong>Alif Laam Meem</strong>
         <span>Jewellers</span>
       </div>
-    </div>
 
-    <div class="nav-links">
+    </a>
+
+    <nav class="nav">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="collections.html">Collections</a>
       <a href="visit.html">Visit</a>
-      <a href="appointment.html" class="book-btn">Book</a>
-    </div>
-  </nav>
+      <a href="appointment.html" class="book">Book</a>
+    </nav>
 
-  <main class="container">
+  </header>
 
-    <div class="signup-card">
 
-      <div class="eyebrow">Welcome to Alif Laam Meem</div>
+  <main class="login-area">
 
-      <h1>Create your account.</h1>
+    <section class="login-card">
+
+      <div class="eyebrow">
+        Welcome
+      </div>
+
+      <h1>
+        Begin your jewellery<br>
+        journey.
+      </h1>
 
       <p class="intro">
-        Join Alif Laam Meem and discover our exclusive jewellery collection.
+        Create your Alif Laam Meem account
+        and discover our exclusive collection.
       </p>
+
 
       <form id="signupForm">
 
-        <label for="name">Full name</label>
-        <input
-          type="text"
-          id="name"
-          placeholder="Enter your full name"
-          required
-        >
+        <div class="field">
 
-        <label for="email">Email address</label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-          required
-        >
+          <label for="fullName">
+            Full name
+          </label>
 
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Create a password"
-          minlength="6"
-          required
-        >
+          <input
+            id="fullName"
+            type="text"
+            placeholder="Enter your full name"
+            autocomplete="name"
+            required
+          >
 
-        <button type="submit" class="create-btn">
+        </div>
+
+
+        <div class="field">
+
+          <label for="email">
+            Email address
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="password">
+            Password
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            placeholder="Create a password"
+            autocomplete="new-password"
+            minlength="6"
+            required
+          >
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="login-button"
+        >
           Create account
         </button>
 
-        <div id="message" class="message"></div>
+
+        <div id="message"></div>
 
       </form>
 
-      <div class="login-link">
+
+      <div class="signup">
         Already have an account?
         <a href="login.html">Sign in</a>
       </div>
 
-    </div>
+
+      <a href="index.html" class="back">
+        ← Back to Alif Laam Meem
+      </a>
+
+    </section>
 
   </main>
+
 
   <script type="module">
 
     import { createClient } from
       "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
+
     const supabase = createClient(
       "https://eafqpwwpwzjdrkrtoqlz.supabase.co",
-      "sb_publishable_zoi5AWHlAjPn6bx8QOfrPQ_v8vXIHzT"
+      "PASTE_YOUR_PUBLISHABLE_KEY_HERE"
     );
 
-    const signupForm = document.getElementById("signupForm");
-    const message = document.getElementById("message");
 
-    signupForm.addEventListener("submit", async (event) => {
+    const form =
+      document.getElementById("signupForm");
+
+    const message =
+      document.getElementById("message");
+
+
+    form.addEventListener("submit", async (event) => {
 
       event.preventDefault();
 
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
 
-      message.textContent = "Creating your account...";
-      message.style.color = "#777";
+      const fullName =
+        document.getElementById("fullName").value.trim();
 
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          data: {
-            full_name: name
-          }
-        }
-      });
+      const email =
+        document.getElementById("email").value.trim();
 
-      if (error) {
-        message.textContent = error.message;
-        message.style.color = "#b00020";
-        return;
-      }
+      const password =
+        document.getElementById("password").value;
+
 
       message.textContent =
-        "Account created successfully. Please check your email if verification is required.";
+        "Creating your account...";
 
-      message.style.color = "#8a681f";
 
-      signupForm.reset();
+      const { data, error } =
+        await supabase.auth.signUp({
+
+          email: email,
+
+          password: password,
+
+          options: {
+            data: {
+              full_name: fullName
+            }
+          }
+
+        });
+
+
+      if (error) {
+
+        message.textContent =
+          error.message;
+
+        return;
+
+      }
+
+
+      if (data.user) {
+
+        message.textContent =
+          "Account created. Please check your email to confirm your account.";
+
+        form.reset();
+
+      }
 
     });
 
@@ -325,4 +219,3 @@
 
 </body>
 </html>
-```
