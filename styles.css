@@ -2127,64 +2127,6 @@ body.auth-page {
 .auth-submit:not(:disabled):hover { transform: translateY(-1px); }
 .auth-submit:disabled { cursor: wait; opacity: .68; }
 
-/* Google sign-in — sits under Sign in, above "Create an account".
-   Same width, pill radius and height as .auth-submit so the two buttons line up. */
-.auth-oauth { margin-top: 25px; }
-
-.auth-divider {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--ink-mute);
-  font-size: .72rem;
-  font-weight: 600;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-}
-.auth-divider::before,
-.auth-divider::after {
-  flex: 1 1 auto;
-  height: 1px;
-  background: var(--hairline);
-  content: "";
-}
-
-.auth-google {
-  width: 100%;
-  min-height: 52px;
-  margin-top: 18px;
-  gap: 10px;
-  padding-inline: 18px;
-  color: var(--ink);
-  background: #FFFFFF;
-  border-color: var(--separator);
-  border-radius: var(--r-full);
-  font-size: .96rem;
-  font-weight: 600;
-  box-shadow: var(--sh-1);
-  transition: background-color .2s var(--ease), border-color .2s var(--ease),
-              box-shadow .2s var(--ease), transform .2s var(--ease), opacity .2s var(--ease);
-}
-.auth-google:not(:disabled):hover {
-  background: var(--gold-wash);
-  border-color: var(--gold-line);
-  box-shadow: 0 2px 10px rgba(29, 29, 31, .08);
-  transform: translateY(-1px);
-}
-.auth-google:disabled { cursor: wait; opacity: .68; }
-
-.auth-google-icon {
-  display: inline-flex;
-  flex: none;
-  width: 18px;
-  height: 18px;
-}
-.auth-google-icon svg { display: block; width: 100%; height: 100%; }
-
-.auth-google-label { min-width: 0; }
-
-.auth-oauth .auth-message { margin-top: 12px; }
-
 .auth-message {
   margin-top: -2px;
   padding: 12px 14px;
@@ -2250,7 +2192,4 @@ body.auth-page {
   .auth-title { font-size: clamp(1.9rem, 8vw, 2.35rem); }
   .auth-form { gap: 17px; margin-top: 25px; }
   .auth-switch { margin-top: 22px; }
-  .auth-oauth { margin-top: 22px; }
-  .auth-google { min-height: 50px; padding-inline: 14px; font-size: .92rem; }
-  .auth-divider { gap: 11px; letter-spacing: .14em; }
 }
