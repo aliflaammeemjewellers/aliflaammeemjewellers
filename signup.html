@@ -1,221 +1,192 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Create Account | Alif Laam Meem Jewellers</title>
-
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Create an account with Alif Laam Meem Jewellers.">
+  <title>Create an account | Alif Laam Meem Jewellers</title>
+  <link rel="icon" href="assets/logo-icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
 </head>
-
-<body>
-
-  <header class="navbar">
-
-    <a href="index.html" class="brand">
-
-      <img
-        src="assets/logo-icon.png"
-        alt="Alif Laam Meem Jewellers"
-        class="brand-logo"
-      >
-
-      <div class="brand-text">
-        <strong>Alif Laam Meem</strong>
-        <span>Jewellers</span>
-      </div>
-
-    </a>
-
-    <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="collections.html">Collections</a>
-      <a href="visit.html">Visit</a>
-      <a href="appointment.html" class="book">Book</a>
-    </nav>
-
-  </header>
-
-
-  <main class="login-area">
-
-    <section class="login-card">
-
-      <div class="eyebrow">
-        Welcome
-      </div>
-
-      <h1>
-        Begin your jewellery<br>
-        journey.
-      </h1>
-
-      <p class="intro">
-        Create your Alif Laam Meem account
-        and discover our exclusive collection.
-      </p>
-
-
-      <form id="signupForm">
-
-        <div class="field">
-
-          <label for="fullName">
-            Full name
-          </label>
-
-          <input
-            id="fullName"
-            type="text"
-            placeholder="Enter your full name"
-            autocomplete="name"
-            required
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="email">
-            Email address
-          </label>
-
-          <input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            autocomplete="email"
-            required
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label for="password">
-            Password
-          </label>
-
-          <input
-            id="password"
-            type="password"
-            placeholder="Create a password"
-            autocomplete="new-password"
-            minlength="6"
-            required
-          >
-
-        </div>
-
-
-        <button
-          type="submit"
-          class="login-button"
-        >
-          Create account
-        </button>
-
-
-        <div id="message"></div>
-
-      </form>
-
-
-      <div class="signup">
-        Already have an account?
-        <a href="login.html">Sign in</a>
-      </div>
-
-
-      <a href="index.html" class="back">
-        ← Back to Alif Laam Meem
+<body class="auth-page auth-page--signup">
+  <nav class="navbar" id="navbar" aria-label="Primary">
+    <div class="container nav-container">
+      <a class="logo logo--mark" href="index.html" aria-label="Alif Laam Meem Jewellers — home">
+        <img class="logo-img logo-img--mark" src="assets/logo-icon.png" alt="" width="192" height="192" decoding="async">
+        <span class="logo-words">
+          <span class="logo-text">Alif Laam Meem</span>
+          <span class="logo-sub">Jewellers</span>
+        </span>
       </a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="collections.html" class="nav-link">Collections</a>
+        <a href="visit.html" class="nav-link">Visit</a>
+        <a href="appointment.html" class="btn btn-primary nav-cta">Book</a>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Toggle navigation menu"
+              aria-expanded="false" aria-controls="navLinks"><span class="hamburger"></span></button>
+    </div>
+  </nav>
 
-    </section>
+  <main class="auth-main">
+    <div class="container auth-container">
+      <section class="auth-card" aria-labelledby="authTitle">
+        <header class="auth-heading">
+          <p class="auth-eyebrow">A considered welcome</p>
+          <h1 class="auth-title" id="authTitle">Begin your jewellery journey.</h1>
+          <p class="auth-intro">Create your Alif Laam Meem account and discover the collection, thoughtfully chosen for you.</p>
+        </header>
 
+        <form class="auth-form" id="signupForm" method="post">
+          <div class="auth-field">
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="full_name" type="text" placeholder="Enter your full name" autocomplete="name" maxlength="120" required>
+          </div>
+
+          <div class="auth-field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" autocapitalize="none" spellcheck="false" required>
+          </div>
+
+          <div class="auth-field">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Create a password" autocomplete="new-password" minlength="6" required>
+          </div>
+
+          <button class="btn btn-primary auth-submit" id="signupButton" type="submit">Create account</button>
+          <p class="auth-message" id="signupMessage" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="login.html">Sign in</a></p>
+        <a class="auth-back" href="index.html">&larr; Back to Alif Laam Meem</a>
+      </section>
+    </div>
   </main>
 
+  <noscript>
+    <p class="auth-noscript">JavaScript is required to securely create an account.</p>
+  </noscript>
+
+  <script>
+    (() => {
+      const button = document.getElementById('mobileMenuBtn');
+      const links = document.getElementById('navLinks');
+      if (!button || !links) return;
+
+      const setMenu = (open) => {
+        button.setAttribute('aria-expanded', String(open));
+        links.classList.toggle('open', open);
+        document.body.classList.toggle('no-scroll', open);
+      };
+
+      button.addEventListener('click', () => {
+        setMenu(button.getAttribute('aria-expanded') !== 'true');
+      });
+      links.querySelectorAll('.nav-link').forEach((link) => {
+        link.addEventListener('click', () => setMenu(false));
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && links.classList.contains('open')) {
+          setMenu(false);
+          button.focus();
+        }
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 860 && links.classList.contains('open')) setMenu(false);
+      });
+    })();
+  </script>
 
   <script type="module">
-
-    import { createClient } from
-      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
     const supabase = createClient(
       "https://eafqpwwpwzjdrkrtoqlz.supabase.co",
       "sb_publishable_zoi5AWHlAjPn6bx8QOfrPQ_v8vXIHzT"
     );
 
+    const form = document.getElementById("signupForm");
+    const message = document.getElementById("signupMessage");
+    const submitButton = document.getElementById("signupButton");
+    const fullNameInput = document.getElementById("fullName");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
 
-    const form =
-      document.getElementById("signupForm");
+    function showMessage(text, state) {
+      message.textContent = text;
+      message.dataset.state = state;
+      message.hidden = !text;
+    }
 
-    const message =
-      document.getElementById("message");
-
+    function friendlyError(error) {
+      const original = error && error.message ? error.message : "";
+      const normalized = original.toLowerCase();
+      if (normalized.includes("already registered") || normalized.includes("already exists")) {
+        return "An account with this email address already exists. Sign in or reset your password instead.";
+      }
+      if (normalized.includes("password") && (normalized.includes("weak") || normalized.includes("least"))) {
+        return "Please choose a stronger password that meets the account security requirements.";
+      }
+      if (normalized.includes("too many") || normalized.includes("rate limit")) {
+        return "There have been too many attempts. Please wait a moment and try again.";
+      }
+      if (normalized.includes("failed to fetch") || normalized.includes("network")) {
+        return "We couldn't reach the account service. Check your connection and try again.";
+      }
+      return original || "We couldn't create your account. Please check your details and try again.";
+    }
 
     form.addEventListener("submit", async (event) => {
-
       event.preventDefault();
+      showMessage("", "");
 
+      const fullName = fullNameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      const originalLabel = submitButton.textContent;
+      submitButton.disabled = true;
+      submitButton.textContent = "Creating account…";
 
-      const fullName =
-        document.getElementById("fullName").value.trim();
-
-      const email =
-        document.getElementById("email").value.trim();
-
-      const password =
-        document.getElementById("password").value;
-
-
-      message.textContent =
-        "Creating your account...";
-
-
-      const { data, error } =
-        await supabase.auth.signUp({
-
-          email: email,
-
-          password: password,
-
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
           options: {
             data: {
               full_name: fullName
             }
           }
-
         });
 
+        if (error) {
+          showMessage(friendlyError(error), "error");
+          return;
+        }
 
-      if (error) {
-
-        message.textContent =
-          error.message;
-
-        return;
-
-      }
-
-
-      if (data.user) {
-
-        message.textContent =
-          "Account created. Please check your email to confirm your account.";
+        if (!data.user) {
+          showMessage("We couldn't confirm your account was created. Please try again.", "error");
+          return;
+        }
 
         form.reset();
-
+        if (data.session) {
+          showMessage("Your account is ready. Taking you to Alif Laam Meem…", "success");
+          window.setTimeout(() => window.location.replace("index.html"), 900);
+        } else {
+          showMessage("Your account has been created. Please check your email for a confirmation link before signing in.", "success");
+        }
+      } catch (error) {
+        showMessage(friendlyError(error), "error");
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalLabel;
       }
-
     });
 
+    form.addEventListener("input", () => showMessage("", ""));
   </script>
-
 </body>
 </html>
