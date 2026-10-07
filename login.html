@@ -68,23 +68,7 @@
           <p class="auth-message" id="recoveryMessage" role="status" aria-live="polite" aria-atomic="true" hidden></p>
         </form>
 
-        <div class="auth-oauth" id="googleAuthBlock">
-          <p class="auth-divider"><span>OR</span></p>
 
-          <button class="btn auth-google" id="googleButton" type="button">
-            <span class="auth-google-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" focusable="false" aria-hidden="true">
-                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
-                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
-                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
-                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
-              </svg>
-            </span>
-            <span class="auth-google-label" id="googleButtonLabel">Continue with Google</span>
-          </button>
-
-          <p class="auth-message" id="googleMessage" role="status" aria-live="polite" aria-atomic="true" hidden></p>
-        </div>
 
         <p class="auth-switch" id="accountSwitch">New to the house? <a href="signup.html">Create an account</a></p>
         <a class="auth-back" href="index.html">&larr; Back to Alif Laam Meem</a>
@@ -134,15 +118,6 @@
       "sb_publishable_zoi5AWHlAjPn6bx8QOfrPQ_v8vXIHzT"
     );
 
-    // Did this page load come back from Google (session in the URL hash) or from
-    // a PKCE code exchange? A password-recovery link looks similar, so it is
-    // explicitly excluded. Only a provider return forwards into the site.
-    const authParams = new URLSearchParams(window.location.search);
-    const authHashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-    const isRecoveryLink = authHashParams.get("type") === "recovery" || authParams.get("type") === "recovery";
-    const returnedFromProvider = !isRecoveryLink
-      && (authHashParams.has("access_token") || authParams.has("code"));
-
     const loginForm = document.getElementById("loginForm");
     const recoveryForm = document.getElementById("recoveryForm");
     const loginMessage = document.getElementById("loginMessage");
@@ -154,11 +129,6 @@
     const recoveryPassword = document.getElementById("recoveryPassword");
     const forgotPasswordButton = document.getElementById("forgotPassword");
     const accountSwitch = document.getElementById("accountSwitch");
-    const googleAuthBlock = document.getElementById("googleAuthBlock");
-    const googleButton = document.getElementById("googleButton");
-    const googleButtonLabel = document.getElementById("googleButtonLabel");
-    const googleMessage = document.getElementById("googleMessage");
-    const googleButtonText = googleButtonLabel.textContent.trim() || "Continue with Google";
     const authEyebrow = document.getElementById("authEyebrow");
     const authTitle = document.getElementById("authTitle");
     const authDescription = document.getElementById("authDescription");
@@ -215,90 +185,6 @@
         loginButton.textContent = originalLabel;
       }
     });
-
-    // The Google button carries an SVG icon, so its label is swapped by text
-    // rather than by replacing textContent (which would drop the icon).
-    function setLoading(button, labelElement, text) {
-      button.disabled = true;
-      button.setAttribute("aria-busy", "true");
-      labelElement.textContent = text;
-    }
-
-    function clearLoading(button, labelElement, label) {
-      button.disabled = false;
-      button.removeAttribute("aria-busy");
-      labelElement.textContent = label;
-    }
-
-    function friendlyOAuthError(error, fallback) {
-      const original = error && error.message ? error.message : "";
-      const normalized = original.toLowerCase();
-      if (normalized.includes("provider is not enabled") || normalized.includes("unsupported provider")) {
-        return "Google sign-in is not available right now. Please sign in with your email and password.";
-      }
-      if (normalized.includes("popup") || normalized.includes("closed")) {
-        return "The Google sign-in window was closed before it finished. Please try again.";
-      }
-      if (normalized.includes("too many") || normalized.includes("rate limit")) {
-        return "There have been too many attempts. Please wait a moment and try again.";
-      }
-      if (normalized.includes("failed to fetch") || normalized.includes("network")) {
-        return "We couldn't reach Google or the account service. Check your connection and try again.";
-      }
-      return original || fallback;
-    }
-
-    googleButton.addEventListener("click", async () => {
-      showMessage(googleMessage, "", "");
-      showMessage(loginMessage, "", "");
-      if (googleButton.disabled) return;
-
-      setLoading(googleButton, googleButtonLabel, "Connecting to Google…");
-      try {
-        // Existing client, existing project URL and publishable key — reused,
-        // never re-created. The Google client secret lives only in Supabase.
-        const { error } = await supabase.auth.signInWithOAuth({
-          provider: "google",
-          options: {
-            redirectTo: window.location.origin + "/login.html",
-            queryParams: { prompt: "select_account" }
-          }
-        });
-
-        if (error) {
-          showMessage(googleMessage, friendlyOAuthError(error, "We couldn't start Google sign-in. Please try again or sign in with your email."), "error");
-          clearLoading(googleButton, googleButtonLabel, googleButtonText);
-          return;
-        }
-
-        // No error means the browser is being handed over to Google. The button
-        // stays in its loading state so the page cannot be double-submitted.
-        showMessage(googleMessage, "Taking you to Google to finish signing in…", "loading");
-      } catch (error) {
-        showMessage(googleMessage, friendlyOAuthError(error, "We couldn't start Google sign-in. Please try again or sign in with your email."), "error");
-        clearLoading(googleButton, googleButtonLabel, googleButtonText);
-      }
-    });
-
-    // A failed OAuth round-trip comes back from Supabase in the query string or
-    // the hash. Never touch healthy callback parameters — supabase-js still
-    // needs them — only report the error and tidy up after it.
-    (function reportRedirectError() {
-      const description = authParams.get("error_description") || authParams.get("error")
-        || authHashParams.get("error_description") || authHashParams.get("error");
-      if (!description || returnedFromProvider) return;
-
-      showMessage(
-        googleMessage,
-        friendlyOAuthError({ message: description }, "Google sign-in didn't complete. Please try again or sign in with your email."),
-        "error"
-      );
-
-      if (window.history.replaceState) {
-        const cleanHash = authHashParams.has("error") || authHashParams.has("error_description") ? "" : window.location.hash;
-        window.history.replaceState({}, document.title, window.location.pathname + cleanHash);
-      }
-    })();
 
     forgotPasswordButton.addEventListener("click", async () => {
       showMessage(loginMessage, "", "");
@@ -360,17 +246,9 @@
     recoveryForm.addEventListener("input", () => showMessage(recoveryMessage, "", ""));
 
     supabase.auth.onAuthStateChange((event, session) => {
-      // Google OAuth returns to this page with the session in the URL. supabase-js
-      // picks it up and emits SIGNED_IN — send the visitor straight into the
-      // existing authenticated flow so they never sign in twice.
-      if (event === "SIGNED_IN" && session && returnedFromProvider) {
-        window.location.replace("index.html");
-        return;
-      }
       if (event !== "PASSWORD_RECOVERY") return;
       loginForm.hidden = true;
       recoveryForm.hidden = false;
-      googleAuthBlock.hidden = true;
       accountSwitch.hidden = true;
       authEyebrow.textContent = "Password reset";
       authTitle.textContent = "Choose a new password.";
