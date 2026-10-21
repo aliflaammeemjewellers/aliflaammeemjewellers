@@ -35,7 +35,7 @@ the generated pages.
 | `visit.html` | address, hours, directions, accessibility |
 | `privacy.html` / `terms.html` | policy pages (templates — see the note below) |
 | `piece-<id>.html` | one page per piece: specs, enquiry and related pieces |
-| `admin.html` | the admin panel: appointments, catalogue and customers (see below) |
+| `console.html` | the admin panel: appointments, catalogue and customers (see below) |
 
 ---
 
@@ -170,9 +170,22 @@ About the house, Private Appointment, Client Stories, Visit and the footer.
 
 ## Admin panel
 
-`admin.html` is a password-protected back office for three things: appointment
+`console.html` is a password-protected back office for three things: appointment
 requests, the catalogue, and customer accounts. It is the one page not produced
 by `build.py` — it is hand-written, and it talks to Supabase from the browser.
+
+### A note on the file name
+
+It is `console.html` rather than `admin.html` on purpose. Chrome's Safe Browsing
+scores pages partly on URL patterns, and `admin.html`, `login.html` and similar
+names are heavily used by phishing kits — a credential form at one of those
+paths on a free `github.io` host can trip a real-time phishing warning even
+though the page is legitimate. If you rename it, avoid `admin`, `login`,
+`signin`, `secure`, `account`, `verify` and `update`.
+
+Renaming changes the URL, not the risk: the panel is still reachable by anyone
+who finds it, and access is enforced entirely by row level security (below),
+never by the path being secret.
 
 ### Setting it up
 
@@ -193,7 +206,7 @@ by `build.py` — it is hand-written, and it talks to Supabase from the browser.
    insert into public.admin_emails(email) values ('you@example.com');
    ```
 
-3. **Open `admin.html`** and sign in with that email and its password. The
+3. **Open `console.html`** and sign in with that email and its password. The
    account is a normal customer account — `signup.html` creates them — it just
    has an email on the admin list.
 
@@ -245,7 +258,7 @@ catalogue as a Python snippet, paste it over `PRODUCTS` in `build.py`, and run
 
 | File | What it is |
 | --- | --- |
-| `admin.html` / `admin.js` | the panel itself |
+| `console.html` / `admin.js` | the panel itself |
 | `supabase-config.js` | the project URL and anon key, shared by every module |
 | `appointment-sync.js` | saves bookings from `appointment.html` |
 | `catalogue-sync.js` | applies the live catalogue to the public pages |
