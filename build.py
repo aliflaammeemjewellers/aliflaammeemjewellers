@@ -511,7 +511,13 @@ def catalogue_json_block():
             "motif": p["motif"], "photo": product_photo(p),
             "href": "piece-%s.html" % p["id"],
         })
-    payload = {"motifs": MOTIF, "types": TYPES, "occasions": OCCASIONS, "items": items}
+    # `metals` and `icons` travel with the catalogue so catalogue-sync.js can
+    # render a card for a piece added in the admin panel without duplicating
+    # any markup or icon here.
+    payload = {"motifs": MOTIF, "types": TYPES, "occasions": OCCASIONS,
+               "metals": METALS,
+               "icons": {"heart": ICON["heart"], "arrow": ICON["arrow"]},
+               "items": items}
     return ('<script type="application/json" id="catalogue-data">%s</script>'
             % json.dumps(payload, ensure_ascii=False, separators=(",", ":")))
 
@@ -734,7 +740,14 @@ def footer():
 <button class="back-to-top" id="backToTop" aria-label="Back to top" aria-hidden="true">{ICON['down']}</button>"""
 
 
-def page(title, desc, active, content, intro=False, head_extra=""):
+# Optional <script> tags a page needs beyond the shared script.js. These are
+# ES modules, so they load deferred and never block the page. Each one quietly
+# does nothing when the Supabase tables behind it have not been created yet.
+SCRIPT_APPOINTMENT = '<script type="module" src="appointment-sync.js"></script>'
+SCRIPT_CATALOGUE = '<script type="module" src="catalogue-sync.js"></script>'
+
+
+def page(title, desc, active, content, intro=False, head_extra="", scripts=""):
     return f"""<!DOCTYPE html>
 {BUILD_NOTE}
 <html lang="en">
@@ -748,6 +761,7 @@ def page(title, desc, active, content, intro=False, head_extra=""):
 {SVG_DEFS}
 {catalogue_json_block()}
 <script src="script.js"></script>
+{scripts}
 </body>
 </html>
 """
@@ -788,7 +802,7 @@ def card(p, delay=0, hidden=False):
         badge = f'\n          <span class="{cls}">{esc(p["badge"])}</span>'
     tags = "".join(f'\n              <span class="tag">{esc(t)}</span>' for t in p["tags"])
     hidden_attr = " hidden" if hidden else ""
-    return f"""<article class="product-card"{hidden_attr} data-type="{p['type']}"
+    return f"""<article class="product-card"{hidden_attr} data-type="{p['type']}" data-piece="{p['id']}"
                  style="animation-delay:{delay}ms">
             <div class="product-media">{badge}
               <a class="media-link" href="piece-{p['id']}.html" tabindex="-1" aria-hidden="true">{product_media(p)}</a>
@@ -818,7 +832,7 @@ def spotlight(p):
     specs = "".join(
         f'\n              <div class="spec"><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>'
         for k, v in p["specs"])
-    return f"""<article class="spotlight" data-type="{p['type']}"
+    return f"""<article class="spotlight" data-type="{p['type']}" data-piece="{p['id']}"
                  id="spotlight" data-aos="fade-up">
             <div class="spotlight-media">{product_media(p)}</div>
             <div class="spotlight-body">
@@ -939,7 +953,7 @@ def page_home():
       <span class="section-tag">A few favourites</span>
       <h2>A little of everything in 21K gold.</h2>
     </div>
-    <div class="products-grid" role="list" aria-label="Featured jewellery">
+    <div class="products-grid" id="featuredGrid" role="list" aria-label="Featured jewellery">
         {feat_cards}
     </div>
     <p class="section-more">
@@ -970,7 +984,8 @@ def page_home():
         "(or .jpg/.png/.avif) and rebuild to use it as the hero background. -->")
     return page(f"{SITE['short']} — Fine jewellery in Sharaqpur",
                 TAGLINE + " Book a private showroom consultation.", "home", content,
-                intro=True, head_extra=(hero_preload + note))
+                intro=True, head_extra=(hero_preload + note),
+                scripts=SCRIPT_CATALOGUE)
 
 
 def page_about():
@@ -1113,7 +1128,8 @@ def page_collections():
     return page(f"Collections — {SITE['name']}",
                 "Browse rings, necklaces, earrings, bangles and bridal sets, all crafted in 21K gold. "
                 "Explore the collection by type and view details for each piece.",
-                "collections", content, head_extra=noscript_grid)
+                "collections", content, head_extra=noscript_grid,
+                scripts=SCRIPT_CATALOGUE)
 
 
 def page_appointment():
@@ -1273,7 +1289,8 @@ def page_appointment():
 """
     return page(f"Book an appointment — {SITE['name']}",
                 "Book a private viewing at Alif Laam Meem Jewellers in Al Rehman Square Mall, Sharaqpur. "
-                "We confirm your slot on WhatsApp within two hours.", "appointment", content)
+                "We confirm your slot on WhatsApp within two hours.", "appointment", content,
+                scripts=SCRIPT_APPOINTMENT)
 
 
 def page_clients():
@@ -1506,7 +1523,7 @@ def page_piece(p):
 </header>
 
 <section class="section section--tight">
-  <div class="container piece">
+  <div class="container piece" data-piece="{p['id']}">
     <div class="piece-media" data-aos="fade-right">
       {badge}
       {product_media(p, loading="eager")}
@@ -1555,7 +1572,7 @@ def page_piece(p):
 """
     return page(f"{p['name']} — {SITE['name']}",
                 f"{p['desc']} {TYPES[p['type']]} in {metals}.",
-                "collections", content)
+                "collections", content, scripts=SCRIPT_CATALOGUE)
 
 
 # ---------------------------------------------------------------------------

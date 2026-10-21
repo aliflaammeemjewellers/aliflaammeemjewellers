@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Alif Laam Meem Jewellers administration.">
+  <title>Admin | Alif Laam Meem Jewellers</title>
+  <link rel="icon" href="assets/logo-icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-page">
+
+  <header class="admin-bar">
+    <div class="admin-bar-inner">
+      <a class="admin-brand" href="index.html">
+        <img class="admin-brand-mark" src="assets/logo-icon.png" alt="" width="28" height="28" decoding="async">
+        <span class="admin-brand-words">
+          <span class="admin-brand-name">Alif Laam Meem</span>
+          <span class="admin-brand-sub">Jewellers · Admin</span>
+        </span>
+      </a>
+
+      <div class="admin-bar-right">
+        <span class="admin-who" id="adminWho" hidden></span>
+        <a class="admin-bar-link" href="index.html">View site</a>
+        <button class="admin-bar-link" type="button" id="signOutBtn" hidden>Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main" id="adminMain">
+
+    <!-- ======================= SIGN IN ======================= -->
+    <section class="admin-auth" id="viewAuth" aria-labelledby="authTitle" hidden>
+      <div class="admin-auth-card">
+        <p class="admin-eyebrow">Alif Laam Meem Jewellers</p>
+        <h1 class="admin-auth-title" id="authTitle">Sign in to the admin panel.</h1>
+        <p class="admin-auth-intro">
+          Use the account whose email is on the admin list. Anyone else can sign in to the
+          website but will not get in here.
+        </p>
+
+        <form class="admin-form" id="signInForm" novalidate>
+          <div class="admin-field">
+            <label for="adminEmail">Email address</label>
+            <input id="adminEmail" name="email" type="email" autocomplete="email"
+                   autocapitalize="none" spellcheck="false" placeholder="you@example.com" required>
+          </div>
+          <div class="admin-field">
+            <label for="adminPassword">Password</label>
+            <input id="adminPassword" name="password" type="password" autocomplete="current-password"
+                   placeholder="Your password" required>
+          </div>
+          <button class="admin-btn admin-btn-primary" id="signInBtn" type="submit">Sign in</button>
+          <p class="admin-message" id="authMessage" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+        </form>
+
+        <p class="admin-auth-foot">
+          No account yet? <a href="signup.html">Create one</a>, then add its email to
+          <code>admin_emails</code> in Supabase.
+        </p>
+        <p class="admin-auth-foot">
+          <button class="admin-linklike" type="button" id="useSampleBtn">Explore the panel with sample data</button>
+        </p>
+      </div>
+    </section>
+
+    <!-- ======================= DASHBOARD ======================= -->
+    <section class="admin-app" id="viewApp" hidden>
+      <div id="setupBanner" class="admin-setup" hidden></div>
+
+      <nav class="admin-tabs" id="adminTabs" aria-label="Admin sections">
+        <button class="admin-tab" type="button" data-tab="overview" aria-current="true">Overview</button>
+        <button class="admin-tab" type="button" data-tab="appointments">Appointments</button>
+        <button class="admin-tab" type="button" data-tab="catalogue">Catalogue</button>
+        <button class="admin-tab" type="button" data-tab="customers">Customers</button>
+      </nav>
+
+      <section class="admin-panel" id="panelOverview" data-panel="overview"></section>
+      <section class="admin-panel" id="panelAppointments" data-panel="appointments" hidden></section>
+      <section class="admin-panel" id="panelCatalogue" data-panel="catalogue" hidden></section>
+      <section class="admin-panel" id="panelCustomers" data-panel="customers" hidden></section>
+    </section>
+
+  </main>
+
+  <div id="modalRoot"></div>
+  <div class="admin-toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <noscript>
+    <p class="admin-noscript">The admin panel needs JavaScript to talk to Supabase.</p>
+  </noscript>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
