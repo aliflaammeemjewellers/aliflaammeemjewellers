@@ -477,6 +477,22 @@
       const hidden = $('#whatsappMessage');
       if (hidden) hidden.value = msg;
 
+      /* Hand the booking to appointment-sync.js, which files it in Supabase.
+         The visitor's WhatsApp/Gmail flow below does not wait on this and is
+         unaffected if it fails — nothing here is blocked on the database. */
+      document.dispatchEvent(new CustomEvent('alm:appointment-submitted', {
+        detail: {
+          name: name.value.trim(),
+          phone: phone.value.trim(),
+          email: (email && email.value.trim()) || null,
+          purpose: purpose.value,
+          purposeLabel: purpose.options[purpose.selectedIndex].text,
+          preferredDate: date.value,
+          preferredTime: time.value,
+          notes: (message && message.value.trim()) || null
+        }
+      }));
+
       const gmailComposeUrl = 'https://mail.google.com/mail/?view=cm&fs=1' +
         '&to=' + encodeURIComponent(CONTACT_EMAIL) +
         '&su=' + encodeURIComponent('Appointment request — ' + SHOP) +
@@ -753,6 +769,15 @@
     initNav();
     initIntro();
     initCounters();
+
+    /* catalogue-sync.js replaces the product grid when the live catalogue in
+       Supabase differs from the generated page. Filters, the progressive
+       reveal and the quick view all key off .product-card, so they have to be
+       re-run over the new DOM once it has been swapped in. */
+    window.addEventListener('alm:catalogue-updated', () => {
+      applyFilter();
+      updateRevealFoot();
+    });
   }
 
   if (document.readyState === 'loading') {

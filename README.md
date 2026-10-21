@@ -35,6 +35,7 @@ the generated pages.
 | `visit.html` | address, hours, directions, accessibility |
 | `privacy.html` / `terms.html` | policy pages (templates — see the note below) |
 | `piece-<id>.html` | one page per piece: specs, enquiry and related pieces |
+| `admin.html` | the admin panel: appointments, catalogue and customers (see below) |
 
 ---
 
@@ -166,6 +167,89 @@ body of a page; the shared header, footer and `<head>` are added for you.
 
 **Copy and sections** — edit `page_home()` in `build.py`: hero, Collections,
 About the house, Private Appointment, Client Stories, Visit and the footer.
+
+## Admin panel
+
+`admin.html` is a password-protected back office for three things: appointment
+requests, the catalogue, and customer accounts. It is the one page not produced
+by `build.py` — it is hand-written, and it talks to Supabase from the browser.
+
+### Setting it up
+
+1. **Run the schema.** Open `supabase/schema.sql` in your Supabase project's SQL
+   editor and run it. It creates four things and is safe to re-run:
+
+   | Object | What it is |
+   | --- | --- |
+   | `public.admin_emails` | the admin allow-list — one row per admin email |
+   | `public.is_admin()` | returns true when the signed-in email is on that list |
+   | `public.appointments` | every booking made on `appointment.html` |
+   | `public.pieces` | the live catalogue, seeded with the 22 pieces from `build.py` |
+   | `public.profiles` | one row per customer, filled in automatically on signup |
+
+2. **Add yourself.** Still in the SQL editor:
+
+   ```sql
+   insert into public.admin_emails(email) values ('you@example.com');
+   ```
+
+3. **Open `admin.html`** and sign in with that email and its password. The
+   account is a normal customer account — `signup.html` creates them — it just
+   has an email on the admin list.
+
+### How access is controlled
+
+The browser only ever holds the public anon key, so **row level security is the
+real gate**: a signed-in visitor who is not an admin gets nothing back from the
+database, whatever they do in devtools. The checks in `admin.js` are the
+interface on top — they decide which screens you see and explain why.
+
+`ADMIN_EMAILS` in `supabase-config.js` is a fallback only, used before
+`schema.sql` has been run. Once it has, the database is the single source of
+truth — leave that list empty.
+
+### What each tab does
+
+**Overview** — counts and the requests still waiting on a reply.
+
+**Appointments** — the booking form has always opened WhatsApp and a Gmail draft
+for the visitor; `appointment-sync.js` now files the same request in the
+database on the way past, so it lands here too. Filter by status, search, and
+mark requests confirmed, completed or cancelled. The visitor's WhatsApp flow is
+never blocked by the database — if saving fails, they still leave with their
+request.
+
+**Catalogue** — edit any piece's name, description, story, specs and tags;
+reorder them; and switch a piece off with the visibility toggle. Changes show on
+the website straight away, because `catalogue-sync.js` reads `public.pieces` at
+runtime and rewrites the grid.
+
+**Customers** — everyone who has created an account, with an on/off switch.
+Switching a customer off sets a flag on their profile; to stop someone signing in
+altogether, ban them under Authentication → Users in Supabase.
+
+### Live catalogue vs. build.py
+
+`build.py` stays the source of truth for the generated pages; `public.pieces` is
+a live layer on top. If the table is missing, empty, or the network is down,
+`catalogue-sync.js` does nothing and the site renders exactly what `build.py`
+generated — the site never breaks because the database is unavailable.
+
+One thing to know: a piece **added** in the panel appears in the catalogue grid
+immediately, but its own `piece-<id>.html` page does not exist until you bake it
+in. Use **Export for build.py** on the Catalogue tab to download the whole
+catalogue as a Python snippet, paste it over `PRODUCTS` in `build.py`, and run
+`python3 build.py`.
+
+### Files
+
+| File | What it is |
+| --- | --- |
+| `admin.html` / `admin.js` | the panel itself |
+| `supabase-config.js` | the project URL and anon key, shared by every module |
+| `appointment-sync.js` | saves bookings from `appointment.html` |
+| `catalogue-sync.js` | applies the live catalogue to the public pages |
+| `supabase/schema.sql` | tables, the admin function, RLS policies and the seed |
 
 ## Connecting WhatsApp
 
