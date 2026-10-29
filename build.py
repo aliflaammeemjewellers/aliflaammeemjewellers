@@ -2,8 +2,9 @@
 """
 Generator for the Alif Laam Meem Jewellers website.
 
-Every .html file in this folder is produced by this script. Edit the content
-here (SITE, PRODUCTS, TESTIMONIALS, the page_* functions), then run:
+Most .html files in this folder are produced by this script (admin.html and
+signup.html are hand-written). Edit the content here (SITE, PRODUCTS,
+TESTIMONIALS, the page_* functions), then run:
 
     python3 build.py
 
@@ -12,8 +13,8 @@ catalogue. Keeping one source of truth means business details and product
 information stay consistent across every generated page.
 
 Output: index.html, about.html, collections.html, appointment.html,
-        clients.html, visit.html, privacy.html, terms.html,
-        piece-<id>.html for every product.
+        clients.html, journal.html, piece.html, visit.html, privacy.html,
+        terms.html, piece-<id>.html for every product.
 """
 
 import html
@@ -434,6 +435,7 @@ NAV_ITEMS = [
     ("index.html", "Home", "home"),
     ("about.html", "About", "about"),
     ("collections.html", "Collections", "collections"),
+    ("journal.html", "Journal", "journal"),
     ("visit.html", "Visit", "visit"),
 ]
 
@@ -467,7 +469,9 @@ PRODUCT_PHOTO_EXTS = (".webp", ".jpg", ".jpeg", ".png", ".avif")
 
 
 def product_photo(p):
-    """Web path to the piece's photograph, or None when none has been added."""
+    """Explicit admin/export photo first, then the legacy assets convention."""
+    if p.get("photo"):
+        return p["photo"]
     for ext in PRODUCT_PHOTO_EXTS:
         name = "products/%s%s" % (p["id"], ext)
         if os.path.exists(os.path.join(HERE, "assets", name)):
@@ -598,8 +602,8 @@ def head(title, desc, extra=""):
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:type" content="website">
 {f'<link rel="preload" as="image" href="{LOGO_FILE}" fetchpriority="high">' if LOGO_FILE else ''}
-{extra}
 <link rel="stylesheet" href="styles.css">
+{extra}
 {favicon_links()}
 {NOSCRIPT}
 </head>"""
@@ -680,6 +684,7 @@ def footer():
         <ul>
           <li><a href="about.html">About</a></li>
           <li><a href="collections.html">Collections</a></li>
+          <li><a href="journal.html">House journal</a></li>
           <li><a href="clients.html">Client stories</a></li>
           <li><a href="visit.html">Visit us</a></li>
         </ul>
@@ -729,6 +734,7 @@ def footer():
         <a href="privacy.html">Privacy Policy</a>
         <a href="terms.html">Terms of Sale</a>
         <a href="visit.html">Contact</a>
+        <a href="admin.html">Admin</a>
       </div>
     </div>
   </div>
@@ -745,6 +751,7 @@ def footer():
 # does nothing when the Supabase tables behind it have not been created yet.
 SCRIPT_APPOINTMENT = '<script type="module" src="appointment-sync.js"></script>'
 SCRIPT_CATALOGUE = '<script type="module" src="catalogue-sync.js"></script>'
+SCRIPT_JOURNAL = '<script type="module" src="journal-sync.js"></script>'
 
 
 def page(title, desc, active, content, intro=False, head_extra="", scripts=""):
@@ -1575,6 +1582,65 @@ def page_piece(p):
                 "collections", content, scripts=SCRIPT_CATALOGUE)
 
 
+def page_journal():
+    content = f"""<main id="main">
+{page_head("Journal", "Notes from the house.",
+           "New arrivals, stories from the workshop and a little jewellery wisdom. Written by our team, for you.")}
+<section class="journal-section">
+  <div class="container">
+    <div id="journalStatus" class="journal-status" role="status" aria-live="polite"><p>Opening the journal…</p></div>
+    <div id="journalListView" hidden>
+      <div class="journal-intro"><p id="journalCount"></p><a class="btn btn-secondary btn-small" href="collections.html">Explore the collection</a></div>
+      <div class="journal-grid" id="journalGrid"></div>
+      <div class="journal-empty" id="journalEmpty" hidden>
+        <h2>The next chapter is on its way.</h2>
+        <p>We are preparing new stories from the house. In the meantime, explore the collection or visit us at the showroom.</p>
+        <a class="btn btn-primary" href="collections.html">Explore the collection</a>
+      </div>
+    </div>
+    <div id="journalDetail" hidden></div>
+    <noscript><p class="journal-noscript">The journal needs JavaScript to load the latest stories. Please enable it, or <a href="visit.html">visit the showroom</a> for the latest news.</p><style>#journalStatus{{display:none}}</style></noscript>
+  </div>
+</section>
+</main>
+"""
+    return page("House Journal — " + SITE["name"],
+                "New arrivals, house news, offers and jewellery care from Alif Laam Meem Jewellers.",
+                "journal", content, head_extra='<link rel="stylesheet" href="journal.css">', scripts=SCRIPT_JOURNAL)
+
+
+def page_dynamic_piece():
+    """A real detail page for pieces added in the admin panel, without a rebuild."""
+    content = f"""<main id="main">
+<header class="page-head page-head--tight">
+  <div class="container">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="collections.html">Collections</a><span aria-hidden="true">/</span><span id="dynamicCrumb">The piece</span></nav>
+  </div>
+</header>
+<section class="section section--tight">
+  <div class="container">
+    <div id="dynamicPieceState" class="journal-empty" role="status"><h1>A closer look.</h1><p>Loading the piece…</p></div>
+    <div class="piece" id="dynamicPieceSection" data-piece="" data-dynamic-piece hidden>
+      <div class="piece-media"></div>
+      <div class="piece-body">
+        <p class="piece-eyebrow"></p><h1 class="piece-name"></h1><p class="piece-lede"></p>
+        <dl class="piece-specs"></dl><div class="piece-tags"></div>
+        <div class="piece-actions"><button class="btn btn-primary" type="button" data-enquire="">Enquire on WhatsApp</button><a class="btn btn-secondary" href="appointment.html">Book a viewing</a></div>
+        <p class="piece-note">Ask us about availability, the exact weight, or to see the certificate before you decide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section section--alt" id="dynamicRelated" hidden>
+  <div class="container"><div class="section-header"><span class="section-tag">You might also like</span><h2>More from the house.</h2></div><div class="products-grid" id="dynamicRelatedGrid"></div></div>
+</section>
+{cta_band("See it in person.", "Photographs flatter; daylight does not. Come and hold it.", "appointment.html", "Book a viewing", "collections.html", "Back to collections")}
+</main>
+"""
+    return page("The piece — " + SITE["name"], "A closer look at a piece from Alif Laam Meem Jewellers.",
+                "collections", content, scripts=SCRIPT_CATALOGUE)
+
+
 # ---------------------------------------------------------------------------
 # 6. BUILD
 # ---------------------------------------------------------------------------
@@ -1592,6 +1658,8 @@ def main():
     write("collections.html", page_collections())
     write("appointment.html", page_appointment())
     write("clients.html", page_clients())
+    write("journal.html", page_journal())
+    write("piece.html", page_dynamic_piece())
     write("visit.html", page_visit())
     write("privacy.html", page_privacy())
     write("terms.html", page_terms())

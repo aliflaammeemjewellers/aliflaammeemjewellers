@@ -2,7 +2,7 @@
 
 A multi-page website for a fine-jewellery house, built in the **Apple design
 language**: flat surfaces, system type, full-bleed bands. No frameworks and no
-dependencies — but there **is** a build step, because 30 pages share one header,
+dependencies — but there **is** a build step, because 32 pages share one header,
 one footer and one catalogue.
 
 ```
@@ -15,7 +15,7 @@ script.js        behaviour: filters, form, nav, intro, animations
 ## Building
 
 ```bash
-python3 build.py          # writes all 30 pages
+python3 build.py          # writes all 32 pages
 python3 -m http.server 8000
 ```
 
@@ -34,8 +34,10 @@ the generated pages.
 | `clients.html` | client stories |
 | `visit.html` | address, hours, directions, accessibility |
 | `privacy.html` / `terms.html` | policy pages (templates — see the note below) |
-| `piece-<id>.html` | one page per piece: specs, enquiry and related pieces |
-| `admin.html` | the admin panel: appointments, catalogue and customers (see below) |
+| `piece-<id>.html` | one generated page per piece: specs, enquiry and related pieces |
+| `piece.html` | live detail page for pieces added in the admin panel, no rebuild needed |
+| `journal.html` | public house journal: published news, offers and jewellery-care posts |
+| `admin.html` | the admin panel: stock, customers, posts and appointments (see below) |
 
 ---
 
@@ -70,7 +72,7 @@ defined once at the bottom of `index.html`).
 **The logo.** The house logo is your own file, dropped into `assets/` as
 `logo.svg` (or `.png`, `.webp`, `.jpg`, `.avif`) and picked up by the build — see
 `assets/README.md`. The configured logo appears in the header and footer of all
-30 pages, in the browser tab, and on the home-page loading curtain. The uploaded
+32 pages, in the browser tab, and on the home-page loading curtain. The uploaded
 square mark is shown beside the live wordmark (`LOGO_MODE = "mark"` in
 `build.py`); set it to `"lockup"` when the artwork itself includes the full
 business name. The artwork is height-locked in the header and scaled to fit the
@@ -170,86 +172,133 @@ About the house, Private Appointment, Client Stories, Visit and the footer.
 
 ## Admin panel
 
-`admin.html` is a password-protected back office for three things: appointment
-requests, the catalogue, and customer accounts. It is the one page not produced
-by `build.py` — it is hand-written, and it talks to Supabase from the browser.
+`admin.html` is a password-protected back office for stock, customer records,
+website posts and appointment requests. It is hand-written (not produced by
+`build.py`) and talks to Supabase from the browser. A **sample workspace** is
+available from the sign-in screen: it uses isolated browser-tab storage, never
+writes to the database, and is useful for trying the workflows before setup.
 
 ### Setting it up
 
-1. **Run the schema.** Open `supabase/schema.sql` in your Supabase project's SQL
-   editor and run it. It creates four things and is safe to re-run:
+The website keeps the Supabase project already configured in
+`supabase-config.js`. This update does **not** switch projects or apply live
+database changes automatically.
 
-   | Object | What it is |
-   | --- | --- |
-   | `public.admin_emails` | the admin allow-list — one row per admin email |
-   | `public.is_admin()` | returns true when the signed-in email is on that list |
-   | `public.appointments` | every booking made on `appointment.html` |
-   | `public.pieces` | the live catalogue, seeded with the 22 pieces from `build.py` |
-   | `public.profiles` | one row per customer, filled in automatically on signup |
+**Existing project:** open the Supabase SQL editor for that project and run
+`supabase/migrations/202610290001_stock_customers_posts.sql`. It is additive and
+safe to re-run: it adds inventory columns, customer records, posts, RLS policies
+and the public catalogue view without deleting existing rows.
 
-2. **Add yourself.** Still in the SQL editor:
+**New project:** run `supabase/schema.sql` first. It includes the base schema,
+the 22-piece seed and the same stock/customer/post migration.
 
-   ```sql
-   insert into public.admin_emails(email) values ('you@example.com');
-   ```
+| Object | What it is |
+| --- | --- |
+| `public.admin_emails` | the admin allow-list — one row per admin email |
+| `public.is_admin()` | returns true when the signed-in email is on that list |
+| `public.appointments` | booking requests from `appointment.html` |
+| `public.pieces` | catalogue plus private inventory columns |
+| `public.catalogue` | security-invoker public view of visible pieces; no cost, SKU or quantity columns |
+| `public.get_admin_pieces()` | permission-checked full inventory read for admins |
+| `public.customers` | private, manually managed customer records |
+| `public.profiles` | website signup profiles, filled automatically |
+| `public.posts` | draft/published house journal |
 
-3. **Open `admin.html`** and sign in with that email and its password. The
-   account is a normal customer account — `signup.html` creates them — it just
-   has an email on the admin list.
+Then add yourself in the SQL editor:
+
+```sql
+insert into public.admin_emails(email) values ('you@example.com');
+```
+
+Open `admin.html` and sign in with that email and its password. The account is a
+normal Supabase auth account — `signup.html` creates them — it just has an email
+on the admin list.
 
 ### How access is controlled
 
-The browser only ever holds the public anon key, so **row level security is the
-real gate**: a signed-in visitor who is not an admin gets nothing back from the
-database, whatever they do in devtools. The checks in `admin.js` are the
-interface on top — they decide which screens you see and explain why.
+The browser only ever holds the public anon key, so **row level security and
+column grants are the real gate**. Customer records are admin-only. Posts are
+public only when `status = 'published'` and `published_at <= now()`. Private
+inventory columns (`cost_price`, `sku`, `stock_quantity`, `low_stock_threshold`,
+`location`, `track_stock`) are not granted to the public; the storefront reads
+the `public.catalogue` view and a generated `in_stock` flag instead. Admins read
+full inventory through `get_admin_pieces()`, which checks `is_admin()`.
 
 `ADMIN_EMAILS` in `supabase-config.js` is a fallback only, used before
-`schema.sql` has been run. Once it has, the database is the single source of
-truth — leave that list empty.
+`is_admin()` exists. Once the schema is installed, the database is the single
+source of truth — leave that list empty.
 
 ### What each tab does
 
-**Overview** — counts and the requests still waiting on a reply.
+**Overview** — stock units, low/out-of-stock alerts, customer counts, new
+appointment requests, published posts and quick actions.
 
-**Appointments** — the booking form has always opened WhatsApp and a Gmail draft
-for the visitor; `appointment-sync.js` now files the same request in the
-database on the way past, so it lands here too. Filter by status, search, and
-mark requests confirmed, completed or cancelled. The visitor's WhatsApp flow is
-never blocked by the database — if saving fails, they still leave with their
-request.
+**Stock & catalogue** — one record per piece: name, URL id, type, occasion,
+badge, description, story, tags, specs, photograph, sort order, visibility and
+featured flag; plus SKU, storage location, selling/cost price (PKR), weight,
+quantity and low-stock threshold. Turn on tracking to affect website
+availability. Search, filter, adjust quantities with +/−, export CSV, or export
+a `build.py` snippet. New pieces get a working detail page at
+`piece.html?id=<id>` immediately; generated `piece-<id>.html` pages are still
+used for the original catalogue.
 
-**Catalogue** — edit any piece's name, description, story, specs and tags;
-reorder them; and switch a piece off with the visibility toggle. Changes show on
-the website straight away, because `catalogue-sync.js` reads `public.pieces` at
-runtime and rewrites the grid.
+**Customers** — a private customer book: add/edit/delete name, phone, email,
+address and notes; search and export CSV. This is separate from website signup
+profiles. The collapsible **Website accounts** section lists auth profiles;
+its active flag is a profile label only and does not block sign-in. Manage
+authentication bans in Supabase Authentication → Users.
 
-**Customers** — everyone who has created an account, with an on/off switch.
-Switching a customer off sets a flag on their profile; to stop someone signing in
-altogether, ban them under Authentication → Users in Supabase.
+**Posts** — write news, new-arrival posts, offers and jewellery-care articles.
+Save private drafts, preview, publish, unpublish, edit or delete. Published
+posts appear on `journal.html` and individual stories at
+`journal.html?post=<slug>`. Post bodies are plain text; blank lines separate
+paragraphs. Cover images accept an HTTPS URL or an existing `assets/` path
+(the panel does not upload files).
+
+**Appointments** — the booking form opens WhatsApp and a Gmail draft for the
+visitor; `appointment-sync.js` also files the request in Supabase. Filter by
+status, search, and mark requests confirmed, completed or cancelled. The
+visitor's WhatsApp flow is never blocked by the database.
 
 ### Live catalogue vs. build.py
 
-`build.py` stays the source of truth for the generated pages; `public.pieces` is
-a live layer on top. If the table is missing, empty, or the network is down,
-`catalogue-sync.js` does nothing and the site renders exactly what `build.py`
-generated — the site never breaks because the database is unavailable.
+`build.py` generates the static fallback pages. `public.pieces` is the live
+layer on top. If the database is unavailable, the generated pages remain. If
+the live query succeeds, it replaces stale generated cards — including hiding
+deleted/hidden pieces and showing an empty-catalogue message when appropriate.
 
-One thing to know: a piece **added** in the panel appears in the catalogue grid
-immediately, but its own `piece-<id>.html` page does not exist until you bake it
-in. Use **Export for build.py** on the Catalogue tab to download the whole
-catalogue as a Python snippet, paste it over `PRODUCTS` in `build.py`, and run
-`python3 build.py`.
+Use **Export for build.py** to download the current catalogue as a Python
+snippet, paste it over `PRODUCTS` in `build.py`, and run `python3 build.py` when
+you want to bake the live catalogue into the static fallback.
 
 ### Files
 
 | File | What it is |
 | --- | --- |
-| `admin.html` / `admin.js` | the panel itself |
-| `supabase-config.js` | the project URL and anon key, shared by every module |
+| `admin.html` / `admin.js` | the panel shell, auth, stock, overview and appointments |
+| `admin-records.js` | customer-record and post editors |
+| `admin-ui.js` / `admin-model.js` | shared UI primitives and pure validation/formatting |
+| `admin.css` | workspace styles |
+| `supabase-config.js` | project URL and public anon key, shared by every module |
+| `vendor/supabase.js` | pinned, self-hosted Supabase client (MIT; rebuild with `npm run build:vendor`) |
 | `appointment-sync.js` | saves bookings from `appointment.html` |
-| `catalogue-sync.js` | applies the live catalogue to the public pages |
-| `supabase/schema.sql` | tables, the admin function, RLS policies and the seed |
+| `catalogue-sync.js` | applies the live catalogue and dynamic piece pages |
+| `journal-sync.js` / `journal.css` | public journal |
+| `supabase/schema.sql` | full setup for a new project |
+| `supabase/migrations/202610290001_stock_customers_posts.sql` | additive migration for the existing project |
+
+### Development and tests
+
+```bash
+npm install
+npm run build          # regenerate static pages and the vendored Supabase client
+npm test               # pure validation, formatting and SQL-policy checks
+npm run test:browser   # Playwright: sample CRUD, mobile layout, mocked public feeds
+npm run preview        # static preview at http://localhost:3000
+```
+
+Browser tests use a bundled Chromium and mock Supabase responses; they do not
+write to the live project.
 
 ## Connecting WhatsApp
 

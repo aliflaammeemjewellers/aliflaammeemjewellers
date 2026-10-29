@@ -1,0 +1,20 @@
+{
+  "name": "aliflaammeemjewellers",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Alif Laam Meem Jewellers static website and admin panel",
+  "scripts": {
+    "build": "python3 build.py && npm run build:vendor",
+    "build:vendor": "esbuild vendor/supabase-entry.js --bundle --format=esm --platform=browser --target=es2020 --minify --outfile=vendor/supabase.js",
+    "test": "node --test tests/*.test.js",
+    "test:browser": "playwright test",
+    "preview": "python3 -m http.server 3000 --bind 0.0.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@sparticuz/chromium": "149.0.0",
+    "@supabase/supabase-js": "2.118.0",
+    "esbuild": "0.28.2"
+  }
+}
