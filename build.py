@@ -97,9 +97,9 @@ SITE = {
     "address_2": "Al Rehman Square Mall, Al Rehman Garden Phase 2, Sharaqpur, 54000, Pakistan",
     "hours": "Mon – Sun · 11:00 AM – 9:00 PM",
     "maps": "https://www.google.com/maps/place/Shop+%23+8,+Alif+Laam+Meem+Jewellers,+Al+Rehman+Square+Mall,+Al+Rehman+Garden+Phase+2,+Sharaqpur,+54000,+Pakistan/@31.5999959,74.230572,16z/data=!4m6!3m5!1s0x39191d5c10f9f201:0x80fa197d42f5b621!8m2!3d31.5999959!4d74.230572!16s%2Fg%2F11mdqhlycb",
-    "instagram": "https://www.instagram.com/alifl_aammeemjewellers?stkn=MWhoa3BjdzRidTBlZg==",
+    "instagram": "https://www.instagram.com/alifl_aammeemjewellers/",
     "pinterest": "https://pin.it/6UmhmIFy7",
-    "facebook": "https://www.facebook.com/profile.php?id=61591681864015&rdid=2k8hPE2yqDIVdi9u&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BUtcV9hP3%2F%3Fref%3Dxav_pl_fb_external_link_android#",
+    "facebook": "https://www.facebook.com/profile.php?id=61591681864015",
     "youtube": "https://youtube.com/aliflaammeemjewellers",
 }
 
