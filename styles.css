@@ -2736,3 +2736,7 @@ body.admin-page {
   .admin-detail-row { grid-template-columns: 1fr; gap: 2px; }
   .admin-who { display: none; }
 }
+
+/* Live availability note injected by catalogue-sync.js. */
+.product-availability { color: var(--gold-deep); font-size: .78rem; margin-top: 10px; }
+.qv-availability { color: var(--gold-deep); font-size: .85rem; margin-top: 12px; }

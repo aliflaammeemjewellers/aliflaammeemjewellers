@@ -10,6 +10,7 @@
      This file only handles behaviour, so every page shares one script.
      --------------------------------------------------------------------- */
   const WA_FALLBACK = '923114817882';
+  const escapeHtml = (value) => String(value == null ? '' : value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 
   const $  = (sel, ctx) => (ctx || document).querySelector(sel);
   const d$ = (sel, ctx) => (ctx || document).querySelector(sel);
@@ -56,7 +57,7 @@
     const status = $('#filterStatus');
     if (!grid) return;
 
-    const total = $$('.product-card', grid).length + (spotlight ? 1 : 0);
+    const total = $$('.product-card', grid).length + (spotlight && !spotlight.dataset.removed ? 1 : 0);
     const prog = progressiveActive();
 
     let shown = 0;
@@ -68,7 +69,7 @@
     });
 
     if (spotlight) {
-      const ok = cardMatches(spotlight);
+      const ok = !spotlight.dataset.removed && cardMatches(spotlight);
       spotlight.hidden = !ok;
       if (ok) shown++;
     }
@@ -138,6 +139,7 @@
     // otherwise scrolling for more silently stops working.
     foot.hidden = false;
     const total = $$('.product-card', $('#productsGrid')).length;
+    if (!total) { foot.hidden = true; return; }
     const shown = Math.min(revealState.count, total);
     if (status) {
       status.textContent = shown >= total
@@ -259,11 +261,12 @@
      Data comes from the #catalogue-data JSON island (build.py), so opening
      details never fetches anything.
      --------------------------------------------------------------------- */
-  const CATALOGUE = (function () {
+  function readCatalogue() {
     const el = d$('#catalogue-data');
     if (!el) return null;
     try { return JSON.parse(el.textContent); } catch (e) { return null; }
-  })();
+  }
+  let CATALOGUE = readCatalogue();
 
   let qvLastTrigger = null;
 
@@ -286,35 +289,37 @@
       d$('.qv-close', overlay).addEventListener('click', qvClose);
     }
 
+    const e = escapeHtml;
     const badgeCls = (item.badge === 'Bestseller' || item.badge === 'Signature') ? 'badge gold' : 'badge';
-    const badge = item.badge ? '<span class="' + badgeCls + '">' + item.badge + '</span>' : '';
+    const badge = item.badge ? '<span class="' + badgeCls + '">' + e(item.badge) + '</span>' : '';
     // The motif's gradient is a dark gold tuned for light tiles — on the dark
     // media panel it needs the brighter "Dark" variant, same swap build.py's
     // motif_dark() does.
     const media = item.photo
-      ? '<img class="product-photo" src="' + item.photo + '" alt="' + item.name + '">'
+      ? '<img class="product-photo" src="' + e(item.photo) + '" alt="' + e(item.name) + '">'
       : ((CATALOGUE.motifs[item.motif] || '')
           .replace(/goldStroke/g, 'goldStrokeDark')
           .replace(/goldFill/g, 'goldFillDark'));
     d$('.qv-media', overlay).innerHTML = badge + media;
 
-    const specs = item.specs.map((s) =>
-      '<div class="spec"><dt>' + s[0] + '</dt><dd>' + s[1] + '</dd></div>').join('');
-    const tags = item.tags.map((t) => '<span class="tag">' + t + '</span>').join('') +
-      '<span class="tag">' + item.metals.join(' · ') + '</span>';
+    const specs = (item.specs || []).map((s) =>
+      '<div class="spec"><dt>' + e(s[0]) + '</dt><dd>' + e(s[1]) + '</dd></div>').join('');
+    const tags = (item.tags || []).map((t) => '<span class="tag">' + e(t) + '</span>').join('') +
+      '<span class="tag">' + e((item.metals || []).join(' · ')) + '</span>';
 
     d$('.qv-body', overlay).innerHTML =
-      '<p class="qv-eyebrow">' + CATALOGUE.types[item.type] + ' · ' + CATALOGUE.occasions[item.occasion] + '</p>' +
-      '<h2 class="qv-name" id="qvName">' + item.name + '</h2>' +
-      '<p class="qv-desc">' + item.desc + '</p>' +
-      '<p class="qv-story">' + item.story + '</p>' +
+      '<p class="qv-eyebrow">' + e(CATALOGUE.types[item.type] || item.type) + ' · ' + e(CATALOGUE.occasions[item.occasion] || item.occasion || '') + '</p>' +
+      '<h2 class="qv-name" id="qvName">' + e(item.name) + '</h2>' +
+      '<p class="qv-desc">' + e(item.desc) + '</p>' +
+      '<p class="qv-story">' + e(item.story) + '</p>' +
+      (item.inStock === false ? '<p class="qv-availability">Currently unavailable · ask about the next arrival</p>' : '') +
       '<h3 class="qv-sub">Specifications</h3>' +
       '<dl class="qv-specs">' + specs + '</dl>' +
       '<div class="qv-tags">' + tags + '</div>' +
       '<div class="qv-actions">' +
-        '<button class="btn btn-primary" type="button" data-enquire="' + item.name + '">Enquire on WhatsApp</button>' +
+        '<button class="btn btn-primary" type="button" data-enquire="' + e(item.name) + '">' + (item.inStock === false ? 'Ask about availability' : 'Enquire on WhatsApp') + '</button>' +
         '<a class="btn btn-secondary" href="appointment.html">Book a viewing</a>' +
-        '<a class="qv-full" href="' + item.href + '">Open the full page</a>' +
+        '<a class="qv-full" href="' + e(item.href) + '">Open the full page</a>' +
       '</div>';
 
     // The closed state is .open-less: opacity 0 + visibility hidden. Not
@@ -775,6 +780,7 @@
        reveal and the quick view all key off .product-card, so they have to be
        re-run over the new DOM once it has been swapped in. */
     window.addEventListener('alm:catalogue-updated', () => {
+      CATALOGUE = readCatalogue() || CATALOGUE;
       applyFilter();
       updateRevealFoot();
     });
