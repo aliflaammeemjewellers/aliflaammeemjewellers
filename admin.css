@@ -132,3 +132,10 @@
   .admin-post-preview { padding-inline: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .admin-page *, .admin-modal * { transition: none !important; animation: none !important; } }
+
+/* Google sign-in */
+.google-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 48px; background: #fff; color: #1f1f1f; border: 1px solid #dadce0; border-radius: 999px; font-weight: 600; cursor: pointer; }
+.google-btn:hover { background: #f7f8f8; }
+.google-btn:disabled { opacity: .6; cursor: wait; }
+.admin-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; font-size: .82rem; color: #8a8175; text-transform: uppercase; letter-spacing: .08em; }
+.admin-divider::before, .admin-divider::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: .3; }

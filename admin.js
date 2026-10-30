@@ -93,6 +93,17 @@ $('#signInForm').addEventListener('submit', async (event) => {
   });
 });
 
+$('#googleSignInBtn').addEventListener('click', async () => {
+  authMessage('');
+  const button = $('#googleSignInBtn');
+  button.disabled = true;
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: new URL('admin.html', window.location.href).href }
+  });
+  if (error) { authMessage(error.message || 'Google sign-in is not available right now.'); button.disabled = false; }
+});
+
 function resetPrivateState() {
   state.user = null; state.isAdmin = false; state.sample = false; state.adminSource = null;
   state.appointments = []; state.pieces = []; state.customers = []; state.profiles = []; state.posts = [];

@@ -2740,3 +2740,10 @@ body.admin-page {
 /* Live availability note injected by catalogue-sync.js. */
 .product-availability { color: var(--gold-deep); font-size: .78rem; margin-top: 10px; }
 .qv-availability { color: var(--gold-deep); font-size: .85rem; margin-top: 12px; }
+
+/* Google sign-in */
+.google-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 48px; background: #fff; color: #1f1f1f; border: 1px solid #dadce0; border-radius: 999px; font-weight: 600; cursor: pointer; }
+.google-btn:hover { background: #f7f8f8; }
+.google-btn:disabled { opacity: .6; cursor: wait; }
+.auth-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; font-size: .82rem; color: #8a8175; text-transform: uppercase; letter-spacing: .08em; }
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: .3; }
