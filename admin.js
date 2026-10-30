@@ -75,7 +75,7 @@ async function afterAuth(user) {
   await refresh();
 }
 
-$('#signInForm').addEventListener('submit', async (event) => {
+$('#signInForm')?.addEventListener('submit', async (event) => {
   event.preventDefault();
   const email = $('#adminEmail').value.trim(), password = $('#adminPassword').value;
   if (!email || !password) { authMessage('Enter your email address and password.'); return; }

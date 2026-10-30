@@ -735,7 +735,6 @@ def footer():
         <a href="privacy.html">Privacy Policy</a>
         <a href="terms.html">Terms of Sale</a>
         <a href="visit.html">Contact</a>
-        <a href="admin.html">Admin</a>
       </div>
     </div>
   </div>
