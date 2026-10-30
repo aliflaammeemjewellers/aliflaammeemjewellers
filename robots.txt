@@ -2,5 +2,6 @@ User-agent: *
 Disallow: /admin.html
 Disallow: /signup.html
 Disallow: /clients.html
+Disallow: /signin.html
 
 Sitemap: https://aliflaammeemjewellers.vercel.app/sitemap.xml

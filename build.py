@@ -655,6 +655,7 @@ def nav(active):
   <div class="container nav-container">
     {logo()}
     <div class="nav-links" id="navLinks">{links}
+        <a href="signin.html" class="nav-link nav-account" id="navAccount">Sign in</a>
         <a href="appointment.html" class="btn btn-primary nav-cta"{cta}>Book</a>
     </div>
     <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu"
@@ -768,6 +769,7 @@ def page(title, desc, active, content, intro=False, head_extra="", scripts=""):
 {SVG_DEFS}
 {catalogue_json_block()}
 <script src="script.js"></script>
+<script type="module" src="account-nav.js"></script>
 {scripts}
 </body>
 </html>
