@@ -148,7 +148,12 @@ async function main() {
     }
     return;
   }
-  const items = data.filter((row) => row.visible !== false).map((row) => toItem(row, maps, staticIds));
+  // Pieces published from build.py before the database has a row for them
+  // (staticOnly) stay listed; as soon as a row with that id exists, it wins.
+  const liveIds = new Set(data.map((row) => row.id));
+  const pending = (maps.items || []).filter((item) => item.staticOnly && !liveIds.has(item.id))
+    .map((item) => ({ ...item, inStock: true, _featured: false }));
+  const items = [...pending, ...data.filter((row) => row.visible !== false).map((row) => toItem(row, maps, staticIds))];
   const byId = new Map(items.map((item) => [item.id, item]));
   maps.items = items;
   document.getElementById('catalogue-data').textContent = JSON.stringify(maps);

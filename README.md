@@ -170,6 +170,15 @@ body of a page; the shared header, footer and `<head>` are added for you.
 **Copy and sections** — edit `page_home()` in `build.py`: hero, Collections,
 About the house, Private Appointment, Client Stories, Visit and the footer.
 
+### New arrivals before they are in the database
+
+The live catalogue in Supabase normally replaces the generated cards. A piece in
+`PRODUCTS` marked `static_only=True` stays listed even when the database has no
+row for it yet, so new stock can go live from `build.py` alone. As soon as a
+row with the same `id` is added in the admin panel, the database governs it
+(visibility, badge, order). Optional `gallery=[...]` adds extra angles as
+thumbnails on the piece page.
+
 ## Admin panel
 
 `admin.html` is a password-protected back office for stock, customer records,
