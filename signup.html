@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://eafqpwwpwzjdrkrtoqlz.supabase.co wss://eafqpwwpwzjdrkrtoqlz.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#ffffff">
   <meta name="robots" content="noindex, nofollow">
@@ -56,135 +57,8 @@
     <p class="auth-noscript">JavaScript is required to securely create an account.</p>
   </noscript>
 
-  <script>
-    (() => {
-      const button = document.getElementById('mobileMenuBtn');
-      const links = document.getElementById('navLinks');
-      if (!button || !links) return;
+  <script src="nav-menu.js"></script>
 
-      const setMenu = (open) => {
-        button.setAttribute('aria-expanded', String(open));
-        links.classList.toggle('open', open);
-        document.body.classList.toggle('no-scroll', open);
-      };
-
-      button.addEventListener('click', () => {
-        setMenu(button.getAttribute('aria-expanded') !== 'true');
-      });
-      links.querySelectorAll('.nav-link').forEach((link) => {
-        link.addEventListener('click', () => setMenu(false));
-      });
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && links.classList.contains('open')) {
-          setMenu(false);
-          button.focus();
-        }
-      });
-      window.addEventListener('resize', () => {
-        if (window.innerWidth > 860 && links.classList.contains('open')) setMenu(false);
-      });
-    })();
-  </script>
-
-  <script type="module">
-    import { createClient } from "./vendor/supabase.js";
-    import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./supabase-config.js";
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    const form = document.getElementById("signupForm");
-    const message = document.getElementById("signupMessage");
-    const submitButton = document.getElementById("signupButton");
-    const fullNameInput = document.getElementById("fullName");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-
-    function showMessage(text, state) {
-      message.textContent = text;
-      message.dataset.state = state;
-      message.hidden = !text;
-    }
-
-    function friendlyError(error) {
-      const original = error && error.message ? error.message : "";
-      const normalized = original.toLowerCase();
-      if (normalized.includes("already registered") || normalized.includes("already exists")) {
-        return "An account with this email address already exists. Sign in or reset your password instead.";
-      }
-      if (normalized.includes("password") && (normalized.includes("weak") || normalized.includes("least"))) {
-        return "Please choose a stronger password that meets the account security requirements.";
-      }
-      if (normalized.includes("too many") || normalized.includes("rate limit")) {
-        return "There have been too many attempts. Please wait a moment and try again.";
-      }
-      if (normalized.includes("failed to fetch") || normalized.includes("network")) {
-        return "We couldn't reach the account service. Check your connection and try again.";
-      }
-      return original || "We couldn't create your account. Please check your details and try again.";
-    }
-
-    form?.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      showMessage("", "");
-
-      const fullName = fullNameInput.value.trim();
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-      const originalLabel = submitButton.textContent;
-      submitButton.disabled = true;
-      submitButton.textContent = "Creating account…";
-
-      try {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              full_name: fullName
-            }
-          }
-        });
-
-        if (error) {
-          showMessage(friendlyError(error), "error");
-          return;
-        }
-
-        if (!data.user) {
-          showMessage("We couldn't confirm your account was created. Please try again.", "error");
-          return;
-        }
-
-        form.reset();
-        if (data.session) {
-          showMessage("Your account is ready. Taking you to Alif Laam Meem…", "success");
-          window.setTimeout(() => window.location.replace("index.html"), 900);
-        } else {
-          showMessage("Your account has been created. Please check your email for a confirmation link before signing in.", "success");
-        }
-      } catch (error) {
-        showMessage(friendlyError(error), "error");
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = originalLabel;
-      }
-    });
-
-    const googleButton = document.getElementById("googleButton");
-    googleButton.addEventListener("click", async () => {
-      showMessage("", "");
-      googleButton.disabled = true;
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: { redirectTo: new URL("index.html", window.location.href).href }
-      });
-      if (error) {
-        showMessage(friendlyError(error), "error");
-        googleButton.disabled = false;
-      }
-    });
-
-    form?.addEventListener("input", () => showMessage("", ""));
-  </script>
+  <script type="module" src="signup.js"></script>
 </body>
 </html>

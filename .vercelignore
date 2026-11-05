@@ -1,0 +1,13 @@
+# Source and tooling that the live site does not need to serve.
+supabase/
+tests/
+test-results/
+playwright-report/
+node_modules/
+__pycache__/
+build.py
+README.md
+package.json
+package-lock.json
+playwright.config.js
+vendor/supabase-entry.js

@@ -181,7 +181,7 @@ thumbnails on the piece page.
 
 ## Admin panel
 
-`admin.html` is a password-protected back office for stock, customer records,
+`admin.html` is a Google-sign-in back office for stock, customer records,
 website posts and appointment requests. It is hand-written (not produced by
 `build.py`) and talks to Supabase from the browser. A **sample workspace** is
 available from the sign-in screen: it uses isolated browser-tab storage, never
@@ -268,6 +268,28 @@ paragraphs. Cover images accept an HTTPS URL or an existing `assets/` path
 visitor; `appointment-sync.js` also files the request in Supabase. Filter by
 status, search, and mark requests confirmed, completed or cancelled. The
 visitor's WhatsApp flow is never blocked by the database.
+
+### Security (2026-11-06 audit)
+
+- **Admin = owner only.** Every write to stock, customers, posts and appointments
+  is checked in the database by `public.is_admin()`. From migration
+  `202611060001_admin_and_booking_hardening.sql` it requires a signed-in
+  account with a *confirmed* email that is on `public.admin_emails` — the
+  token's email claim alone is no longer trusted.
+- **Booking form.** Visitors can only INSERT the form's own columns. A
+  database trigger validates every booking (name, phone format, email,
+  purpose and time from the form's lists, date within a year, notes up to
+  2000 characters, no `<`/`>` in short fields) and rate-limits it: 3 per IP
+  per 10 minutes, 6 per IP per day, 3 per phone per day, 40 site-wide per
+  hour. IPs are stored only as hashes in `public.alm_appointment_rate`.
+  **If you change the purpose or time options in `build.py`, update the lists
+  in that migration too** (`npm test` checks they match).
+- **XSS.** The admin panel builds every row with `textContent`; public pages
+  escape database text. A Content-Security-Policy (`script-src 'self'`, no
+  inline scripts) is sent by Vercel (`vercel.json`) and repeated as a
+  `<meta>` tag for the GitHub Pages copy. Keep scripts in `.js` files.
+- **Keys.** Only the publishable (anon) key is in the browser. Never put a
+  service-role / secret key in this repo.
 
 ### Live catalogue vs. build.py
 

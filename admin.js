@@ -9,6 +9,13 @@ import { $, el, clear, field, input, textarea, select, formError, saving, toast,
 import { money, stockLevel, validateStock, slugify, safeImage, toCsv, samplePosts } from './admin-model.js';
 import { renderCustomers, renderPosts, openCustomerEditor, openPostEditor } from './admin-records.js';
 
+// Clickjacking guard. Vercel sends frame-ancestors 'none', but the GitHub Pages
+// copy cannot send headers, so refuse to run the panel inside a frame.
+if (window.top !== window.self) {
+  document.body.replaceChildren();
+  throw new Error('The admin panel cannot be opened inside a frame.');
+}
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const METALS = { gold21: '21K Gold' };
 const TYPES = { rings: 'Rings', necklace: 'Necklaces', earrings: 'Earrings', bangles: 'Bangles', bridal: 'Bridal Sets' };

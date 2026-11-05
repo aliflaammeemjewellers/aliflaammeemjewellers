@@ -41,3 +41,38 @@ test('pages do not contain hidden embeds, meta redirects, or external script tag
     }
   }
 });
+
+test('pages carry a CSP and contain no inline executable scripts or inline event handlers', () => {
+  for (const page of pages.filter((name) => !/^google[0-9a-f]+\.html$/.test(name))) {
+    const source = html(page);
+    assert.match(source, /<meta http-equiv="Content-Security-Policy" content="[^"]*script-src 'self';/, `${page} needs the CSP meta tag`);
+    for (const match of source.matchAll(/<script(?![^>]*\bsrc=)([^>]*)>/gi)) {
+      assert.match(match[1], /type="application\/json"/, `${page} has an inline executable script`);
+    }
+    assert.doesNotMatch(source, /\son(click|load|error|submit|change|mouseover|focus)\s*=/i, `${page} has an inline event handler`);
+  }
+});
+
+test('vercel.json sends a strict CSP and anti-framing headers', () => {
+  const config = JSON.parse(readFileSync(join(root, 'vercel.json'), 'utf8'));
+  const headers = Object.fromEntries(config.headers[0].headers.map((h) => [h.key, h.value]));
+  assert.match(headers['Content-Security-Policy'], /default-src 'self'/);
+  assert.match(headers['Content-Security-Policy'], /script-src 'self';/);
+  assert.match(headers['Content-Security-Policy'], /frame-ancestors 'none'/);
+  assert.equal(headers['X-Frame-Options'], 'DENY');
+  assert.equal(headers['X-Content-Type-Options'], 'nosniff');
+});
+
+test('admin panel renders records with DOM text, never innerHTML', () => {
+  for (const file of ['admin.js', 'admin-records.js', 'admin-ui.js']) {
+    const source = readFileSync(join(root, file), 'utf8');
+    assert.doesNotMatch(source, /\.(innerHTML|outerHTML)\s*=|insertAdjacentHTML|document\.write/, `${file} writes raw HTML`);
+  }
+});
+
+test('no service-role or secret keys ship to the browser', () => {
+  for (const file of readdirSync(root).filter((name) => /\.(js|html)$/.test(name))) {
+    const source = readFileSync(join(root, file), 'utf8');
+    assert.doesNotMatch(source, /service_role|sb_secret_|eyJhbGciOi[A-Za-z0-9_-]+\.eyJ[A-Za-z0-9_-]*cm9sZSI6InNlcnZpY2Vfcm9sZS/, `${file} contains a secret key`);
+  }
+});

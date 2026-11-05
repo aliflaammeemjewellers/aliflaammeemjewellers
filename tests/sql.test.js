@@ -39,3 +39,30 @@ test('full schema embeds the additive migration and has no placeholders', () => 
   assert.ok(!schema.includes('placeholder'));
   assert.ok(!migration.includes('placeholder'));
 });
+
+const hardening = readFileSync(new URL('../supabase/migrations/202611060001_admin_and_booking_hardening.sql', import.meta.url), 'utf8');
+const buildPy = readFileSync(new URL('../build.py', import.meta.url), 'utf8');
+
+test('is_admin requires a confirmed account whose email is on the allow-list', () => {
+  assert.match(hardening, /join auth\.users u on lower\(u\.email\) = lower\(a\.email\)/);
+  assert.match(hardening, /u\.id = auth\.uid\(\)/);
+  assert.match(hardening, /email_confirmed_at is not null/);
+});
+
+test('website bookings are validated and rate limited server-side', () => {
+  assert.match(hardening, /grant insert \(name, phone, email, purpose, preferred_date, preferred_time, notes, source\)\s+on public\.appointments to anon/);
+  assert.match(hardening, /revoke select, update, delete/);
+  assert.match(hardening, /cf-connecting-ip/);
+  assert.match(hardening, /Too many booking requests/);
+  assert.match(hardening, /alter table public\.alm_appointment_rate enable row level security/);
+});
+
+test('every purpose on the booking form is accepted by the database', () => {
+  const block = buildPy.match(/<select id="purpose"[\s\S]*?<\/select>/)[0];
+  const labels = [...block.matchAll(/<option value="([^"]+)">([^<]+)<\/option>/g)]
+    .map((m) => m[2].replace(/&amp;/g, '&'));
+  assert.ok(labels.length >= 8);
+  for (const label of labels) assert.ok(hardening.includes("'" + label + "'"), 'migration accepts purpose: ' + label);
+  const times = [...buildPy.match(/<select id="time"[\s\S]*?<\/select>/)[0].matchAll(/<option value="(\d\d:\d\d)">/g)].map((m) => m[1]);
+  for (const time of times) assert.ok(hardening.includes("'" + time + "'"), 'migration accepts time: ' + time);
+});

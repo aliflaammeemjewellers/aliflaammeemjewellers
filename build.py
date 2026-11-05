@@ -713,6 +713,7 @@ def head(title, desc, extra=""):
     return f"""<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://eafqpwwpwzjdrkrtoqlz.supabase.co wss://eafqpwwpwzjdrkrtoqlz.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'">
 <meta name="theme-color" content="#ffffff">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
@@ -1312,12 +1313,12 @@ def page_appointment():
         <div class="form-row">
           <div class="form-group">
             <label for="name">Full name <span class="req">*</span></label>
-            <input type="text" id="name" name="name" autocomplete="name" placeholder="e.g. Ayesha Rehman" required>
+            <input type="text" id="name" name="name" autocomplete="name" placeholder="e.g. Ayesha Rehman" maxlength="120" required>
             <span class="error-msg">Please enter your full name.</span>
           </div>
           <div class="form-group">
             <label for="phone">Phone / WhatsApp <span class="req">*</span></label>
-            <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+92 3XX XXX XXXX" required>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+92 3XX XXX XXXX" maxlength="20" required>
             <span class="error-msg">Enter a reachable phone number.</span>
           </div>
         </div>
@@ -1325,7 +1326,7 @@ def page_appointment():
         <div class="form-row">
           <div class="form-group">
             <label for="email">Email <span class="opt">(optional)</span></label>
-            <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com">
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" maxlength="254">
             <span class="error-msg">Please check this email address.</span>
           </div>
           <div class="form-group">
@@ -1372,7 +1373,7 @@ def page_appointment():
 
         <div class="form-group">
           <label for="message">Budget range &amp; requirements <span class="opt">(optional)</span></label>
-          <textarea id="message" name="message" rows="4"
+          <textarea id="message" name="message" rows="4" maxlength="2000"
                     placeholder="Tell us the occasion, the design you have in mind, or the weight you are looking for…"></textarea>
         </div>
 
