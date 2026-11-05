@@ -562,6 +562,24 @@
     });
   }
 
+  /* Multi-angle pieces: thumbnails under the main photo swap the large image.
+     Delegated so it survives catalogue-sync.js re-rendering the main visual. */
+  function initPieceGallery() {
+    document.addEventListener('click', (event) => {
+      const thumb = event.target.closest('.piece-thumb[data-gallery-src]');
+      if (!thumb) return;
+      const media = thumb.closest('.piece-media');
+      const main = media && media.querySelector('.product-photo');
+      if (!main) return;
+      main.src = thumb.dataset.gallerySrc;
+      media.querySelectorAll('.piece-thumb').forEach((other) => {
+        const active = other === thumb;
+        other.classList.toggle('is-active', active);
+        other.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    });
+  }
+
   function initDelegatedClicks() {
     document.addEventListener('click', (e) => {
       const fav = e.target.closest('[data-fav]');
@@ -771,6 +789,7 @@
     initForm();
     initNewsletter();
     initDelegatedClicks();
+    initPieceGallery();
     initNav();
     initIntro();
     initCounters();

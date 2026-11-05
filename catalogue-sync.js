@@ -92,7 +92,13 @@ function patchPiecePage(node, item, maps) {
   const note = node.querySelector('.piece-note');
   if (note && !item.inStock) note.textContent = 'This piece is currently unavailable. Ask us about the next arrival or a made-to-order commission.';
   const photo = node.querySelector('.piece-media');
-  if (photo) photo.innerHTML = media(item, maps);
+  if (photo) {
+    // Keep a static multi-angle gallery; only the main visual follows the database.
+    const main = photo.querySelector(':scope > .product-photo, :scope > .motif');
+    const gallery = photo.querySelector('.piece-gallery');
+    if (gallery && main) main.outerHTML = media(item, maps);
+    else photo.innerHTML = media(item, maps);
+  }
 }
 
 function dynamicState(title, message) {

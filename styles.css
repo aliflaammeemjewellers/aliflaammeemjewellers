@@ -1708,6 +1708,28 @@ strong { color: var(--ink); font-weight: 600; }
 }
 .piece-media .motif { width: min(300px, 72%); height: auto; color: var(--gold-deep); }
 .piece-media .badge { top: 18px; left: 18px; transform: none; }
+.piece-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+.piece-thumb {
+  width: 72px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: #141416;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: .72;
+  transition: opacity .2s var(--ease), border-color .2s var(--ease);
+}
+.piece-thumb img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.piece-thumb:hover, .piece-thumb.is-active { opacity: 1; }
+.piece-thumb.is-active { border-color: var(--gold); }
+.piece-thumb:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 2px; }
 .piece-eyebrow {
   font-size: .84rem;
   font-weight: 500;
