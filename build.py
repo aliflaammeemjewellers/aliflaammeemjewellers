@@ -713,7 +713,7 @@ def head(title, desc, extra=""):
     return f"""<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://eafqpwwpwzjdrkrtoqlz.supabase.co wss://eafqpwwpwzjdrkrtoqlz.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://eafqpwwpwzjdrkrtoqlz.supabase.co wss://eafqpwwpwzjdrkrtoqlz.supabase.co https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://www.google.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'">
 <meta name="theme-color" content="#ffffff">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
@@ -722,6 +722,8 @@ def head(title, desc, extra=""):
 <meta property="og:type" content="website">
 {f'<link rel="preload" as="image" href="{LOGO_FILE}" fetchpriority="high">' if LOGO_FILE else ''}
 <link rel="stylesheet" href="styles.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7JFNYXW78T"></script>
+<script src="gtag-init.js"></script>
 {extra}
 {favicon_links()}
 {NOSCRIPT}

@@ -36,6 +36,7 @@ test('pages do not contain hidden embeds, meta redirects, or external script tag
     assert.doesNotMatch(source, /http-equiv=["']refresh["']/i, `${page} has a meta redirect`);
     for (const match of source.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)) {
       const src = match[1];
+      if (/^https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-7JFNYXW78T$/.test(src)) continue;
       assert.ok(!/^https?:\/\//i.test(src), `${page} loads an external script: ${src}`);
       assert.ok(existsSync(join(root, src)), `${page} references a missing local script: ${src}`);
     }
@@ -45,7 +46,7 @@ test('pages do not contain hidden embeds, meta redirects, or external script tag
 test('pages carry a CSP and contain no inline executable scripts or inline event handlers', () => {
   for (const page of pages.filter((name) => !/^google[0-9a-f]+\.html$/.test(name))) {
     const source = html(page);
-    assert.match(source, /<meta http-equiv="Content-Security-Policy" content="[^"]*script-src 'self';/, `${page} needs the CSP meta tag`);
+    assert.match(source, /<meta http-equiv="Content-Security-Policy" content="[^"]*script-src 'self'( https:\/\/www\.googletagmanager\.com)?;/, `${page} needs the CSP meta tag`);
     for (const match of source.matchAll(/<script(?![^>]*\bsrc=)([^>]*)>/gi)) {
       assert.match(match[1], /type="application\/(ld\+)?json"/, `${page} has an inline executable script`);
     }
@@ -57,7 +58,7 @@ test('vercel.json sends a strict CSP and anti-framing headers', () => {
   const config = JSON.parse(readFileSync(join(root, 'vercel.json'), 'utf8'));
   const headers = Object.fromEntries(config.headers[0].headers.map((h) => [h.key, h.value]));
   assert.match(headers['Content-Security-Policy'], /default-src 'self'/);
-  assert.match(headers['Content-Security-Policy'], /script-src 'self';/);
+  assert.match(headers['Content-Security-Policy'], /script-src 'self'( https:\/\/www\.googletagmanager\.com)?;/);
   assert.match(headers['Content-Security-Policy'], /frame-ancestors 'none'/);
   assert.equal(headers['X-Frame-Options'], 'DENY');
   assert.equal(headers['X-Content-Type-Options'], 'nosniff');
