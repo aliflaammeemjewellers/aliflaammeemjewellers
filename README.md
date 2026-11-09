@@ -189,17 +189,39 @@ writes to the database, and is useful for trying the workflows before setup.
 
 ### Setting it up
 
-The website keeps the Supabase project already configured in
-`supabase-config.js`. This update does **not** switch projects or apply live
-database changes automatically.
+Everything runs on one Supabase project, named in `supabase-config.js`:
 
-**Existing project:** open the Supabase SQL editor for that project and run
-`supabase/migrations/202610290001_stock_customers_posts.sql`. It is additive and
-safe to re-run: it adds inventory columns, customer records, posts, RLS policies
-and the public catalogue view without deleting existing rows.
+> **project `wqxodgwgmbmssalapcjz` — https://wqxodgwgmbmssalapcjz.supabase.co**
 
-**New project:** run `supabase/schema.sql` first. It includes the base schema,
-the 22-piece seed and the same stock/customer/post migration.
+That project already has `supabase/schema.sql` and every migration in
+`supabase/migrations/` applied (base tables, the 22-piece catalogue seed,
+inventory/customer/post support, booking and review hardening, reviews). The
+admin allow-list holds exactly one address:
+
+```
+d45671041@gmail.com
+```
+
+To rebuild a fresh project from scratch, run `supabase/schema.sql`, then the
+migrations in filename order. Every statement is `if not exists` /
+`create or replace` / `on conflict do nothing`, so re-running is safe.
+
+**One project, one connection.** The site, the admin panel and every script
+talk to `wqxodgwgmbmssalapcjz` only. The previous project
+(`eafqpwwpwzjdrkrtoqlz`) is no longer referenced anywhere in this repository —
+not in `supabase-config.js`, not in a Content-Security-Policy, not in the
+client — so nothing can read from or write to it. Its rows are untouched and
+still visible in its dashboard, which is the place to export them (Table Editor
+→ Export as CSV) if they are ever needed again.
+
+The one-off browser transfer page that used to bridge the two projects was
+removed in the same change. Recover it from history if the move has to be
+repeated:
+
+```bash
+git checkout 6e67638 -- migrate.html migrate.js migrate-model.js \
+  tests/browser/migrate.spec.js tests/migrate-model.test.js
+```
 
 | Object | What it is |
 | --- | --- |
@@ -213,15 +235,19 @@ the 22-piece seed and the same stock/customer/post migration.
 | `public.profiles` | website signup profiles, filled automatically |
 | `public.posts` | draft/published house journal |
 
-Then add yourself in the SQL editor:
+The admin list is managed in the SQL editor:
 
 ```sql
-insert into public.admin_emails(email) values ('you@example.com');
+-- replace the current owner
+delete from public.admin_emails;
+insert into public.admin_emails(email) values ('d45671041@gmail.com');
 ```
 
-Open `admin.html` and sign in with that email and its password. The account is a
-normal Supabase auth account — `signup.html` creates them — it just has an email
-on the admin list.
+Open `admin.html` and sign in with that address — by Google sign-in (already
+enabled on the project) or with its password. The account is a normal Supabase
+auth account — `signup.html` creates them — it just has an email on the admin
+list. `is_admin()` also requires the account to have a **confirmed** email, so
+sign in once and, if prompted, confirm the address before the panel unlocks.
 
 ### How access is controlled
 

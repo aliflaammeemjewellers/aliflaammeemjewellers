@@ -1,5 +1,5 @@
 -- Customer reviews (2026-11-09)
--- Paste into: Supabase Dashboard -> project eafqpwwpwzjdrkrtoqlz -> SQL Editor -> New query -> Run.
+-- Paste into: Supabase Dashboard -> project wqxodgwgmbmssalapcjz -> SQL Editor -> New query -> Run.
 -- Requires public.is_admin() (created by the earlier migrations).
 -- Additive only. Safe to re-run. Deletes no data.
 --

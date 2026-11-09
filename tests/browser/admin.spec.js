@@ -88,7 +88,7 @@ test('public journal renders published posts from mocked API safely', async ({ p
 
 test('real admin mode keeps a failed customer save in the editor', async ({ page }) => {
   await page.addInitScript(() => {
-    localStorage.setItem('sb-eafqpwwpwzjdrkrtoqlz-auth-token', JSON.stringify({
+    localStorage.setItem('sb-wqxodgwgmbmssalapcjz-auth-token', JSON.stringify({
       access_token: 'test-token', token_type: 'bearer', expires_in: 3600,
       expires_at: Math.floor(Date.now() / 1000) + 3600, refresh_token: 'test-refresh',
       user: { id: '00000000-0000-0000-0000-000000000001', aud: 'authenticated', role: 'authenticated', email: 'admin@example.com' }

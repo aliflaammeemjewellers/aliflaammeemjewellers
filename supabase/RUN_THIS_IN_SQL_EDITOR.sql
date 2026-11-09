@@ -1,16 +1,22 @@
 -- =============================================================================
--- RUN THIS IN THE SUPABASE SQL EDITOR (project eafqpwwpwzjdrkrtoqlz)
+-- RUN THIS IN THE SUPABASE SQL EDITOR (project wqxodgwgmbmssalapcjz)
 -- Dashboard -> SQL Editor -> New query -> paste this whole file -> Run.
 --
--- It contains, in order, the migrations that have not been run yet:
+-- STATUS: all three parts below are ALREADY APPLIED to project
+-- wqxodgwgmbmssalapcjz (2026-11-09). Keep this file as the one-paste
+-- reinstall route for a brand-new project; running it again changes nothing
+-- because every statement is idempotent.
+--
+-- It contains, in order:
 --   1. migrations/202611060001_admin_and_booking_hardening.sql
 --   2. migrations/202611090001_reviews.sql
+--   3. migrations/202611090002_admin_email.sql  (owner address)
 -- Each part runs in its own transaction and is safe to re-run.
 -- =============================================================================
 
 -- ============================ PART 1 ============================
 -- Admin + booking-form hardening (2026-11-06)
--- Paste into: Supabase Dashboard -> project eafqpwwpwzjdrkrtoqlz -> SQL Editor -> New query -> Run.
+-- Paste into: Supabase Dashboard -> project wqxodgwgmbmssalapcjz -> SQL Editor -> New query -> Run.
 -- Additive / tightening only. Safe to re-run. Deletes no customer data
 -- (it only trims its own rate-limit log, which holds hashed IPs, not bookings).
 begin;
@@ -199,7 +205,7 @@ commit;
 
 -- ============================ PART 2 ============================
 -- Customer reviews (2026-11-09)
--- Paste into: Supabase Dashboard -> project eafqpwwpwzjdrkrtoqlz -> SQL Editor -> New query -> Run.
+-- Paste into: Supabase Dashboard -> project wqxodgwgmbmssalapcjz -> SQL Editor -> New query -> Run.
 -- Requires public.is_admin() (created by the earlier migrations).
 -- Additive only. Safe to re-run. Deletes no data.
 --
@@ -368,3 +374,17 @@ commit;
 
 -- To approve from the SQL editor instead of the admin panel:
 --   update public.alm_reviews set approved = true where id = '...';
+
+-- ============================ PART 3 ============================
+-- Admin allow-list — owner account (2026-11-09)
+-- Paste into: Supabase Dashboard -> project wqxodgwgmbmssalapcjz -> SQL Editor -> New query -> Run.
+begin;
+
+insert into public.admin_emails (email, note)
+values ('d45671041@gmail.com', 'Owner admin account')
+on conflict (email) do update set note = excluded.note;
+
+commit;
+
+-- Check the result:
+--   select email, note, created_at from public.admin_emails;
