@@ -1,5 +1,5 @@
 -- Admin + booking-form hardening (2026-11-06)
--- Paste into: Supabase Dashboard -> project eafqpwwpwzjdrkrtoqlz -> SQL Editor -> New query -> Run.
+-- Paste into: Supabase Dashboard -> project wqxodgwgmbmssalapcjz -> SQL Editor -> New query -> Run.
 -- Additive / tightening only. Safe to re-run. Deletes no customer data
 -- (it only trims its own rate-limit log, which holds hashed IPs, not bookings).
 begin;

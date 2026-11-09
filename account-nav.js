@@ -1,7 +1,11 @@
 /* Sign in / Sign out link in the navigation bar.
    Reads the stored Supabase session without loading the Supabase library,
    so ordinary pages stay light. The library is loaded only to sign out. */
-const KEY = 'sb-eafqpwwpwzjdrkrtoqlz-auth-token';
+import { SUPABASE_URL } from './supabase-config.js';
+
+/* supabase-js stores the session under sb-<project-ref>-auth-token. Deriving it
+   from the shared config keeps this file correct when the project changes. */
+const KEY = `sb-${new URL(SUPABASE_URL).hostname.split('.')[0]}-auth-token`;
 
 function storedUser() {
   try {
