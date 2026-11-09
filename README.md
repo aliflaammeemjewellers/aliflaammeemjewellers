@@ -213,6 +213,28 @@ records, accounts — are not reachable from the anon key: sign in to that
 project's dashboard, export each table as CSV from the Table Editor, and import
 it into this project's Table Editor (or send it through the SQL editor).
 
+#### Moving the live rows across with `migrate.html`
+
+`migrate.html` is a private, one-off transfer page. It does the move from the
+browser, under your own sessions, so no service key is ever involved:
+
+1. Open `migrate.html` (or **Move old data** in the admin bar).
+2. Sign in to the **old** project (`eafqpwwpwzjdrkrtoqlz`) with an account on its
+   admin list — password or Google.
+3. Sign in to the **current** project as `d45671041@gmail.com`.
+4. Press **Check what will move** for row counts, then **Start transfer**.
+
+It copies `pieces` (via `get_admin_pieces()`, so price, cost, SKU and stock come
+too), `appointments`, `customers`, `posts` and `alm_reviews`, keeping original
+ids, statuses and dates. Rows are copied with an insert-then-update fallback, so
+running it twice is harmless — nothing is ever deleted from either project.
+
+Two things it reports instead of copying, because the public key cannot do them:
+**customer accounts** (identities live in Supabase Auth; ask those customers to
+sign up again — their name and phone re-attach on the next run) and **images
+still hosted in the old project's storage**, which must be downloaded and
+re-uploaded before that project is paused.
+
 | Object | What it is |
 | --- | --- |
 | `public.admin_emails` | the admin allow-list — one row per admin email |
