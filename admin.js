@@ -8,6 +8,7 @@ import { $, el, clear, field, input, textarea, select, formError, saving, toast,
   isMissingRelation, databaseError, missingCard, errorCard, statusPill } from './admin-ui.js';
 import { money, stockLevel, validateStock, slugify, safeImage, toCsv, samplePosts } from './admin-model.js';
 import { renderCustomers, renderPosts, openCustomerEditor, openPostEditor } from './admin-records.js';
+import { renderReviews } from './admin-reviews.js';
 
 // Clickjacking guard. Vercel sends frame-ancestors 'none', but the GitHub Pages
 // copy cannot send headers, so refuse to run the panel inside a frame.
@@ -28,13 +29,15 @@ const HEADINGS = {
   appointments: ['Appointments', 'Every viewing, consultation and conversation starts here.'],
   catalogue: ['Stock & catalogue', 'Manage your pieces, keep quantities in step and choose what the world sees.'],
   customers: ['Customers', 'Remember the person behind every piece.'],
-  posts: ['Posts', 'New arrivals, house news and stories worth sharing.']
+  posts: ['Posts', 'New arrivals, house news and stories worth sharing.'],
+  reviews: ['Reviews', 'What clients say. Nothing appears on the website until you approve it.']
 };
 const state = {
   user: null, isAdmin: false, adminSource: null, tab: 'overview', sample: false,
-  appointments: [], pieces: [], customers: [], profiles: [], posts: [], ready: {}, errors: {},
+  appointments: [], pieces: [], customers: [], profiles: [], posts: [], reviews: [], ready: {}, errors: {},
   apptFilter: 'all', apptSearch: '', pieceSearch: '', stockFilter: 'all',
-  custSearch: '', profileSearch: '', accountsOpen: false, postSearch: '', postFilter: 'all'
+  custSearch: '', profileSearch: '', accountsOpen: false, postSearch: '', postFilter: 'all',
+  reviewSearch: '', reviewFilter: 'all'
 };
 
 function showView(which) {
@@ -113,9 +116,9 @@ $('#googleSignInBtn').addEventListener('click', async () => {
 
 function resetPrivateState() {
   state.user = null; state.isAdmin = false; state.sample = false; state.adminSource = null;
-  state.appointments = []; state.pieces = []; state.customers = []; state.profiles = []; state.posts = [];
+  state.appointments = []; state.pieces = []; state.customers = []; state.profiles = []; state.posts = []; state.reviews = [];
   state.ready = {}; state.errors = {}; state.tab = 'overview';
-  state.apptSearch = state.pieceSearch = state.custSearch = state.profileSearch = state.postSearch = '';
+  state.apptSearch = state.pieceSearch = state.custSearch = state.profileSearch = state.postSearch = state.reviewSearch = '';
   document.querySelectorAll('.admin-panel').forEach(clear);
   $('#adminWho').textContent = '';
 }
@@ -157,7 +160,7 @@ function persistSample() {
   if (!state.sample) return;
   try {
     sessionStorage.setItem(SAMPLE_KEY, JSON.stringify({ version: 1, pieces: state.pieces,
-      appointments: state.appointments, customers: state.customers, profiles: state.profiles, posts: state.posts }));
+      appointments: state.appointments, customers: state.customers, profiles: state.profiles, posts: state.posts, reviews: state.reviews }));
   } catch { toast('This browser could not remember preview changes. They remain available until you reload.', 'warn'); }
 }
 
@@ -172,6 +175,7 @@ async function enterSampleMode(restore = false) {
   state.sample = true; state.isAdmin = true; state.adminSource = 'sample'; state.user = { email: 'sample@preview' };
   if (saved) {
     for (const key of ['pieces', 'appointments', 'customers', 'profiles', 'posts']) state[key] = saved[key];
+    state.reviews = Array.isArray(saved.reviews) ? saved.reviews : [];
   } else {
     state.pieces = await samplePieces();
     const now = Date.now();
@@ -185,8 +189,12 @@ async function enterSampleMode(restore = false) {
       { id: 'sample-appt-1', name: 'Ayesha Rehman', phone: '+92 300 5550101', email: 'ayesha@example.com', purpose: 'Bridal consultation', preferred_date: new Date(now + 86400000 * 2).toISOString().slice(0, 10), preferred_time: '15:00', notes: 'Sample appointment · Would like to see bridal sets.', status: 'new', source: 'sample', created_at: new Date(now - 3600000).toISOString() },
       { id: 'sample-appt-2', name: 'Hira Nawaz', phone: '+92 300 5550102', email: 'hira@example.com', purpose: 'Engagement rings', preferred_date: new Date(now + 86400000 * 3).toISOString().slice(0, 10), preferred_time: '11:00', status: 'confirmed', source: 'sample', created_at: new Date(now - 7200000).toISOString() }
     ];
+    state.reviews = [
+      { id: 'sample-review-1', name: 'Sample Client', city: 'Lahore', rating: 5, body: 'Sample review · This is how a new review waits for your approval.', approved: false, created_at: new Date(now - 1800000).toISOString() },
+      { id: 'sample-review-2', name: 'Another Sample', city: null, rating: 4, body: 'Sample review · Approved reviews show on the home page and the Reviews page.', approved: true, created_at: new Date(now - 86400000 * 3).toISOString() }
+    ];
   }
-  state.ready = { appointments: 'sample', pieces: 'sample', customers: 'sample', profiles: 'sample', posts: 'sample' };
+  state.ready = { appointments: 'sample', pieces: 'sample', customers: 'sample', profiles: 'sample', posts: 'sample', reviews: 'sample' };
   state.errors = {};
   $('#adminWho').textContent = 'Sample workspace';
   showView('app');
@@ -212,14 +220,15 @@ async function loadTable(name, query) {
 
 async function loadAll() {
   if (state.sample) { persistSample(); renderAll(); return; }
-  const [appointments, pieces, customers, profiles, posts] = await Promise.all([
+  const [appointments, pieces, customers, profiles, posts, reviews] = await Promise.all([
     loadTable('appointments', supabase.from('appointments').select('*').order('preferred_date')),
     loadTable('pieces', supabase.rpc('get_admin_pieces')),
     loadTable('customers', supabase.from('customers').select('*').order('created_at', { ascending: false })),
     loadTable('profiles', supabase.from('profiles').select('*').order('created_at', { ascending: false })),
-    loadTable('posts', supabase.from('posts').select('*').order('updated_at', { ascending: false }))
+    loadTable('posts', supabase.from('posts').select('*').order('updated_at', { ascending: false })),
+    loadTable('reviews', supabase.from('alm_reviews').select('*').order('created_at', { ascending: false }))
   ]);
-  Object.assign(state, { appointments, pieces, customers, profiles, posts });
+  Object.assign(state, { appointments, pieces, customers, profiles, posts, reviews });
   renderAll();
 }
 
@@ -233,14 +242,15 @@ async function refresh() {
 $('#refreshBtn').addEventListener('click', refresh);
 const ctx = { state, supabase, refresh };
 
-const TABLE_NAMES = { appointments: 'appointments', pieces: 'stock & catalogue', customers: 'customer records', profiles: 'website accounts', posts: 'posts' };
+const TABLE_NAMES = { appointments: 'appointments', pieces: 'stock & catalogue', customers: 'customer records', profiles: 'website accounts', posts: 'posts', reviews: 'reviews' };
 function renderSetupBanner() {
   const banner = $('#setupBanner');
   clear(banner);
   const notices = [];
   if (state.sample) notices.push(['You’re exploring a sample workspace', 'Try adding stock, customers and posts. Changes stay in this browser tab and are never sent to your database. Exit preview to sign in to your real shop.']);
   if (state.adminSource === 'local') notices.push(['Using the local admin allow-list', 'The database permission function is not installed. Run supabase/schema.sql so row level security can enforce access.']);
-  const missing = Object.keys(state.ready).filter((key) => state.ready[key] === 'missing');
+  // Reviews have their own setup card in the Reviews tab (a separate migration).
+  const missing = Object.keys(state.ready).filter((key) => key !== 'reviews' && state.ready[key] === 'missing');
   if (missing.length) notices.push(['Database setup needed: ' + missing.map((key) => TABLE_NAMES[key]).join(', '),
     'For the existing project, run supabase/migrations/202610290001_stock_customers_posts.sql in its SQL editor, then refresh. For a new project, run supabase/schema.sql first. No live database has been changed by this update.']);
   Object.keys(state.ready).filter((key) => state.ready[key] === 'error').forEach((key) => notices.push(['Could not load ' + TABLE_NAMES[key], state.errors[key]]));
@@ -281,6 +291,7 @@ function renderAll() {
   if (state.tab === 'catalogue') renderCatalogue();
   if (state.tab === 'customers') renderCustomers(ctx);
   if (state.tab === 'posts') renderPosts(ctx);
+  if (state.tab === 'reviews') renderReviews(ctx);
 }
 
 /* ------------------------------ Overview ------------------------------ */

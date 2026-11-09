@@ -64,8 +64,8 @@ test('vercel.json sends a strict CSP and anti-framing headers', () => {
   assert.equal(headers['X-Content-Type-Options'], 'nosniff');
 });
 
-test('admin panel renders records with DOM text, never innerHTML', () => {
-  for (const file of ['admin.js', 'admin-records.js', 'admin-ui.js']) {
+test('admin panel and public reviews render records with DOM text, never innerHTML', () => {
+  for (const file of ['admin.js', 'admin-records.js', 'admin-ui.js', 'admin-reviews.js', 'reviews.js']) {
     const source = readFileSync(join(root, file), 'utf8');
     assert.doesNotMatch(source, /\.(innerHTML|outerHTML)\s*=|insertAdjacentHTML|document\.write/, `${file} writes raw HTML`);
   }

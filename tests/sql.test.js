@@ -66,3 +66,32 @@ test('every purpose on the booking form is accepted by the database', () => {
   const times = [...buildPy.match(/<select id="time"[\s\S]*?<\/select>/)[0].matchAll(/<option value="(\d\d:\d\d)">/g)].map((m) => m[1]);
   for (const time of times) assert.ok(hardening.includes("'" + time + "'"), 'migration accepts time: ' + time);
 });
+
+const reviews = readFileSync(new URL('../supabase/migrations/202611090001_reviews.sql', import.meta.url), 'utf8');
+const combined = readFileSync(new URL('../supabase/RUN_THIS_IN_SQL_EDITOR.sql', import.meta.url), 'utf8');
+
+test('reviews: public can only submit unapproved reviews and read approved ones', () => {
+  assert.match(reviews, /alter table public\.alm_reviews enable row level security/);
+  assert.match(reviews, /for insert to anon, authenticated\s+with check \(approved = false\)/);
+  assert.match(reviews, /create policy alm_reviews_public_read on public\.alm_reviews\s+for select to anon, authenticated\s+using \(approved = true\)/);
+  for (const action of ['select', 'update', 'delete']) {
+    assert.match(reviews, new RegExp('for ' + action + ' to authenticated\\s+using \\(public\\.is_admin\\(\\)\\)'), 'admin can ' + action);
+  }
+  assert.match(reviews, /new\.approved\s+:= false/);
+  assert.match(reviews, /Too many reviews/);
+  assert.doesNotMatch(reviews, /grant (all|update|delete)[^;]*to anon/);
+});
+
+test('the combined SQL editor file holds both unrun migrations in order', () => {
+  const a = combined.indexOf(hardening.trim());
+  const b = combined.indexOf(reviews.trim());
+  assert.ok(a >= 0 && b > a, 'hardening first, then reviews');
+});
+
+test('the site carries no invented testimonials', () => {
+  assert.doesNotMatch(buildPy, /TESTIMONIALS\s*=/);
+  const home = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  assert.match(home, /id="reviewsList"/);
+  assert.match(home, /Be the first to share your experience/);
+  assert.match(home, /maps\.google\.com\/\?cid=9293768806817445409/);
+});

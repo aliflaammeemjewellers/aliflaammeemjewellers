@@ -64,6 +64,7 @@
         <a href="about.html" class="nav-link">About</a>
         <a href="collections.html" class="nav-link">Collections</a>
         <a href="journal.html" class="nav-link">Journal</a>
+        <a href="clients.html" class="nav-link">Reviews</a>
         <a href="visit.html" class="nav-link">Visit</a>
         <a href="signin.html" class="nav-link nav-account" id="navAccount">Sign in</a>
         <a href="appointment.html" class="btn btn-primary nav-cta">Book</a>
@@ -342,6 +343,85 @@
   </div>
 </section>
 
+<section class="section section--alt reviews" id="reviews" aria-labelledby="reviewsTitle">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Reviews</span>
+      <h2 id="reviewsTitle">In our clients&rsquo; own words.</h2>
+      <p>Every review here was written by a client and approved by us before it appeared. Nothing is edited.</p>
+    </div>
+
+    <p class="reviews-summary" id="reviewsSummary" hidden></p>
+
+    <div class="testimonials-grid reviews-grid" id="reviewsList" data-limit="6" aria-live="polite" aria-busy="true">
+      <div class="reviews-empty" id="reviewsEmpty">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95L12 2.6z"/></svg>
+        <p class="reviews-empty-title">Be the first to share your experience.</p>
+        <p class="reviews-empty-text">Bought from us, or visited the showroom? A few honest lines help the next family choose with confidence.</p>
+      </div>
+    </div>
+
+    <p class="section-more" id="reviewsMore" hidden>
+      <a href="clients.html">Read all reviews <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </p>
+    <div class="reviews-actions">
+      <a class="btn btn-primary" href="#writeReview" id="writeReviewLink">Write a review</a>
+      <a class="btn btn-secondary" href="https://maps.google.com/?cid=9293768806817445409" target="_blank" rel="noopener">Review us on Google <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+
+    <details class="review-write" id="writeReview">
+      <summary>Write a review</summary>
+      <div class="appointment-form-wrapper review-form-wrapper">
+        <h3 class="form-heading">Share your experience</h3>
+        <p class="form-subheading">Your review appears on this page once we have approved it. We never show your phone or email &mdash; we don&rsquo;t ask for them.</p>
+        <form class="review-form" id="reviewForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reviewName">Your name <span class="req">*</span></label>
+              <input type="text" id="reviewName" name="name" autocomplete="name" minlength="2" maxlength="60" required>
+              <span class="error-msg">Please enter your name (2&ndash;60 characters).</span>
+            </div>
+            <div class="form-group">
+              <label for="reviewCity">City <span class="opt">(optional)</span></label>
+              <input type="text" id="reviewCity" name="city" autocomplete="address-level2" maxlength="60">
+              <span class="error-msg">Please keep the city under 60 characters.</span>
+            </div>
+          </div>
+          <fieldset class="form-group rating-group" id="reviewRatingGroup">
+            <legend>Your rating <span class="req">*</span></legend>
+            <div class="rating-input">
+              <input type="radio" id="reviewRating5" name="rating" value="5">
+              <label for="reviewRating5" title="Excellent"><span class="visually-hidden">5 stars – Excellent</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95L12 2.6z"/></svg></label>
+              <input type="radio" id="reviewRating4" name="rating" value="4">
+              <label for="reviewRating4" title="Very good"><span class="visually-hidden">4 stars – Very good</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95L12 2.6z"/></svg></label>
+              <input type="radio" id="reviewRating3" name="rating" value="3">
+              <label for="reviewRating3" title="Good"><span class="visually-hidden">3 stars – Good</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95L12 2.6z"/></svg></label>
+              <input type="radio" id="reviewRating2" name="rating" value="2">
+              <label for="reviewRating2" title="Fair"><span class="visually-hidden">2 stars – Fair</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95L12 2.6z"/></svg></label>
+              <input type="radio" id="reviewRating1" name="rating" value="1">
+              <label for="reviewRating1" title="Poor"><span class="visually-hidden">1 star – Poor</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95L12 2.6z"/></svg></label>
+            </div>
+            <span class="error-msg">Choose a star rating.</span>
+          </fieldset>
+          <div class="form-group">
+            <label for="reviewBody">Your review <span class="req">*</span></label>
+            <textarea id="reviewBody" name="body" rows="5" minlength="10" maxlength="600" required
+                      placeholder="What did you buy or have made, and how was the experience?"></textarea>
+            <span class="review-count" id="reviewCount" aria-live="polite">0 / 600</span>
+            <span class="error-msg">Please write between 10 and 600 characters.</span>
+          </div>
+          <div class="review-hp" aria-hidden="true">
+            <label for="reviewWebsite">Leave this field empty</label>
+            <input type="text" id="reviewWebsite" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="reviewSubmit">Submit review</button>
+          <p class="form-status" id="reviewStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </details>
+  </div>
+</section>
+
 <section class="section--dark band-cta">
   <div class="container band-cta-inner" data-aos="fade-up">
     <h2>Come and see it in daylight.</h2>
@@ -381,7 +461,7 @@
           <li><a href="about.html">About</a></li>
           <li><a href="collections.html">Collections</a></li>
           <li><a href="journal.html">House journal</a></li>
-          <li><a href="clients.html">Client stories</a></li>
+          <li><a href="clients.html">Reviews</a></li>
           <li><a href="visit.html">Visit us</a></li>
         </ul>
       </div>
@@ -463,5 +543,6 @@
 <script src="script.js"></script>
 <script type="module" src="account-nav.js"></script>
 <script type="module" src="catalogue-sync.js"></script>
+<script type="module" src="reviews.js"></script>
 </body>
 </html>

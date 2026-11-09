@@ -139,3 +139,12 @@
 .google-btn:disabled { opacity: .6; cursor: wait; }
 .admin-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; font-size: .82rem; color: #8a8175; text-transform: uppercase; letter-spacing: .08em; }
 .admin-divider::before, .admin-divider::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: .3; }
+
+/* Reviews tab */
+.admin-review-list { display: grid; gap: 12px; margin-top: 8px; }
+.admin-review { padding: 16px 18px; border: 1px solid var(--hairline); border-radius: var(--r-md); background: var(--bg); }
+.admin-review.is-pending { border-color: var(--gold-line); background: var(--gold-wash); }
+.admin-review-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.admin-review-name { font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+.admin-review-stars { margin: 8px 0 4px; color: var(--gold); letter-spacing: 2px; }
+.admin-review-body { margin-bottom: 12px; color: var(--ink-2); white-space: pre-line; overflow-wrap: anywhere; }

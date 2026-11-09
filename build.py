@@ -4,7 +4,7 @@ Generator for the Alif Laam Meem Jewellers website.
 
 Most .html files in this folder are produced by this script (admin.html and
 signup.html are hand-written). Edit the content here (SITE, PRODUCTS,
-TESTIMONIALS, the page_* functions), then run:
+the page_* functions), then run:
 
     python3 build.py
 
@@ -509,32 +509,17 @@ PRODUCTS = [
 
 ]
 
-TESTIMONIALS = [
-    dict(name="Ayesha Rehman", role="Bridal client, Lahore", rating=5,
-         text="They designed my entire bridal set from a sketch I brought in. The polki work was finer "
-              "than anything I saw in the market — and every detail was agreed before a single gram was melted."),
-    dict(name="Bilal Ahmed", role="Investment buyer", rating=5,
-         text="I have bought 21K gold jewellery here for nine years. Transparent weighing, proper "
-              "hallmarking, documented invoicing. That consistency is why my family keeps coming back."),
-    dict(name="Sana Tariq", role="Engagement purchase", rating=5,
-         text="I was nervous about choosing a solitaire. Their consultant spent two hours with me under "
-              "the loupe, showed me the certificate, and never once pushed me upwards."),
-    dict(name="Hina & Faisal", role="Wedding bands, 2025", rating=5,
-         text="Both our bands were hand-engraved with our wedding date. The detailing is so clean it "
-              "reads as machine work — except no machine could do this."),
-    dict(name="Zeeshan Malik", role="Restoration", rating=4,
-         text="My mother\u2019s old necklace had a broken clasp and worn links. They restored it matching "
-              "the original karigar work. You cannot tell where the repair begins."),
-    dict(name="Farah Naz", role="Repeat client", rating=5,
-         text="The lifetime exchange promise is real. I upgraded an old chain last month and got a fair, "
-              "clearly explained rate on the spot. No drama, no haggling."),
-]
+# Customer reviews are real submissions stored in Supabase (public.alm_reviews)
+# and shown by reviews.js once approved in the admin panel. Nothing is invented
+# here. Google Business Profile link for "Review us on Google":
+GOOGLE_REVIEW_URL = "https://maps.google.com/?cid=9293768806817445409"  # cid 0x80fa197d42f5b621
 
 NAV_ITEMS = [
     ("index.html", "Home", "home"),
     ("about.html", "About", "about"),
     ("collections.html", "Collections", "collections"),
     ("journal.html", "Journal", "journal"),
+    ("clients.html", "Reviews", "clients"),
     ("visit.html", "Visit", "visit"),
 ]
 
@@ -807,7 +792,7 @@ def footer():
           <li><a href="about.html">About</a></li>
           <li><a href="collections.html">Collections</a></li>
           <li><a href="journal.html">House journal</a></li>
-          <li><a href="clients.html">Client stories</a></li>
+          <li><a href="clients.html">Reviews</a></li>
           <li><a href="visit.html">Visit us</a></li>
         </ul>
       </div>
@@ -873,6 +858,7 @@ def footer():
 SCRIPT_APPOINTMENT = '<script type="module" src="appointment-sync.js"></script>'
 SCRIPT_CATALOGUE = '<script type="module" src="catalogue-sync.js"></script>'
 SCRIPT_JOURNAL = '<script type="module" src="journal-sync.js"></script>'
+SCRIPT_REVIEWS = '<script type="module" src="reviews.js"></script>'
 
 
 def page(title, desc, active, content, intro=False, head_extra="", scripts=""):
@@ -982,19 +968,94 @@ def star_row(n):
             % (n, ICON["star"] * n + ICON["starline"] * (5 - n)))
 
 
-def testimonial(t, i=0):
-    initials = "".join(w[0] for w in t["name"].split()[:2]).upper()
-    return f"""<figure class="testimonial" data-aos="fade-up" data-aos-delay="{i * 70}">
-          {star_row(t['rating'])}
-          <blockquote>{esc(t['text'])}</blockquote>
-          <figcaption class="testimonial-author">
-            <span class="author-avatar" aria-hidden="true">{initials}</span>
-            <span>
-              <span class="author-name">{esc(t['name'])}</span>
-              <span class="author-role">{esc(t['role'])}</span>
-            </span>
-          </figcaption>
-        </figure>"""
+def rating_input():
+    """Five radio buttons drawn as stars. Listed 5..1 so CSS can light up the
+    chosen star and every star before it (row-reverse + sibling selector)."""
+    words = {1: "Poor", 2: "Fair", 3: "Good", 4: "Very good", 5: "Excellent"}
+    radios = "".join(
+        f"""
+              <input type="radio" id="reviewRating{n}" name="rating" value="{n}">
+              <label for="reviewRating{n}" title="{words[n]}"><span class="visually-hidden">{n} star{'s' if n > 1 else ''} – {words[n]}</span>{ICON['star']}</label>"""
+        for n in range(5, 0, -1))
+    return f"""<fieldset class="form-group rating-group" id="reviewRatingGroup">
+            <legend>Your rating <span class="req">*</span></legend>
+            <div class="rating-input">{radios}
+            </div>
+            <span class="error-msg">Choose a star rating.</span>
+          </fieldset>"""
+
+
+def reviews_section(full=False):
+    """The live reviews block: approved reviews from Supabase, a review form
+    and a link to Google. Shared by the home page (a preview) and clients.html
+    (every review). Rendered empty here; reviews.js fills it in."""
+    limit = "60" if full else "6"
+    more = "" if full else f"""
+    <p class="section-more" id="reviewsMore" hidden>
+      <a href="clients.html">Read all reviews {ICON['arrow']}</a>
+    </p>"""
+    open_attr = " open" if full else ""
+    tag = "h2"
+    return f"""<section class="section section--alt reviews" id="reviews" aria-labelledby="reviewsTitle">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Reviews</span>
+      <{tag} id="reviewsTitle">In our clients&rsquo; own words.</{tag}>
+      <p>Every review here was written by a client and approved by us before it appeared. Nothing is edited.</p>
+    </div>
+
+    <p class="reviews-summary" id="reviewsSummary" hidden></p>
+
+    <div class="testimonials-grid reviews-grid" id="reviewsList" data-limit="{limit}" aria-live="polite" aria-busy="true">
+      <div class="reviews-empty" id="reviewsEmpty">
+        {ICON['star']}
+        <p class="reviews-empty-title">Be the first to share your experience.</p>
+        <p class="reviews-empty-text">Bought from us, or visited the showroom? A few honest lines help the next family choose with confidence.</p>
+      </div>
+    </div>
+{more}
+    <div class="reviews-actions">
+      <a class="btn btn-primary" href="#writeReview" id="writeReviewLink">Write a review</a>
+      <a class="btn btn-secondary" href="{GOOGLE_REVIEW_URL}" target="_blank" rel="noopener">Review us on Google {ICON['arrow']}</a>
+    </div>
+
+    <details class="review-write" id="writeReview"{open_attr}>
+      <summary>Write a review</summary>
+      <div class="appointment-form-wrapper review-form-wrapper">
+        <h3 class="form-heading">Share your experience</h3>
+        <p class="form-subheading">Your review appears on this page once we have approved it. We never show your phone or email &mdash; we don&rsquo;t ask for them.</p>
+        <form class="review-form" id="reviewForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reviewName">Your name <span class="req">*</span></label>
+              <input type="text" id="reviewName" name="name" autocomplete="name" minlength="2" maxlength="60" required>
+              <span class="error-msg">Please enter your name (2&ndash;60 characters).</span>
+            </div>
+            <div class="form-group">
+              <label for="reviewCity">City <span class="opt">(optional)</span></label>
+              <input type="text" id="reviewCity" name="city" autocomplete="address-level2" maxlength="60">
+              <span class="error-msg">Please keep the city under 60 characters.</span>
+            </div>
+          </div>
+          {rating_input()}
+          <div class="form-group">
+            <label for="reviewBody">Your review <span class="req">*</span></label>
+            <textarea id="reviewBody" name="body" rows="5" minlength="10" maxlength="600" required
+                      placeholder="What did you buy or have made, and how was the experience?"></textarea>
+            <span class="review-count" id="reviewCount" aria-live="polite">0 / 600</span>
+            <span class="error-msg">Please write between 10 and 600 characters.</span>
+          </div>
+          <div class="review-hp" aria-hidden="true">
+            <label for="reviewWebsite">Leave this field empty</label>
+            <input type="text" id="reviewWebsite" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" id="reviewSubmit">Submit review</button>
+          <p class="form-status" id="reviewStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </details>
+  </div>
+</section>"""
 
 
 # ---------------------------------------------------------------------------
@@ -1103,6 +1164,8 @@ def page_home():
   </div>
 </section>
 
+{reviews_section()}
+
 {cta_band("Come and see it in daylight.",
           "Gold looks different under our light than under anyone else's. Bring your family — there is tea.",
           "appointment.html", "Book an appointment", "visit.html", "Get directions")}
@@ -1114,7 +1177,7 @@ def page_home():
     return page(f"{SITE['name']} — 21K Gold Jewellers in Sharaqpur",
                 TAGLINE + " Book a private showroom consultation.", "home", content,
                 intro=True, head_extra=(hero_preload + note),
-                scripts=SCRIPT_CATALOGUE)
+                scripts=SCRIPT_CATALOGUE + "\n" + SCRIPT_REVIEWS)
 
 
 def page_about():
@@ -1423,30 +1486,22 @@ def page_appointment():
 
 
 def page_clients():
-    quotes = "".join(testimonial(t, i) + "\n        " for i, t in enumerate(TESTIMONIALS))
     content = f"""<main id="main">
-{page_head("Client stories", "Trusted across generations.",
-           "Unedited words from brides, collectors and families who have bought from our counter.")}
+{page_head("Reviews", "Trusted across generations.",
+           "Real reviews from clients who have bought from our counter, published after approval. "
+           "Visited us? We would love to hear from you.")}
 
-<section class="section">
-  <div class="container">
-    <div class="testimonials-grid">
-        {quotes}
-    </div>
-    <div class="collections-foot">
-      <p class="collections-note">These are sample quotes held in the site's build file — replace them
-      with real, permissioned client words before launch.</p>
-    </div>
-  </div>
-</section>
+{reviews_section(full=True)}
 
 {cta_band("Come and see for yourself.",
           "Reviews are other people's opinions. The gold under our light is a fact.",
           "appointment.html", "Book an appointment", "collections.html", "Browse the collections")}
 </main>
 """
-    return page(f"Client stories — {SITE['name']}",
-                "What clients say about buying bridal and 21K gold jewellery from us.", "clients", content)
+    return page(f"Reviews — {SITE['name']}",
+                "Real client reviews of Alif Laam Meem Jewellers, 21K gold jewellers in Al Rehman Square Mall, "
+                "Sharaqpur. Read what clients say or write your own.", "clients", content,
+                scripts=SCRIPT_REVIEWS)
 
 
 def page_visit():
@@ -1772,8 +1827,8 @@ def page_dynamic_piece():
 # llms.txt. Added in a post-processing step so every page gets it.
 # ---------------------------------------------------------------------------
 SITE_URL = "https://aliflaammeemjewellers.vercel.app"
-NOINDEX_PAGES = {"piece.html", "clients.html"}
-SITEMAP_SKIP = {"piece.html", "clients.html"}
+NOINDEX_PAGES = {"piece.html"}
+SITEMAP_SKIP = {"piece.html"}
 
 
 def _abs(path):
