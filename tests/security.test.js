@@ -47,7 +47,7 @@ test('pages carry a CSP and contain no inline executable scripts or inline event
     const source = html(page);
     assert.match(source, /<meta http-equiv="Content-Security-Policy" content="[^"]*script-src 'self';/, `${page} needs the CSP meta tag`);
     for (const match of source.matchAll(/<script(?![^>]*\bsrc=)([^>]*)>/gi)) {
-      assert.match(match[1], /type="application\/json"/, `${page} has an inline executable script`);
+      assert.match(match[1], /type="application\/(ld\+)?json"/, `${page} has an inline executable script`);
     }
     assert.doesNotMatch(source, /\son(click|load|error|submit|change|mouseover|focus)\s*=/i, `${page} has an inline event handler`);
   }

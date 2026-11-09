@@ -97,7 +97,7 @@ SITE = {
     "address_2": "Al Rehman Square Mall, Al Rehman Garden Phase 2, Sharaqpur, 54000, Pakistan",
     "hours": "Mon – Sun · 11:00 AM – 9:00 PM",
     "maps": "https://www.google.com/maps/place/Shop+%23+8,+Alif+Laam+Meem+Jewellers,+Al+Rehman+Square+Mall,+Al+Rehman+Garden+Phase+2,+Sharaqpur,+54000,+Pakistan/@31.5999959,74.230572,16z/data=!4m6!3m5!1s0x39191d5c10f9f201:0x80fa197d42f5b621!8m2!3d31.5999959!4d74.230572!16s%2Fg%2F11mdqhlycb",
-    "instagram": "https://www.instagram.com/alifl_aammeemjewellers/",
+    "instagram": "https://www.instagram.com/alif_laammeemjewellers/",
     "pinterest": "https://pin.it/6UmhmIFy7",
     "facebook": "https://www.facebook.com/profile.php?id=61591681864015",
     "youtube": "https://youtube.com/aliflaammeemjewellers",
@@ -1109,7 +1109,7 @@ def page_home():
     note = "" if hero_img else (
         "<!-- No hero image found. Add your photograph as assets/hero.webp "
         "(or .jpg/.png/.avif) and rebuild to use it as the hero background. -->")
-    return page(f"{SITE['short']} — Fine jewellery in Sharaqpur",
+    return page(f"{SITE['name']} — 21K Gold Jewellers in Sharaqpur",
                 TAGLINE + " Book a private showroom consultation.", "home", content,
                 intro=True, head_extra=(hero_preload + note),
                 scripts=SCRIPT_CATALOGUE)
@@ -1764,11 +1764,178 @@ def page_dynamic_piece():
 # ---------------------------------------------------------------------------
 # 6. BUILD
 # ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# SEO: canonical, Open Graph / Twitter previews, structured data, sitemap,
+# llms.txt. Added in a post-processing step so every page gets it.
+# ---------------------------------------------------------------------------
+SITE_URL = "https://aliflaammeemjewellers.vercel.app"
+NOINDEX_PAGES = {"piece.html", "clients.html"}
+SITEMAP_SKIP = {"piece.html", "clients.html"}
+
+
+def _abs(path):
+    return SITE_URL + "/" + path.lstrip("/")
+
+
+def page_url(name):
+    return SITE_URL + "/" if name == "index.html" else _abs(name)
+
+
+def og_image_for(name):
+    if name.startswith("piece-"):
+        pid = name[len("piece-"):-len(".html")]
+        for ext in (".jpg", ".jpeg", ".png", ".webp"):
+            rel = "assets/products/%s%s" % (pid, ext)
+            if os.path.exists(os.path.join(HERE, rel)):
+                return _abs(rel)
+    return _abs("assets/hero.jpg")
+
+
+def business_ld():
+    return {
+        "@context": "https://schema.org",
+        "@type": "JewelryStore",
+        "@id": SITE_URL + "/#store",
+        "name": SITE["name"],
+        "alternateName": [SITE["short"], "ALM Jewellers", "Alif Laam Meem Jewelers"],
+        "description": TAGLINE + " 21K gold bridal sets, necklaces, rings, earrings and bangles.",
+        "url": SITE_URL + "/",
+        "logo": _abs("assets/logo-icon.png"),
+        "image": _abs("assets/hero.jpg"),
+        "telephone": "+" + SITE["whatsapp"],
+        "email": SITE["email"],
+        "priceRange": "Price on request",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Shop #8, Al Rehman Square Mall, Al Rehman Garden Phase 2",
+            "addressLocality": "Sharaqpur",
+            "addressRegion": "Punjab",
+            "postalCode": "54000",
+            "addressCountry": "PK",
+        },
+        "geo": {"@type": "GeoCoordinates", "latitude": 31.5999959, "longitude": 74.230572},
+        "hasMap": SITE["maps"],
+        "areaServed": ["Sharaqpur", "Lahore", "Sheikhupura"],
+        "openingHoursSpecification": [{
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "11:00", "closes": "21:00",
+        }],
+        "sameAs": [SITE[k] for k in ("instagram", "facebook", "youtube", "pinterest") if SITE.get(k)],
+    }
+
+
+def product_ld(p):
+    img = og_image_for("piece-%s.html" % p["id"])
+    return {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": p["name"],
+        "description": p["desc"],
+        "image": img,
+        "url": page_url("piece-%s.html" % p["id"]),
+        "material": "21K gold",
+        "brand": {"@type": "Brand", "name": SITE["name"]},
+        "category": TYPES.get(p["type"], p["type"]),
+    }
+
+
+def seo_tags(name, contents):
+    import re
+    url = page_url(name)
+    title_m = re.search(r"<title>(.*?)</title>", contents, re.S)
+    title = title_m.group(1) if title_m else SITE["name"]
+    tags = [
+        '<link rel="canonical" href="%s">' % url,
+        '<meta property="og:url" content="%s">' % url,
+        '<meta property="og:site_name" content="%s">' % esc(SITE["name"]),
+        '<meta property="og:locale" content="en_PK">',
+        '<meta property="og:image" content="%s">' % og_image_for(name),
+        '<meta property="og:image:alt" content="%s">' % title,
+        '<meta name="twitter:card" content="summary_large_image">',
+        '<meta name="twitter:title" content="%s">' % title,
+        '<meta name="twitter:image" content="%s">' % og_image_for(name),
+    ]
+    if name in NOINDEX_PAGES:
+        tags.append('<meta name="robots" content="noindex, follow">')
+    lds = []
+    if name in ("index.html", "visit.html", "about.html"):
+        lds.append(business_ld())
+    if name == "index.html":
+        lds.append({"@context": "https://schema.org", "@type": "WebSite",
+                    "name": SITE["name"], "url": SITE_URL + "/"})
+    if name.startswith("piece-"):
+        pid = name[len("piece-"):-len(".html")]
+        for p in PRODUCTS:
+            if p["id"] == pid:
+                lds.append(product_ld(p))
+    for ld in lds:
+        tags.append('<script type="application/ld+json">%s</script>'
+                    % json.dumps(ld, ensure_ascii=False).replace("</", "<\\/"))
+    block = "\n".join(tags) + "\n"
+    return contents.replace("</head>", block + "</head>", 1)
+
+
+def write_sitemap(names):
+    import datetime
+    today = datetime.date.today().isoformat()
+    order = ["index.html", "collections.html", "visit.html", "appointment.html",
+             "about.html", "journal.html"]
+    rest = [n for n in names if n not in order and n not in SITEMAP_SKIP]
+    rows = []
+    for n in order + rest:
+        if n not in names:
+            continue
+        pr = "1.0" if n == "index.html" else ("0.8" if n in order else
+                                              ("0.3" if n in ("privacy.html", "terms.html") else "0.6"))
+        rows.append("  <url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>"
+                    % (page_url(n), today, pr))
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+           + "\n".join(rows) + "\n</urlset>\n")
+    with open(os.path.join(HERE, "sitemap.xml"), "w", encoding="utf-8") as fh:
+        fh.write(xml)
+
+
+def write_llms_txt():
+    lines = [
+        "# %s" % SITE["name"],
+        "",
+        "> %s A family jewellery showroom in Al Rehman Square Mall, Al Rehman Garden Phase 2, "
+        "Sharaqpur, Punjab, Pakistan (on the Lahore side), selling 21K gold bridal sets, necklaces, "
+        "rings, earrings and bangles. Prices are on request because they follow the daily gold rate." % TAGLINE,
+        "",
+        "## Contact",
+        "- Address: %s, %s" % (SITE["address_1"], SITE["address_2"]),
+        "- Phone / WhatsApp: %s" % SITE["phone_display"],
+        "- Email: %s" % SITE["email"],
+        "- Hours: %s" % SITE["hours"].replace("·", ""),
+        "- Map: %s" % SITE["maps"],
+        "",
+        "## Pages",
+        "- [Home](%s/): the showroom and featured pieces" % SITE_URL,
+        "- [Collections](%s): every piece in the catalogue" % _abs("collections.html"),
+        "- [Visit](%s): address, hours and directions" % _abs("visit.html"),
+        "- [Book an appointment](%s): private showroom viewing" % _abs("appointment.html"),
+        "- [About](%s): the house and how pieces are made" % _abs("about.html"),
+        "",
+        "## Pieces",
+    ]
+    for p in PRODUCTS:
+        lines.append("- [%s](%s): %s" % (p["name"], page_url("piece-%s.html" % p["id"]), p["desc"]))
+    lines += ["", "## Social",
+              *["- %s" % SITE[k] for k in ("instagram", "facebook", "youtube", "pinterest") if SITE.get(k)], ""]
+    with open(os.path.join(HERE, "llms.txt"), "w", encoding="utf-8") as fh:
+        fh.write("\n".join(lines))
+
+
 def main():
     here = os.path.dirname(os.path.abspath(__file__))
     written = []
 
     def write(name, contents):
+        contents = seo_tags(name, contents)
         with open(os.path.join(here, name), "w", encoding="utf-8") as fh:
             fh.write(contents)
         written.append(name)
@@ -1786,6 +1953,8 @@ def main():
     for p in PRODUCTS:
         write("piece-%s.html" % p["id"], page_piece(p))
 
+    write_sitemap(written)
+    write_llms_txt()
     print("built %d pages:" % len(written))
     for name in written:
         print("  ", name)

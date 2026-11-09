@@ -1,0 +1,62 @@
+# Alif Laam Meem Jewellers
+
+> Fine jewellery in 21K gold, made to be worn and treasured. A family jewellery showroom in Al Rehman Square Mall, Al Rehman Garden Phase 2, Sharaqpur, Punjab, Pakistan (on the Lahore side), selling 21K gold bridal sets, necklaces, rings, earrings and bangles. Prices are on request because they follow the daily gold rate.
+
+## Contact
+- Address: Shop #8, Alif Laam Meem Jewellers, Al Rehman Square Mall, Al Rehman Garden Phase 2, Sharaqpur, 54000, Pakistan
+- Phone / WhatsApp: +92 311 481 7882
+- Email: aliflaammeemjewellers@gmail.com
+- Hours: Mon – Sun  11:00 AM – 9:00 PM
+- Map: https://www.google.com/maps/place/Shop+%23+8,+Alif+Laam+Meem+Jewellers,+Al+Rehman+Square+Mall,+Al+Rehman+Garden+Phase+2,+Sharaqpur,+54000,+Pakistan/@31.5999959,74.230572,16z/data=!4m6!3m5!1s0x39191d5c10f9f201:0x80fa197d42f5b621!8m2!3d31.5999959!4d74.230572!16s%2Fg%2F11mdqhlycb
+
+## Pages
+- [Home](https://aliflaammeemjewellers.vercel.app/): the showroom and featured pieces
+- [Collections](https://aliflaammeemjewellers.vercel.app/collections.html): every piece in the catalogue
+- [Visit](https://aliflaammeemjewellers.vercel.app/visit.html): address, hours and directions
+- [Book an appointment](https://aliflaammeemjewellers.vercel.app/appointment.html): private showroom viewing
+- [About](https://aliflaammeemjewellers.vercel.app/about.html): the house and how pieces are made
+
+## Pieces
+- [Yaqoot Ruby Halo Ring](https://aliflaammeemjewellers.vercel.app/piece-yaqoot.html): An oval ruby-red stone ringed by a halo of white stones on a slim 21K gold band.
+- [Shahana Bridal Necklace Set](https://aliflaammeemjewellers.vercel.app/piece-shahana.html): A sculpted 21K gold necklace with ruby-red and emerald-green bead fringes and matching earrings.
+- [Nargis Flower Drop Earrings](https://aliflaammeemjewellers.vercel.app/piece-nargis.html): Flower tops set with small red stones, with polished gold drops below.
+- [Jharoka Filigree Ring](https://aliflaammeemjewellers.vercel.app/piece-jharoka.html): A lattice-work 21K gold ring with a white rhodium accent, like a carved window screen.
+- [Neelam Pearl Dome Ring](https://aliflaammeemjewellers.vercel.app/piece-neelam.html): A domed 21K gold ring with a pearl-like centre ringed by blue and white stones.
+- [Shamsa Lattice Ring](https://aliflaammeemjewellers.vercel.app/piece-shamsa.html): A geometric 21K gold cocktail ring set with rows of smoky brown stones.
+- [Sabah Zircon Necklace Set](https://aliflaammeemjewellers.vercel.app/piece-sabah.html): A sweeping leaf-motif necklace in gold and white zircon, with matching long drop earrings.
+- [Wafa Promise Ring](https://aliflaammeemjewellers.vercel.app/piece-wafa.html): A slim 21K gold band with a delicate hand motif holding a single white stone.
+- [Bela Filigree Jhumki Earrings](https://aliflaammeemjewellers.vercel.app/piece-bela.html): Domed filigree tops with white rhodium leaves and small gold cage drops.
+- [Champa Jhumka Earrings](https://aliflaammeemjewellers.vercel.app/piece-champa.html): Flower tops with tiny red stones and small gold jhumka bells.
+- [Kiran Charm Hoop Earrings](https://aliflaammeemjewellers.vercel.app/piece-kiran.html): Slim 21K gold bali hoops finished with a small flower-and-drop charm.
+- [Shehzadi Rani Haar Bridal Set](https://aliflaammeemjewellers.vercel.app/piece-shehzadi.html): A full bridal suite: gold choker, red and green beaded rani haar, earrings and maang tikka.
+- [Kehkashan Two-Tone Ring](https://aliflaammeemjewellers.vercel.app/piece-kehkashan.html): An elongated 21K gold statement ring with matte and polished panels and white rhodium tips.
+- [Gulnar Filigree Ring](https://aliflaammeemjewellers.vercel.app/piece-gulnar.html): A shield-shaped filigree ring with a flower centre and white rhodium petals.
+- [Afreen Petal Ring](https://aliflaammeemjewellers.vercel.app/piece-afreen.html): A rounded 21K gold ring of curling filigree petals with small rhodium accents.
+- [Meher Solitaire Ring](https://aliflaammeemjewellers.vercel.app/piece-meher.html): A brilliant-cut solitaire raised on a hand-forged 21K gold band.
+- [Aab Diamond Pendant](https://aliflaammeemjewellers.vercel.app/piece-aab.html): Pear-cut diamond suspended on a whisper-fine 21K gold chain.
+- [Zohra Jhumka Earrings](https://aliflaammeemjewellers.vercel.app/piece-zohra.html): Granulated dome jhumkas finished with hand-strung pearls.
+- [Sana Engraved Bangles](https://aliflaammeemjewellers.vercel.app/piece-sana.html): Set of four slim bangles with traditional hand engraving.
+- [Noor Polki Bridal Set](https://aliflaammeemjewellers.vercel.app/piece-noor.html): Uncut polki necklace with matching earrings and maang tikka.
+- [Roshni Temple Necklace](https://aliflaammeemjewellers.vercel.app/piece-roshni.html): Temple-inspired nakshi work with ruby and emerald accents.
+- [Hina Eternity Band](https://aliflaammeemjewellers.vercel.app/piece-hina.html): Micro-set diamonds running continuously around the band.
+- [Gulbahar Emerald Choker](https://aliflaammeemjewellers.vercel.app/piece-gulbahar.html): Zambian emerald drops set in kundan on a 21K gold base.
+- [Mahtab Diamond Studs](https://aliflaammeemjewellers.vercel.app/piece-mahtab.html): Four-prong princess studs that move from desk to dinner.
+- [Vasl Couple Bands](https://aliflaammeemjewellers.vercel.app/piece-vasl.html): A pair of brushed 21K gold bands with a polished inner-edge detail.
+- [Dilruba Halo Solitaire](https://aliflaammeemjewellers.vercel.app/piece-dilruba.html): A brilliant-cut solitaire ringed by a halo of smaller stones.
+- [Zoya Three-Stone Ring](https://aliflaammeemjewellers.vercel.app/piece-zoya.html): Past, present and future — three stones on a tapered band.
+- [Reyaz Twisted Band](https://aliflaammeemjewellers.vercel.app/piece-reyaz.html): Two ribbons of 21K yellow gold twisted into one.
+- [Mahnoor Sapphire Ring](https://aliflaammeemjewellers.vercel.app/piece-mahnoor.html): A Ceylon sapphire crowned in a 21K gold filigree head.
+- [Areeba Pearl Ring](https://aliflaammeemjewellers.vercel.app/piece-areeba.html): A South Sea pearl cradled in a 21K gold collette.
+- [Dildar Pavé Band](https://aliflaammeemjewellers.vercel.app/piece-dildar.html): Hand-placed micro diamonds set in a 21K yellow gold pavé band.
+- [Suhani Signet Ring](https://aliflaammeemjewellers.vercel.app/piece-suhani.html): A wide hand-engraved signet, made to your initials.
+- [Zar Diamond Cluster Ring](https://aliflaammeemjewellers.vercel.app/piece-zar.html): A cluster of mixed-cut diamonds on a 21K gold base.
+- [Sitara Filigree Kada](https://aliflaammeemjewellers.vercel.app/piece-sitara.html): Wide kada built from hand-drawn gold filigree scrolls.
+- [Sahr 21K Gold Coin Pendant](https://aliflaammeemjewellers.vercel.app/piece-sahr.html): A decorative gold coin pendant framed in a rope-edge 21K gold bezel.
+- [Nazm Pearl Drop Earrings](https://aliflaammeemjewellers.vercel.app/piece-nazm.html): South Sea pearl drops swinging from hammered gold hoops.
+- [Maahru Diamond Bangle](https://aliflaammeemjewellers.vercel.app/piece-maahru.html): A formal 21K gold bangle with channel-set diamonds.
+
+## Social
+- https://www.instagram.com/alif_laammeemjewellers/
+- https://www.facebook.com/profile.php?id=61591681864015
+- https://youtube.com/aliflaammeemjewellers
+- https://pin.it/6UmhmIFy7
