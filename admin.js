@@ -46,9 +46,6 @@ function showView(which) {
   $('#viewApp').hidden = which !== 'app';
   $('#signOutBtn').hidden = which !== 'app';
   $('#signOutBtn').textContent = state.sample ? 'Exit preview' : 'Sign out';
-  // The one-off old-data transfer only applies to a real admin session.
-  const migrate = $('#migrateLink');
-  if (migrate) migrate.hidden = !(which === 'app' && state.isAdmin && !state.sample);
   $('#adminWho').hidden = which !== 'app';
 }
 

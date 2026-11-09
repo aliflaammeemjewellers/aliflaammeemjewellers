@@ -206,34 +206,22 @@ To rebuild a fresh project from scratch, run `supabase/schema.sql`, then the
 migrations in filename order. Every statement is `if not exists` /
 `create or replace` / `on conflict do nothing`, so re-running is safe.
 
-**Migrating from the previous project (`eafqpwwpwzjdrkrtoqlz`):** the schema,
-catalogue and journal structure recreate themselves from the files above. Live
-rows that only exist in that database — bookings, approved reviews, customer
-records, accounts — are not reachable from the anon key: sign in to that
-project's dashboard, export each table as CSV from the Table Editor, and import
-it into this project's Table Editor (or send it through the SQL editor).
+**One project, one connection.** The site, the admin panel and every script
+talk to `wqxodgwgmbmssalapcjz` only. The previous project
+(`eafqpwwpwzjdrkrtoqlz`) is no longer referenced anywhere in this repository —
+not in `supabase-config.js`, not in a Content-Security-Policy, not in the
+client — so nothing can read from or write to it. Its rows are untouched and
+still visible in its dashboard, which is the place to export them (Table Editor
+→ Export as CSV) if they are ever needed again.
 
-#### Moving the live rows across with `migrate.html`
+The one-off browser transfer page that used to bridge the two projects was
+removed in the same change. Recover it from history if the move has to be
+repeated:
 
-`migrate.html` is a private, one-off transfer page. It does the move from the
-browser, under your own sessions, so no service key is ever involved:
-
-1. Open `migrate.html` (or **Move old data** in the admin bar).
-2. Sign in to the **old** project (`eafqpwwpwzjdrkrtoqlz`) with an account on its
-   admin list — password or Google.
-3. Sign in to the **current** project as `d45671041@gmail.com`.
-4. Press **Check what will move** for row counts, then **Start transfer**.
-
-It copies `pieces` (via `get_admin_pieces()`, so price, cost, SKU and stock come
-too), `appointments`, `customers`, `posts` and `alm_reviews`, keeping original
-ids, statuses and dates. Rows are copied with an insert-then-update fallback, so
-running it twice is harmless — nothing is ever deleted from either project.
-
-Two things it reports instead of copying, because the public key cannot do them:
-**customer accounts** (identities live in Supabase Auth; ask those customers to
-sign up again — their name and phone re-attach on the next run) and **images
-still hosted in the old project's storage**, which must be downloaded and
-re-uploaded before that project is paused.
+```bash
+git checkout 6e67638 -- migrate.html migrate.js migrate-model.js \
+  tests/browser/migrate.spec.js tests/migrate-model.test.js
+```
 
 | Object | What it is |
 | --- | --- |

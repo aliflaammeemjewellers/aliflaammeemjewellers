@@ -3,6 +3,5 @@ Disallow: /admin.html
 Disallow: /signup.html
 Disallow: /clients.html
 Disallow: /signin.html
-Disallow: /migrate.html
 
 Sitemap: https://aliflaammeemjewellers.vercel.app/sitemap.xml
